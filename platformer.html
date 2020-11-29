@@ -81,7 +81,7 @@
             <h2>2D Platformer game feel tips</h2>
             <p>Here are some steps to make your 2d platformer feel good.</p>
 			 <br>
-			 <p>Lets start from scratch.</p>
+			 <h4>Lets start from scratch</h4>
 			 <p>We have  a square which can move on both side at a constant velocity and jumps up to a constant height.</p>
           </div>
         </div>
@@ -104,9 +104,9 @@
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-            <p>Lets start with fixing the basic movement.</p>
-			<p>So lets change the move script so that the char accelerates to a max speed and when stopping decelerates.
-			These values can be played around with to get different experiences.(acceleration, deceleration, top speed) For example, if the deceleration is too slow it feels like the char is on ice.
+            <h4>Fixing the basic movement</h4>
+			<p>So lets change the move script so that the char accelerates to a max speed and when stopping decelerates.</p>
+			<p>These values can be played around with to get different experiences.(acceleration, deceleration, top speed) For example, if the deceleration is too slow it feels like the char is on ice.
 			</P>
           </div>
         </div>
@@ -129,12 +129,14 @@
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-		  <p>Next up jump.</p>
+		  <h4>Next up is fixing the jump</h4>
           <p>Jumping is the core mechanic of all platformer games.
-Every game has a different jump, But the basic variables are jump height and jump duration/ hang time.  
-These can be controlled by the jump velocity and the gravity/ here fall multiplier.
-Here fall multiplier increases the players gravity by that amount while falling down.
-Also we need a variable jump. So that char jump height depends on how long the button is pressed.
+Every game has a different jump.<p>
+<p>But the basic variables are</P>
+<h6>jump height and jump duration (hang time) </h6> 
+<p>These can be controlled by the jump velocity and the gravity/ here fall multiplier.
+Here fall multiplier increases the players gravity by that amount while falling down.</p>
+<p>Also we need a variable jump. So that character jump height depends on how long the button is pressed.
 </p>
 			
 			
@@ -159,7 +161,7 @@ Also we need a variable jump. So that char jump height depends on how long the b
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
 		  <p>Okay now that the controller basic ones are done its, we can work more on the jump.</p>
-		  <p>Jump input buffering.</p>
+		  <h4>Jump input buffering</h4>
 		   <p>If the player presses the jump button, before actually landing. And the then the char just lands and does nothing. This feels like its the games fault and make the game feel un resonsive. So The goal is to allow the player to input the jump button and still have a successful jump even if they mistimed their input by a tiny amount. Thus is done by giveing the player a few grace frames before landing. When they can press jump and the char will still jump after landing.
 So if they input jump within these frames, the char will jump afrte landing.</p>
 
@@ -185,10 +187,9 @@ So if they input jump within these frames, the char will jump afrte landing.</p>
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-		  <p>Coyote jump/ Ledge Forgiveness. </p>
+		  <h4>Coyote jump/ Ledge Forgiveness</h4>
 		  <p>This one is an imp one and makes a huge difference, And makes jumping over platforms much more smoother.
-Basically we give the player a few grace frames after leaving a platform and still be able to jump. 
-Again we give some grace frames after falling off the platform, during which the player can still jump.</p>
+Basically we give some grace frames after falling off the platform, during which the player can still jump.</p>
 			<p>These two tricks can make the game feel much better, but its also important to not go overboard with them and baby the player. You need to find the right balance for you platformer.</p>
 
 			
@@ -213,7 +214,7 @@ Again we give some grace frames after falling off the platform, during which the
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-		  <p>Corner correction. </p>
+		  <h4>Corner correction</h4>
 		  <p>Its pretty annoying when player tries to jump over a block but hits the corner and falls down. 
 To fix this we basically just push the player away from the block. </p>			
           </div>
@@ -236,8 +237,8 @@ To fix this we basically just push the player away from the block. </p>
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-		  <p>Corner correction was the thing that took me the longest to code. I was trying to find a good way to implement it in unity. </p>
-		  <p> I ended up using raycacsts on the player and the platform to find the lenght of the corner the player is hitting and just move the player by that much. I'm sure there are better ways to this but hey this is working so im happy.  </p>			
+		  <p>Corner correction was the thing that nnoyed me the most. I was trying to find a good way to implement this in unity. </p>
+		  <p> I ended up using raycacsts on the player and the platform to find the lenght of the corner the player is hitting and just move the player by that much. I'm sure there are better ways to this but this is working so I'm happy.  </p>			
           </div>
         </div>
       </div>
@@ -259,7 +260,15 @@ To fix this we basically just push the player away from the block. </p>
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
 		  <p>There are more specific things that can be done depending on the game's mechanics like the dash in celeste.
-But I wanted to test out my new and improved char controller. So i made a test level. Filled it up with platforms. Ladders.  Soft blocks. Moving platforms. One way platforms. And bouncy platforms.</p>
+But I wanted to test out my new and improved char controller. So I made a test level.</p>
+<ul>
+  <li>Filled it up with platforms.</li>
+  <li>Ladders. </li>
+  <li>Soft blocks.</li>
+  <li>Moving platforms.</li>
+  <li>One way platforms.</li>
+  <li> And bouncy platforms.
+</ul>  
 		  <p> And just kinda jumped around. </p>			
           </div>
         </div>
@@ -283,8 +292,9 @@ But I wanted to test out my new and improved char controller. So i made a test l
           <div class="col-md-6" data-aos="fade-up">
 		  <p>And it was surprisingly kinda fun!</p>
 		  <p>Its cool how fun it was without any story or specific mechanics.</p>	
+		  <!--
 		  <p>Find the code <a href="https://github.com/anchitsh/Platformer-feel" target="_blank"> here on github<a></p>
-		  <p>Its a bit buggy, but do what you want with it!</p>
+		  <p>Its a bit buggy and messy, but do what you want with it!</p>-->
           </div>
         </div>
       </div>
