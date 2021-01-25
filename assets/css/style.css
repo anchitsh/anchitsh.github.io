@@ -9,7 +9,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Inconsolata", monosapce;
+  font-family: "Roboto";
   color: #0d1e2d;
 }
 
@@ -22,11 +22,11 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: "Raleway", sans-serif;
+  font-family: "Roboto";
 }
 
 .section {
-  padding: 7rem 0;
+  padding: 0rem 0;
 }
 
 .filters a {
@@ -400,7 +400,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .custom-navbar .navbar-brand {
-  font-size: 1.7rem;
+  font-size: 2rem;
 }
 
 /* Burger */
