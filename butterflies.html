@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>2D Butterflies</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="favicon.ico" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Navbar ======= -->
+   <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
+    <div class="container py-2 py-md-5">
+      <div class="row align-items-start">
+        <div class="col-md-2">
+          <ul class="custom-menu">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 d-none d-md-block  mr-auto">
+          <div class="tweet d-flex">
+            <a href="https://twitter.com/AzCHIT" target="_blank"><span class="icofont-twitter text-white mt-2 mr-3"></span></a>
+            <div>
+              <p><em>I'm me on twitter! I post about the stuff I'm currently working on.</em></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 d-none d-md-block">
+		<div class="tweet d-flex">
+          <a href="https://ashaar.itch.io/" target="_blank"><span class="icofont-game text-white mt-2 mr-3"></span></a>
+           <div>
+              <p><em>Here's my itch.io profile, play some games and let me know what you think!</em></p>
+            </div>
+			</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">ANCHIT SHARMA.</a>
+
+      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
+        <span></span>
+      </a>
+
+    </div>
+  </nav>
+
+  <main id="main">
+<br>
+    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <h2>2D Butterflies using the unity particle system</h2>
+            <p>The unity particle system is a godsent! It can be easily used to create a variety of different effects.
+              In this tutorial Ill go through how to make butterflies using the texture animation.</p>
+              <p>You can see this effect in my game Super Eyebrow princess.</p>
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Just discovered texture sheet animations for particles in unity. Also, I&#39;m spending too much time on this. Maybe I should shelf this game and just make a game about butterflies.<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/indiedev?src=hash&amp;ref_src=twsrc%5Etfw">#indiedev</a> <a href="https://twitter.com/hashtag/indiegamedev?src=hash&amp;ref_src=twsrc%5Etfw">#indiegamedev</a> <a href="https://twitter.com/hashtag/gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#gamedev</a> <a href="https://twitter.com/hashtag/pixelart?src=hash&amp;ref_src=twsrc%5Etfw">#pixelart</a> <a href="https://twitter.com/hashtag/madewithunity?src=hash&amp;ref_src=twsrc%5Etfw">#madewithunity</a> <a href="https://twitter.com/hashtag/%E3%83%89%E3%83%83%E3%83%88?src=hash&amp;ref_src=twsrc%5Etfw">#ドット</a> <a href="https://twitter.com/hashtag/%E3%82%B2%E3%83%BC%E3%83%A0%E5%88%B6%E4%BD%9C?src=hash&amp;ref_src=twsrc%5Etfw">#ゲーム制作</a> <a href="https://t.co/5vIqCuSO5D">pic.twitter.com/5vIqCuSO5D</a></p>&mdash; Ashar makes games (@AzCHIT) <a href="https://twitter.com/AzCHIT/status/1352973836094906369?ref_src=twsrc%5Etfw">January 23, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <br><br>
+            <h4>Lets start the tutorial</h4>
+            <br>
+            <p>To startoff, youll need the butterfly sprites. I made mine in Aesprite.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/bsesp.gif" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+              <div class="sticky-content">
+				
+              </div>
+            </div>
+          </div>
+        </div>
+		    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <br>
+          <p> Export it as a spritesheet.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/sp.JPG" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+              <div class="sticky-content">
+			
+              </div>
+            </div>
+          </div>
+        </div>
+				    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <br>
+          <p>If youre too lazy you can us mine. Just download this.</p> 
+          </div>
+        </div>
+      </div>
+	        <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/butterfly.png" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+              <div class="sticky-content">
+			
+              </div>
+            </div>
+          </div>
+        </div>
+						    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <br>
+      <p>Now open up a unity project and import the spritesheet.
+      </p>
+      <p>To get the sprites ready to use click on the spritesheet.</p>
+      <p>Change spritemode to <b>multiple</b> and filter mode to <b>point</b>. Click apply.
+      </p>
+          </div>
+        </div>
+      </div>
+	  	        <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/sprite.png" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+              <div class="sticky-content">
+			
+              </div>
+            </div>
+          </div>
+        </div>
+								    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <br>
+		  <h4></h4>
+		  <p>Now click on the sprite editor button.</p>
+      <p>Then slice the sprite sheet using the <b>grid by cell size</b> (32 by 32 pixels in my case). Click apply.</p>
+      <p>Click apply. Now the individual sprites are ready to be applied to the particle system
+        </p>
+
+			
+			
+          </div>
+        </div>
+      </div>
+	  	        <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/slice.png" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+              <div class="sticky-content">
+			
+              </div>
+            </div>
+          </div>
+        </div>
+										    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <br>
+		  <h4></h4>
+		  <p>Open up your scene and create a new particle system. </p>			
+          </div>
+        </div>
+      </div>
+	  	        <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/create.png" alt="Image" class="img-fluid">
+            </div>
+          </div>
+        </div>
+        
+
+
+
+        <section class="section">
+          <div class="container">
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-6" data-aos="fade-up">
+                <br>
+                <P>This is what the effect looks like.</P>			
+              </div>
+            </div>
+          </div>
+          <div class="site-section pb-0">
+            <div class="container">
+              <div class="row align-items-stretch">
+                <div class="col-md-8" data-aos="fade-up">
+                  <img src="assets/img/bfy/1.gif" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                  <div class="sticky-content">
+          
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <section class="section">
+              <div class="container">
+                <div class="row mb-4 align-items-center">
+                  <div class="col-md-6" data-aos="fade-up">
+                    <br>
+                    <P>Change the shape to a box and increase the <b>scale to x = 10, y = 10, z = 10</b></P>			
+                  </div>
+                </div>
+              </div>
+              <div class="site-section pb-0">
+                <div class="container">
+                  <div class="row align-items-stretch">
+                    <div class="col-md-8" data-aos="fade-up">
+                      <img src="assets/img/bfy/box.png" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                      <div class="sticky-content">
+              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <section class="section">
+                  <div class="container">
+                    <div class="row mb-4 align-items-center">
+                      <div class="col-md-6" data-aos="fade-up">
+                        <br>
+                        <P>Change <b>Max particles to 10</b></p>
+                          <p>Change <b>Start speed to 0</b></P>			
+                      </div>
+                    </div>
+                  </div>
+                  <div class="site-section pb-0">
+                    <div class="container">
+                      <div class="row align-items-stretch">
+                        <div class="col-md-8" data-aos="fade-up">
+                          <img src="assets/img/bfy/max.png" alt="Image" class="img-fluid">
+                        </div>
+                        <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                          <div class="sticky-content">
+                  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                        <section class="section">
+                          <div class="container">
+                            <div class="row mb-4 align-items-center">
+                              <div class="col-md-6" data-aos="fade-up">
+                                <br>
+                                <p> The particles will now look like this.</p>
+		
+                              </div>
+                            </div>
+                          </div>
+                          <div class="site-section pb-0">
+                            <div class="container">
+                              <div class="row align-items-stretch">
+                                <div class="col-md-8" data-aos="fade-up">
+                                  <img src="assets/img/bfy/2.gif" alt="Image" class="img-fluid">
+                                </div>
+                                <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                                  <div class="sticky-content">
+                          
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+        
+                            <section class="section">
+                              <div class="container">
+                                <div class="row mb-4 align-items-center">
+                                  <div class="col-md-6" data-aos="fade-up">
+                                    <br>
+                                    <p>Lets finally make the particles look like butterflies.</p>
+                                    <p>We do this using the particle systems texture sheet animation </p>
+                                    <p>Check mark the texture sheet animation.</p>
+                                    <p>Change <b>mode to sprites</b></p>
+                                      <p>      Add all the butterfly sprites from the sheet in the correct order so they play from the first frame to the last and then back to the first.</p>
+                                      <p>Change <b>time mode to FPS.</b></p>
+                                      <p>And make <b>FPS to around 10-15</b>.</p>
+        
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="site-section pb-0">
+                                <div class="container">
+                                  <div class="row align-items-stretch">
+                                    <div class="col-md-8" data-aos="fade-up">
+                                      <img src="assets/img/bfy/tex.png" alt="Image" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                                      <div class="sticky-content">
+                              
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+    
+                                <section class="section">
+                                  <div class="container">
+                                    <div class="row mb-4 align-items-center">
+                                      <div class="col-md-6" data-aos="fade-up">
+                                        <br>
+                                        <p>You can now see butterflies instead of the white particles. </p>
+            
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="site-section pb-0">
+                                    <div class="container">
+                                      <div class="row align-items-stretch">
+                                        <div class="col-md-8" data-aos="fade-up">
+                                          <img src="assets/img/bfy/3.gif" alt="Image" class="img-fluid">
+                                        </div>
+                                        <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                                          <div class="sticky-content">
+                                  
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section class="section">
+                                      <div class="container">
+                                        <div class="row mb-4 align-items-center">
+                                          <div class="col-md-6" data-aos="fade-up">
+                                            <br>
+                                            <p>To make them move around, check mark noise from the particle system </p>
+                
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="site-section pb-0">
+                                        <div class="container">
+                                          <div class="row align-items-stretch">
+                                            <div class="col-md-8" data-aos="fade-up">
+                                              <img src="assets/img/bfy/noise.png" alt="Image" class="img-fluid">
+                                            </div>
+                                            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                                              <div class="sticky-content">
+                                      
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+    
+
+
+
+
+
+
+
+
+
+												    <section class="section">
+      <div class="container">
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-6" data-aos="fade-up">
+            <br>
+		  <p> Now the effect finally looks a bit natural.</p>			
+          </div>
+        </div>
+      </div>
+	  	        <div class="site-section pb-0">
+        <div class="container">
+          <div class="row align-items-stretch">
+            <div class="col-md-8" data-aos="fade-up">
+              <img src="assets/img/bfy/4.gif" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+              <div class="sticky-content">
+			
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <section class="section">
+          <div class="container">
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-6" data-aos="fade-up">
+                <br>
+          <p> The effect is mostly done. But you should increase the lifetime to a larger number and add some color to the butterflies by changing the start color.</p>			
+              </div>
+            </div>
+          </div>
+                  <div class="site-section pb-0">
+            <div class="container">
+              <div class="row align-items-stretch">
+                <div class="col-md-8" data-aos="fade-up">
+                  <img src="assets/img/bfy/color.JPG" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                  <div class="sticky-content">
+          
+                  </div>
+                </div>
+              </div>
+            </div>
+            <section class="section">
+              <div class="container">
+                <div class="row mb-4 align-items-center">
+                  <div class="col-md-6" data-aos="fade-up">
+                    <br>
+                  </div>
+                </div>
+              </div>
+                      <div class="site-section pb-0">
+                <div class="container">
+                  <div class="row align-items-stretch">
+                    <div class="col-md-8" data-aos="fade-up">
+                      <img src="assets/img/bfy/5.gif" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                      <div class="sticky-content">
+              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <section class="section">
+              <div class="container">
+                <div class="row mb-4 align-items-center">
+                  <div class="col-md-6" data-aos="fade-up">
+                    <br>
+                    <p>Also by turning on the collision, the butterflies will interact with the objects in its surroundings.</p>
+
+                  </div>
+                </div>
+              </div>
+                      <div class="site-section pb-0">
+                <div class="container">
+                  <div class="row align-items-stretch">
+                    <div class="col-md-8" data-aos="fade-up">
+                      <img src="assets/img/bfy/coll.JPG" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                      <div class="sticky-content">
+              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                                <section class="section">
+              <div class="container">
+                <div class="row mb-4 align-items-center">
+                  <div class="col-md-6" data-aos="fade-up">
+                    <br>
+                    <p>So The princess can interact with the butterflies in my game. This makes the effect feel much more real than just uninterctable background stuff.</p>
+                    <blockquote class="twitter-tweet"><p lang="en" dir="ltr">You can also annoy the butterflies. 🦋<a href="https://twitter.com/hashtag/indiedev?src=hash&amp;ref_src=twsrc%5Etfw">#indiedev</a> <a href="https://twitter.com/hashtag/indiegamedev?src=hash&amp;ref_src=twsrc%5Etfw">#indiegamedev</a> <a href="https://twitter.com/hashtag/gamedevelopment?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevelopment</a> <a href="https://twitter.com/hashtag/gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#gamedev</a> <a href="https://twitter.com/hashtag/pixelart?src=hash&amp;ref_src=twsrc%5Etfw">#pixelart</a> <a href="https://twitter.com/hashtag/madewithunity?src=hash&amp;ref_src=twsrc%5Etfw">#madewithunity</a> <a href="https://twitter.com/hashtag/%E3%83%89%E3%83%83%E3%83%88?src=hash&amp;ref_src=twsrc%5Etfw">#ドット</a> <a href="https://twitter.com/hashtag/%E3%82%B2%E3%83%BC%E3%83%A0%E5%88%B6%E4%BD%9C?src=hash&amp;ref_src=twsrc%5Etfw">#ゲーム制作</a> <a href="https://t.co/N8fTDCK6vz">pic.twitter.com/N8fTDCK6vz</a></p>&mdash; Ashar makes games (@AzCHIT) <a href="https://twitter.com/AzCHIT/status/1352625131831533570?ref_src=twsrc%5Etfw">January 22, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                  </div>
+                </div>
+              </div>
+                      <div class="site-section pb-0">
+                <div class="container">
+                  <div class="row align-items-stretch">
+                    <div class="col-md-8" data-aos="fade-up">
+                    </div>
+                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                      <div class="sticky-content">
+              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                                                <section class="section">
+              <div class="container">
+                <div class="row mb-4 align-items-center">
+                  <div class="col-md-6" data-aos="fade-up">
+                    <br>
+                    <p>And thats pretty much it for the tutorial. Hope you learnt something new. Feel free to recreate this effect in your games!</p>
+
+
+                  </div>
+                </div>
+              </div>
+                      <div class="site-section pb-0">
+                <div class="container">
+                  <div class="row align-items-stretch">
+                    <div class="col-md-8" data-aos="fade-up">
+                    </div>
+                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                      <div class="sticky-content">
+              
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+    
+
+												
+
+    </section>
+
+
+    <!-- ======= Testimonials Section ======= 
+    <section class="section pt-0">
+      <div class="container">
+
+        <div class="owl-carousel testimonial-carousel">
+
+          <div class="testimonial-wrap">
+            <div class="testimonial">
+              <img src="assets/img/person_1.jpg" alt="Image" class="img-fluid">
+              <blockquote>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut officiis
+                  explicabo inventore.</p>
+              </blockquote>
+              <p>&mdash; Jean Hicks</p>
+            </div>
+          </div>
+
+          <div class="testimonial-wrap">
+            <div class="testimonial">
+              <img src="assets/img/person_2.jpg" alt="Image" class="img-fluid">
+              <blockquote>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut officiis
+                  explicabo inventore.</p>
+              </blockquote>
+              <p>&mdash; Chris Stanworth</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>--><!-- End Testimonials Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="mb-1"></p>
+        
+        </div>
+        <div class="col-sm-6 social text-md-right">
+          <a href="https://twitter.com/AzCHIT" target="_blank"><span class="icofont-twitter"></span></a>
+          <a href="https://ashaar.itch.io/" target="_blank"><span class="icofont-game"></span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
