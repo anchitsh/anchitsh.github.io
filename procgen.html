@@ -79,25 +79,18 @@
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-            <h2>Low Res Skiing</h2>
-            <p>This game was developed for the NOKIA 3310 JAM 3 (2021), it was developed in 48 hours. The restriction for the jam is to make a game that is restricted to the visual limitations of Nokia 3310 phone.</p>
-			      <p>This means the game has to limit the base resolution to 84*48, and limit to the two specific colors</p>
+            <h2>Prorcedurally Generated maps - Inspired by Nuclear Throne </h2>
+            <p>Nuclear Throne is a bullet hell roguelike video game developed by Vlambeer. It's highly addictive and has endless playability because it has a different maps every time you play it.</p>
+			      <p>I wanteded to try an implement something similar to this.</p>
 
           </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-		  <p><a href="https://ashaar.itch.io/skiing?secret=M2qApEdAxDIl1rrHT3IDsDJxKps" class="readmore" target="_blank">Play it!</a></p>
-           </div>
         </div>
       </div>
       <div class="site-section pb-0">
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/ski.gif" alt="Image" class="img-fluid">
+              <img src="assets/img/procgen2.gif" alt="Image" class="img-fluid">
             </div>
             <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
               <div class="sticky-content">
@@ -118,9 +111,15 @@
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-8" data-aos="fade-up">
-              <p>The restrictions turned out to be a blessing in disguise actually, I was going to work on jam alone. Without an artist I was worried about the look of the game. But since its so low res I was able to make my basic art look actually kinda nice</p>
-              <p>There are trees, coins, ski-lifts, fast-arrow-pickups, and a bunch more interesting things in the game!</p>
-              <img src="assets/img/lrs.gif" alt="Image" class="img-fluid">
+              <p>I start with an empty matrix for the grid, and variables for the room width and height.</p>
+              <p>A tile can be of three types - Empty, floor, wall.</p>
+              <p>Then I'm using process where create a struct called walker which has a vector for its direction and its position.</p>
+              <p>The next step is to setup the room and create a given number of walker.</p>
+              <p>The walkers randomly move or change direction or die.</p>
+              <p>Then if the room is filled above a cetrain percentage all the walkers are killed</p>
+              <p>Then floor tiles are placed at every position of a walker has been on. Then a wall tile is placed in the empty adjacent position of every floor</p>
+              <p></p>
+              <img src="assets/img/procgen4.gif" alt="Image" class="img-fluid">
             </div>
 		  </div>
           </div>
@@ -136,7 +135,8 @@
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-8" data-aos="fade-up">
-              <p>I'm planning on making a mobile version of this game with a bunch of new different play types</p>
+              <p>Procedural generation adds so much more content to a game, but it needs to be done properly otherwise you're just choosing quantity over quality (Hand crafted levels)</p>
+              <p>This was just to learn, I would love to explore other methods of Procedural generation for my own games.</p>
             </div>
 		  </div>
           </div>

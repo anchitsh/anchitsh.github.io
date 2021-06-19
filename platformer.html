@@ -80,7 +80,7 @@
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
             <h2>2D Platformer game feel tips</h2>
-            <p>Here are some steps to make your 2d platformer feel good.</p>
+            <p>Here are some tips to make your 2d platformer feel good.</p>
 			 <br><br>
 			 <h4>Lets start from scratch</h4>
 			 <p>We have  a square which can move on both side at a constant velocity and jumps up to a constant height.</p>
@@ -167,7 +167,7 @@ Here fall multiplier increases the players gravity by that amount while falling 
       <p>Okay now that the controller basic ones are done its, we can work more on the jump.</p>
       <br>
 		  <h4>Jump input buffering</h4>
-		   <p>If the player presses the jump button, before actually landing. And the then the char just lands and does nothing. This feels like its the games fault and make the game feel un resonsive. So The goal is to allow the player to input the jump button and still have a successful jump even if they mistimed their input by a tiny amount. Thus is done by giveing the player a few grace frames before landing. When they can press jump and the char will still jump after landing.
+		   <p>If the player presses the jump button, before actually landing. And the then the char just lands and does nothing. This feels like its the games fault and make the game feel un-resonsive. So The goal is to allow the player to input the jump button and still have a successful jump even if they mistimed their input by a tiny amount. Thus is done by giveing the player a few grace frames before landing. When they can press jump and the char will still jump after landing.
 So if they input jump within these frames, the char will jump afrte landing.</p>
 
 			
@@ -194,7 +194,7 @@ So if they input jump within these frames, the char will jump afrte landing.</p>
           <div class="col-md-6" data-aos="fade-up">
             <br>
 		  <h4>Coyote jump/ Ledge Forgiveness</h4>
-		  <p>This one is an imp one and makes a huge difference, And makes jumping over platforms much more smoother.
+		  <p>This one is important and makes a huge difference, it makes jumping over platforms much more smoother.
 Basically we give some grace frames after falling off the platform, during which the player can still jump.</p>
 			<p>These two tricks can make the game feel much better, but its also important to not go overboard with them and baby the player. You need to find the right balance for you platformer.</p>
 
