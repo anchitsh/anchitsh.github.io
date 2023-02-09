@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Bird</title>
+  <title>Procedurally Generated Maps</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
 
@@ -79,20 +79,18 @@
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-            <h2>Bird</h2>
-            <p>Over the weekend, I was experimenting with a procedural skybox shader and I thought up of a great idea to use it.</p>
-            <p>The only way to do the shader justice would be if you were staring at it constantly (LOL), so the idea of looking at a bird from a bottom-up perspective popped into my head.</p>
-            <p>So, I whipped up a quick protoype using some older assets, where you control a bird and view it from a lower point of view.</p>
-            <p>Currently I don't have any plans of working further on it.</p>
+            <h2>Procedurally Generated maps - Inspired by Nuclear Throne </h2>
+            <p>Nuclear Throne is a bullet hell roguelike video game developed by Vlambeer. It's highly addictive and has endless playability because it has a different maps every time you play it.</p>
+			      <p>I wanteded to try an implement something similar to this.</p>
+
           </div>
         </div>
       </div>
-
       <div class="site-section pb-0">
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/bird2.gif" alt="Image" class="img-fluid">
+              <img src="assets/img/procgen2.gif" alt="Image" class="img-fluid">
             </div>
             <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
               <div class="sticky-content">
@@ -113,46 +111,15 @@
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/bird3.gif" alt="Image" class="img-fluid">
-            </div>
-		  </div>
-          </div>
-        </div>
-			  <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-		  <br>
-          </div>
-        </div>
-      </div>
-
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/bird4.gif" alt="Image" class="img-fluid">
-            </div>
-		  </div>
-          </div>
-        </div>
-			  <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-		  <br>
-          </div>
-        </div>
-      </div>
-
-
-
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <p>I also experimented with some low res visual styles. </p>
-              <p> I'm using the <a href = "https://roguenoodle.itch.io/gbcamera-for-unity">GBCamera</a>.</p>
-              <br>
-              <img src="assets/img/birdgreen.gif" alt="Image" class="img-fluid">
+              <p>I start with an empty matrix for the grid, and variables for the room width and height.</p>
+              <p>A tile can be of three types - Empty, floor, wall.</p>
+              <p>Then I'm using process where create a struct called walker which has a vector for its direction and its position.</p>
+              <p>The next step is to setup the room and create a given number of walker.</p>
+              <p>The walkers randomly move or change direction or die.</p>
+              <p>Then if the room is filled above a cetrain percentage all the walkers are killed</p>
+              <p>Then floor tiles are placed at every position of a walker has been on. Then a wall tile is placed in the empty adjacent position of every floor</p>
+              <p></p>
+              <img src="assets/img/procgen4.gif" alt="Image" class="img-fluid">
             </div>
 		  </div>
           </div>
@@ -168,7 +135,8 @@
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/birdred.gif" alt="Image" class="img-fluid">
+              <p>Procedural generation adds so much more content to a game, but it needs to be done properly otherwise you're just choosing quantity over quality (Hand crafted levels)</p>
+              <p>This was just to learn, I would love to explore other methods of Procedural generation for my own games.</p>
             </div>
 		  </div>
           </div>
@@ -180,6 +148,7 @@
           </div>
         </div>
       </div>
+
       
     </section>
 
