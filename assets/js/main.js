@@ -23,6 +23,15 @@
       itemSelector: '.item',
       isFitWidth: true
     });
+    var refreshLayout = function() {
+      $container.isotope('layout');
+    };
+
+    $container.find('img').each(function() {
+      if (!this.complete) {
+        $(this).one('load error', refreshLayout);
+      }
+    });
 
     $(window).resize(function() {
       $container.isotope({
@@ -33,6 +42,7 @@
     $container.isotope({
       filter: '*'
     });
+    refreshLayout();
 
     $('#filters').on('click', 'a', function(e) {
       e.preventDefault();
