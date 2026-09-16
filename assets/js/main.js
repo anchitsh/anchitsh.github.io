@@ -68,17 +68,21 @@
       $gallery.addClass('project-gallery--masonry');
       // Size columns from a regular item; a full-width first item (e.g. a trailer) would otherwise force one column.
       var columnItem = '.project-gallery-item:not(.project-gallery-item--wide)';
+      // Isotope replaces the whole masonry object when options are passed again, so always send every setting.
+      var masonryOptions = function() {
+        return {
+          columnWidth: $gallery.children(columnItem).length ? columnItem : '.project-gallery-item',
+          gutter: galleryGap()
+        };
+      };
       $gallery.isotope({
         itemSelector: '.project-gallery-item',
         layoutMode: 'masonry',
-        masonry: {
-          columnWidth: $gallery.children(columnItem).length ? columnItem : '.project-gallery-item',
-          gutter: galleryGap()
-        }
+        masonry: masonryOptions()
       });
 
       $(window).on('resize', function() {
-        $gallery.isotope({ masonry: { gutter: galleryGap() } });
+        $gallery.isotope({ masonry: masonryOptions() });
       });
 
       $gallery.find('img, iframe').each(function() {

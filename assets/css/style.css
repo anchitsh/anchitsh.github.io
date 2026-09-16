@@ -982,8 +982,8 @@ body.gallery-lightbox-open {
   }
 
   .project-gallery {
-    --gallery-cols: 1;
-    --gallery-gap: 16px;
+    --gallery-cols: 2;
+    --gallery-gap: 10px;
   }
 
   .project-pagination {
