@@ -109,11 +109,8 @@
             <h3 class="project-section-title">Coverage</h3>
             <p class="project-links"><a href="https://automaton-media.com/articles/newsjp/20260602-446485/" class="readmore" target="_blank" rel="noopener noreferrer">AUTOMATON</a><a href="https://news.denfaminicogamer.jp/news/2606022d" class="readmore" target="_blank" rel="noopener noreferrer">Denfaminicogamer</a><a href="https://www.4gamer.net/games/012/G101215/20260603033/" class="readmore" target="_blank" rel="noopener noreferrer">4Gamer</a><a href="https://rollingstoneindia.com/10-indian-indie-games-to-watch-out-for/" class="readmore" target="_blank" rel="noopener noreferrer">Rolling Stone India</a><a href="https://www.slashfilm.com/2190309/farsight-liminal-horror-video-game-could-be-next-backrooms/" class="readmore" target="_blank" rel="noopener noreferrer">SlashFilm</a><a href="https://www.gematsu.com/games/farsight" class="readmore" target="_blank" rel="noopener noreferrer">Gematsu</a><a href="https://www.gamespot.com/articles/this-all-horror-games-showcase-featured-these-15-favorites/" class="readmore" target="_blank" rel="noopener noreferrer">GameSpot</a></p>
             <div class="mb-4">
-              <a id="farsight-video-fallback" href="https://www.youtube.com/watch?v=LnydjhGRH1s" class="d-block" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.youtube.com/vi/LnydjhGRH1s/maxresdefault.jpg" alt="Farsight IGN trailer thumbnail" class="img-fluid" loading="lazy" decoding="async">
-              </a>
-              <div id="farsight-video-embed" class="embed-responsive embed-responsive-16by9" hidden>
-                <iframe class="embed-responsive-item" data-src="https://www.youtube-nocookie.com/embed/LnydjhGRH1s?rel=0&amp;origin=https%3A%2F%2Fanchitsh.github.io" title="Farsight IGN reveal trailer" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/LnydjhGRH1s?rel=0&amp;origin=https%3A%2F%2Fanchitsh.github.io" title="Farsight IGN reveal trailer" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               </div>
             </div>
             <img src="assets/img/farsight/screenshot-house.jpg" alt="Farsight house screenshot" class="img-fluid" loading="lazy" decoding="async">
@@ -154,21 +151,6 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script>
-    (function () {
-      var fallback = document.getElementById('farsight-video-fallback');
-      var embed = document.getElementById('farsight-video-embed');
-      var iframe = embed ? embed.querySelector('iframe') : null;
-
-      if (!fallback || !embed || !iframe || window.location.protocol === 'file:') {
-        return;
-      }
-
-      iframe.src = iframe.getAttribute('data-src');
-      fallback.hidden = true;
-      embed.hidden = false;
-    }());
-  </script>
 
 </body>
 
