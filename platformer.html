@@ -34,306 +34,77 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css?v=20260917043347" rel="stylesheet">
 
 </head>
 
 <body>
 
   <!-- ======= Navbar ======= -->
-   <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
-    <div class="container py-2 py-md-5">
-      <div class="row align-items-start">
-        <div class="col-md-2">
-          <ul class="custom-menu">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Me</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6 d-none d-md-block  mr-auto">
-          <div class="tweet d-flex">
-            <a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer"><span class="icofont-twitter text-white mt-2 mr-3"></span></a>
-            <div>
-              <p><em>I'm me on twitter! I post about the stuff I'm currently working on.</em></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 d-none d-md-block">
-		<div class="tweet d-flex">
-          <a href="https://ashaar.itch.io/" target="_blank" rel="noopener noreferrer"><span class="icofont-game text-white mt-2 mr-3"></span></a>
-           <div>
-              <p><em>Here's my itch.io profile, play some games and let me know what you think!</em></p>
-            </div>
-			</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
       <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
-
-      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
-        <span></span>
-      </a>
-
     </div>
   </nav>
 
-  <main id="main">
-<br>
-    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <h2>2D Platformer game feel tips</h2>
-			 <br>
-       <p>Here are some tips to make your 2d platformer feel good.</p>
-			 <h4>Lets start from scratch</h4>
-			 <p>We have  a square which can move on both side at a constant velocity and jumps up to a constant height.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/1.gif" alt="2D Platformer game feel tips tutorial image - 1" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-				
-              </div>
-            </div>
-          </div>
-        </div>
-		    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-            <h4>Fixing the basic movement</h4>
-			<p>So lets change the move script so that the char accelerates to a max speed and when stopping decelerates.</p>
-			<p>These values can be played around with to get different experiences.(acceleration, deceleration, top speed) For example, if the deceleration is too slow it feels like the char is on ice.
-			</P>
-          </div>
-        </div>
-      </div>
-
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/2.gif" alt="2D Platformer game feel tips tutorial image - 2" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-				    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>Next up is fixing the jump</h4>
-          <p>Jumping is the core mechanic of all platformer games.
-Every game has a different jump.<p>
-<p>But the basic variables are</P>
-<h6>jump height and jump duration (hang time) </h6> 
-<p>These can be controlled by the jump velocity and the gravity/ here fall multiplier.
-Here fall multiplier increases the players gravity by that amount while falling down.</p>
-<p>Also we need a variable jump. So that character jump height depends on how long the button is pressed.
-</p>
-			
-			
-          </div>
-        </div>
-      </div>
-	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/3.gif" alt="2D Platformer game feel tips tutorial image - 3" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-						    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-      <p>Okay now that the controller basic ones are done its, we can work more on the jump.</p>
-      <br>
-		  <h4>Jump input buffering</h4>
-		   <p>If the player presses the jump button, before actually landing. And the then the char just lands and does nothing. This feels like its the games fault and make the game feel un-resonsive. So The goal is to allow the player to input the jump button and still have a successful jump even if they mistimed their input by a tiny amount. Thus is done by giveing the player a few grace frames before landing. When they can press jump and the char will still jump after landing.
-So if they input jump within these frames, the char will jump afrte landing.</p>
-
-			
-			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/4.gif" alt="2D Platformer game feel tips tutorial image - 4" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-								    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>Coyote jump/ Ledge Forgiveness</h4>
-		  <p>This one is important and makes a huge difference, it makes jumping over platforms much more smoother.
-Basically we give some grace frames after falling off the platform, during which the player can still jump.</p>
-			<p>These two tricks can make the game feel much better, but its also important to not go overboard with them and baby the player. You need to find the right balance for you platformer.</p>
-
-			
-			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/5.gif" alt="2D Platformer game feel tips tutorial image - 5" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-										    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>Corner correction</h4>
-		  <p>Its pretty annoying when player tries to jump over a block but hits the corner and falls down. 
-To fix this we basically just push the player away from the block. </p>			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/6.gif" alt="2D Platformer game feel tips tutorial image - 6" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-												    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <p>Corner correction was the thing that annoyed me the most. I was trying to find a good way to implement this in unity. </p>
-		  <p> I ended up using raycacsts on the player and the platform to find the lenght of the corner the player is hitting and just move the player by that much. I'm sure there are better ways to this but this is working so I'm happy.  </p>			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/7.gif" alt="2D Platformer game feel tips tutorial image - 7" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-														    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <p>There are more specific things that can be done depending on the game's mechanics like the dash in celeste.
-But I wanted to test out my new and improved char controller. So I made a test level. And Filled it up with</p>
-<ul>
-  <li>Ladders.</li>
-  <li>Soft platforms.</li>
-  <li>Moving platforms.</li>
-  <li>One way platforms.</li>
-  <li> And bouncy platforms.
-</ul>  
-		  <p> And just kinda jumped around. </p>			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/platformer/8.gif" alt="2D Platformer game feel tips tutorial image - 8" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-																    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <p>And it was surprisingly kinda fun!</p>
-		  <p>Its cool how fun it was without any story or specific mechanics.</p>	
-      <p>Here's is the project file with the basic of the above implemented, check it out on <a href="https://github.com/anchitsh/platformer-demo">Github</a>.</p>
-		  <!--
-		  <p>Find the code <a href="https://github.com/anchitsh/Platformer-feel" target="_blank" rel="noopener noreferrer">on GitHub</a></p>
-		  <p>Its a bit buggy and messy, but do what you want with it!</p>-->
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main><!-- End #main -->
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#writing" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>2D platformer game feel tips</h1></div>
+<dl class="project-facts">
+<dt>Year:</dt>
+<dd>2019</dd>
+<dt>Type:</dt>
+<dd>Tutorial</dd>
+<dt>Tech:</dt>
+<dd>Unity, C#</dd>
+</dl></header><article class="project-copy project-writeup"><p>Here are some tips to make your 2D platformer feel good.</p>
+<h3 class="project-section-title">Let's start from scratch</h3>
+<p>We have a square that moves left and right at a constant velocity and jumps to a constant height.</p>
+<figure class="project-figure"><img src="assets/img/platformer/1.gif" alt="2D Platformer game feel tips tutorial image - 1" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<h3 class="project-section-title">Fixing the basic movement</h3>
+<p>First, let's change the movement script so the character accelerates up to a max speed and decelerates when stopping.</p>
+<p>You can tweak these values (acceleration, deceleration, top speed) to get different feels. For example, if deceleration is too slow, it feels like the character is on ice.</p>
+<figure class="project-figure"><img src="assets/img/platformer/2.gif" alt="2D Platformer game feel tips tutorial image - 2" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<h3 class="project-section-title">Next up is fixing the jump</h3>
+<p>Jumping is the core mechanic of every platformer, and every game's jump is different.</p>
+<p>But the basic variables are:</p>
+<p><strong>jump height and jump duration (hang time)</strong></p>
+<p>These are controlled by the jump velocity and gravity, plus a fall multiplier. The fall multiplier increases the player's gravity by that amount while falling.</p>
+<p>We also want a variable jump, so the jump height depends on how long the button is held.</p>
+<figure class="project-figure"><img src="assets/img/platformer/3.gif" alt="2D Platformer game feel tips tutorial image - 3" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<p>Now that the basic controller is done, we can work more on the jump.</p>
+<h3 class="project-section-title">Jump input buffering</h3>
+<p>If the player presses jump just before landing, the character lands and does nothing. That feels like the game's fault and makes the controls feel unresponsive. The fix is to give the player a few grace frames before landing: if they press jump during those frames, the character jumps as soon as it lands.</p>
+<figure class="project-figure"><img src="assets/img/platformer/4.gif" alt="2D Platformer game feel tips tutorial image - 4" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<h3 class="project-section-title">Coyote time / ledge forgiveness</h3>
+<p>This one makes a huge difference and makes jumping between platforms much smoother. We give the player a few grace frames after walking off a platform, during which they can still jump.</p>
+<p>These two tricks can make a game feel much better, but it's also important not to go overboard and baby the player. Find the right balance for your platformer.</p>
+<figure class="project-figure"><img src="assets/img/platformer/5.gif" alt="2D Platformer game feel tips tutorial image - 5" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<h3 class="project-section-title">Corner correction</h3>
+<p>It's pretty annoying when the player tries to jump over a block, clips the corner, and falls. To fix this, we nudge the player past the corner.</p>
+<figure class="project-figure"><img src="assets/img/platformer/6.gif" alt="2D Platformer game feel tips tutorial image - 6" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<p>Corner correction gave me the most trouble. I struggled to find a good way to implement it in Unity.</p>
+<p>I ended up using raycasts from the player and the platform to find how much of the corner the player is hitting, then moving the player by that amount. There are probably better ways to do this, but it works, so I'm happy.</p>
+<figure class="project-figure"><img src="assets/img/platformer/7.gif" alt="2D Platformer game feel tips tutorial image - 7" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<p>There's a lot more you can do depending on your game's mechanics, like the dash in Celeste. But I wanted to test my new and improved character controller, so I made a test level and filled it with:</p>
+<ul><li>Ladders.</li><li>Soft platforms.</li><li>Moving platforms.</li><li>One-way platforms.</li><li>Bouncy platforms.</li></ul>
+<p>Then I just jumped around.</p>
+<figure class="project-figure"><img src="assets/img/platformer/8.gif" alt="2D Platformer game feel tips tutorial image - 8" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<p>It was surprisingly fun!</p>
+<p>It's cool how fun it was without any story or specific mechanics.</p>
+<p>The project, with the basics above implemented, is <a href="https://github.com/anchitsh/platformer-demo">on GitHub</a>.</p></article><nav class="project-pagination" aria-label="Project navigation"><a href="butterflies.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>2D butterflies with Unity's particle system</strong></a></nav>
+</div></section></main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
-          <p class="mb-1"></p>
-        
-        </div>
-        <div class="col-sm-6 social text-md-right">
-          <a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer"><span class="icofont-twitter"></span></a>
-          <a href="https://ashaar.itch.io/" target="_blank" rel="noopener noreferrer"><span class="icofont-game"></span></a>
-        </div>
-      </div>
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
     </div>
   </footer>
 
@@ -349,7 +120,7 @@ But I wanted to test out my new and improved char controller. So I made a test l
   <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20260917043347"></script>
 
 </body>
 

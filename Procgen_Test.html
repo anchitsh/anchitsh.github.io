@@ -34,158 +34,55 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css?v=20260917043347" rel="stylesheet">
 
 </head>
 
 <body>
 
   <!-- ======= Navbar ======= -->
-  <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
-    <div class="container py-2 py-md-5">
-      <div class="row align-items-start">
-        <div class="col-md-2">
-          <ul class="custom-menu">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Me</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6 d-none d-md-block  mr-auto">
-          <div class="tweet d-flex">
-            <a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer"><span class="icofont-twitter text-white mt-2 mr-3"></span></a>
-            <div>
-              <p><em>I'm me on twitter! I post about the stuff I'm currently working on.</em></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 d-none d-md-block">
-		<div class="tweet d-flex">
-          <a href="https://ashaar.itch.io/" target="_blank" rel="noopener noreferrer"><span class="icofont-game text-white mt-2 mr-3"></span></a>
-           <div>
-              <p><em>Here's my itch.io profile, play some games and let me know what you think!</em></p>
-            </div>
-			</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
       <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
-
-      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
-        <span></span>
-      </a>
-
     </div>
   </nav>
 
-  <main id="main">
-<br>
-    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-            <div class="col-md-6" data-aos="fade-up">
-                <h2>Procedurally Generated maps - Inspired by Nuclear Throne </h2>
-                <p>
-                    <b><i>Year:</i></b> 2022
-                    <br>
-                    <b><i>Role:</i></b> Programmer
-                    <br>
-                    <b><i>Tech:</i></b> Unity, C#
-                    <br>
-                    <b><i>Platforms:</i></b> PC
-                </p>
-                <br>
-                <p>Nuclear Throne is a bullet hell roguelike video game developed by Vlambeer. It's highly addictive and has endless playability because it has a different maps every time you play it.</p>
-                <p>I wanteded to try an implement something similar to this.</p>
-
-            </div>
-        </div>
-      </div>
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/procgen2.gif" alt="Procedurally Generated maps - Inspired by Nuclear Throne gameplay preview - procgen2" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-              </div>
-            </div>
-          </div>
-        </div>
-			  <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-		
-
-          </div>
-        </div>
-      </div>
-	
-	  <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <p>I start with an empty matrix for the grid, and variables for the room width and height.</p>
-              <p>A tile can be of three types - Empty, floor, wall.</p>
-              <p>Then I'm using process where create a struct called walker which has a vector for its direction and its position.</p>
-              <p>The next step is to setup the room and create a given number of walker.</p>
-              <p>The walkers randomly move or change direction or die.</p>
-              <p>Then if the room is filled above a cetrain percentage all the walkers are killed</p>
-              <p>Then floor tiles are placed at every position of a walker has been on. Then a wall tile is placed in the empty adjacent position of every floor</p>
-              <p></p>
-              <img src="assets/img/procgen4.gif" alt="Procedurally Generated maps - Inspired by Nuclear Throne gameplay preview - procgen4" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-		  </div>
-          </div>
-        </div>
-			  <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-		  <br>
-          </div>
-        </div>
-      </div>
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <p>Procedural generation adds so much more content to a game, but it needs to be done properly otherwise you're just choosing quantity over quality (Hand crafted levels)</p>
-              <p>This was just to learn, I would love to explore other methods of Procedural generation for my own games.</p>
-            </div>
-		  </div>
-          </div>
-        </div>
-			  <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-		  <br>
-          </div>
-        </div>
-      </div>
-
-      
-    </section>
-
-  </main><!-- End #main -->
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Procedurally Generated Maps</h1></div>
+<dl class="project-facts">
+<dt>Year:</dt>
+<dd>2022</dd>
+<dt>Role:</dt>
+<dd>Programmer</dd>
+<dt>Tech:</dt>
+<dd>Unity, C#</dd>
+<dt>Platforms:</dt>
+<dd>PC</dd>
+</dl></header><article class="project-copy"><p>Nuclear Throne is a bullet hell roguelike developed by Vlambeer. It's highly addictive and endlessly replayable because the map is different every time you play.</p>
+<p>I wanted to try implementing something similar.</p>
+<p>I start with an empty matrix for the grid, plus variables for the room width and height.</p>
+<p>Each tile is one of three types: empty, floor, or wall.</p>
+<p>Next, I use a random walk. A struct called Walker stores a position and a direction.</p>
+<p>The room is set up and a given number of walkers are created.</p>
+<p>Each step, the walkers randomly move, change direction, or die.</p>
+<p>Once the room is filled above a certain percentage, all the walkers are removed.</p>
+<p>A floor tile is placed at every position a walker has visited. Then a wall tile is placed in every empty position next to a floor tile.</p>
+<p>Procedural generation can add a lot of content to a game, but it needs to be done well. Otherwise you're just choosing quantity over the quality of handcrafted levels.</p>
+<p>This was just a learning exercise, and I'd love to explore other procedural generation methods for my own games.</p></article><section class="project-media-section"><h2 class="project-media-label">Media</h2>
+<div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/procgen2.gif" alt="Procedurally Generated Maps gameplay preview" class="project-gallery-image" loading="lazy" decoding="async"></figure><figure class="project-gallery-item"><img src="assets/img/procgen4.gif" alt="Procedurally Generated maps - Inspired by Nuclear Throne gameplay preview - procgen4" class="project-gallery-image" loading="lazy" decoding="async"></figure></div></section><nav class="project-pagination" aria-label="Project navigation"><a href="White_Out.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous project</span><strong>White Out</strong></a><a href="Stringed_up.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next project</span><strong>Stringed Up</strong></a></nav>
+</div></section></main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
-          <p class="mb-1"></p>
-        
-        </div>
-        <div class="col-sm-6 social text-md-right">
-          <a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer"><span class="icofont-twitter"></span></a>
-          <a href="https://ashaar.itch.io/" target="_blank" rel="noopener noreferrer"><span class="icofont-game"></span></a>
-        </div>
-      </div>
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
     </div>
   </footer>
 
@@ -201,7 +98,7 @@
   <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20260917043347"></script>
 
 </body>
 

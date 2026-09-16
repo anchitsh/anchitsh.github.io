@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Shader graph stuff</title>
+  <title>Shader Graph Experiments</title>
   <meta content="A collection of Unity shader graph and HLSL experiments by Anchit Sharma." name="description">
   <meta property="og:title" content="Shader graph stuff | Anchit Sharma">
   <meta property="og:description" content="A collection of Unity shader graph and HLSL experiments by Anchit Sharma.">
@@ -34,361 +34,49 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css?v=20260917043347" rel="stylesheet">
 
 </head>
 
 <body>
 
   <!-- ======= Navbar ======= -->
-   <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
-    <div class="container py-2 py-md-5">
-      <div class="row align-items-start">
-        <div class="col-md-2">
-          <ul class="custom-menu">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Me</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6 d-none d-md-block  mr-auto">
-          <div class="tweet d-flex">
-            <a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer"><span class="icofont-twitter text-white mt-2 mr-3"></span></a>
-            <div>
-              <p><em>I'm me on twitter! I post about the stuff I'm currently working on.</em></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 d-none d-md-block">
-		<div class="tweet d-flex">
-          <a href="https://ashaar.itch.io/" target="_blank" rel="noopener noreferrer"><span class="icofont-game text-white mt-2 mr-3"></span></a>
-           <div>
-              <p><em>Here's my itch.io profile, play some games and let me know what you think!</em></p>
-            </div>
-			</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
       <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
-
-      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
-        <span></span>
-      </a>
-
     </div>
   </nav>
 
-  <main id="main">
-<br>
-    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <h2>Unity shader graph experiments</h2>
-            <p>I've always found shaders a bit complicated. In Unity, you write shader programs using the HLSL programming language. But this always seemed like a completely different world compared to everything else in Unity.
-              I have learnt HLSL coding too but I wanted experiment with Unity's shader graph. </p>
-              <p>Here are some random ones I've implemented.</p>
-			 <br>
-			 <h4>Sprite Dissolve</h4>
-          </div>
-        </div>
-      </div>
-
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/shaders/1.webp" alt="Unity shader graph experiments tutorial image - 1" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-				
-              </div>
-            </div>
-          </div>
-        </div>
-		    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-            <h4>The shader graph</h4>
-          </div>
-        </div>
-      </div>
-
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/shaders/1_2.png" alt="Unity shader graph experiments tutorial image - 1 2" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-        <section class="section">
-          <div class="container">
-            <div class="row mb-4 align-items-center">
-              <div class="col-md-6" data-aos="fade-up">
-                <br>
-          <h4>Water shader</h4>
-              <p>Heres what it looks like</p>
-              </div>
-            </div>
-          </div>
-              <div class="site-section pb-0">
-            <div class="container">
-              <div class="row align-items-stretch">
-                <div class="col-md-8" data-aos="fade-up">
-                  <img src="assets/img/shaders/2_1.webp" alt="Unity shader graph experiments tutorial image - 2 1" class="img-fluid" loading="lazy" decoding="async">
-                </div>
-                <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                  <div class="sticky-content">
-          
-                  </div>
-                </div>
-              </div>
-            </div>
-                    <section class="section">
-          <div class="container">
-            <div class="row mb-4 align-items-center">
-              <div class="col-md-6" data-aos="fade-up">
-                <br>
-          <h4>The shader graph</h4>			
-              </div>
-            </div>
-          </div>
-                  <div class="site-section pb-0">
-            <div class="container">
-              <div class="row align-items-stretch">
-                <div class="col-md-8" data-aos="fade-up">
-                  <img src="assets/img/shaders/2_2.gif" alt="Unity shader graph experiments tutorial image - 2 2" class="img-fluid" loading="lazy" decoding="async">
-                </div>
-                <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                  <div class="sticky-content">
-          
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-            <section class="section">
-              <div class="container">
-                <div class="row mb-4 align-items-center">
-                  <div class="col-md-6" data-aos="fade-up">
-                    <br>
-              <h4>Procedural SkyBox Shader</h4>
-                  <p>It blends in two colors and adds in a given density of stars(using the Voronoi node).</p>
-                  <p>See more gifs for this <a href="Bird_game.html">here.</a></p>
-                  <p> Heres what it looks like.</p>
-                  </div>
-                </div>
-              </div>
-                  <div class="site-section pb-0">
-                <div class="container">
-                  <div class="row align-items-stretch">
-                    <div class="col-md-8" data-aos="fade-up">
-                      <img src="assets/img/shaders/skybox2.webp" alt="Unity shader graph experiments tutorial image - skybox2" class="img-fluid" loading="lazy" decoding="async">
-                    </div>
-                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                      <div class="sticky-content">
-              
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                        <section class="section">
-              <div class="container">
-                <div class="row mb-4 align-items-center">
-                  <div class="col-md-6" data-aos="fade-up">
-                    <br>
-              <h4>The shader graph</h4>			
-                  </div>
-                </div>
-              </div>
-                      <div class="site-section pb-0">
-                <div class="container">
-                  <div class="row align-items-stretch">
-                    <div class="col-md-8" data-aos="fade-up">
-                      <img src="assets/img/shaders/skybox.png" alt="Unity shader graph experiments tutorial image - skybox" class="img-fluid" loading="lazy" decoding="async">
-                    </div>
-                    <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                      <div class="sticky-content">
-              
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <section class="section">
-                  <div class="container">
-                    <div class="row mb-4 align-items-center">
-                      <div class="col-md-6" data-aos="fade-up">
-                        <br>
-                  <h4>Pixelate shader</h4>
-                      <p>Heres what it looks like</p>
-                      </div>
-                    </div>
-                  </div>
-                      <div class="site-section pb-0">
-                    <div class="container">
-                      <div class="row align-items-stretch">
-                        <div class="col-md-8" data-aos="fade-up">
-                          <img src="assets/img/shaders/4_1.webp" alt="Unity shader graph experiments tutorial image - 4 1" class="img-fluid" loading="lazy" decoding="async">
-                        </div>
-                        <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                          <div class="sticky-content">
-                  
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                            <section class="section">
-                  <div class="container">
-                    <div class="row mb-4 align-items-center">
-                      <div class="col-md-6" data-aos="fade-up">
-                        <br>
-                  <h4>The shader graph</h4>			
-                      </div>
-                    </div>
-                  </div>
-                          <div class="site-section pb-0">
-                    <div class="container">
-                      <div class="row align-items-stretch">
-                        <div class="col-md-8" data-aos="fade-up">
-                          <img src="assets/img/shaders/4_2.JPG" alt="Unity shader graph experiments tutorial image - 4 2" class="img-fluid" loading="lazy" decoding="async">
-                        </div>
-                        <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                          <div class="sticky-content">
-                  
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </section>
-
-				<!-- next -->
-			    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>Teleport shader</h4>
-          <p>Heres what it looks like</p>
-          </div>
-        </div>
-      </div>
-	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/shaders/3_1.webp" alt="Unity shader graph experiments tutorial image - 3 1" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-						    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>The shader graph</h4>			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/shaders/3_2.JPG" alt="Unity shader graph experiments tutorial image - 3 2" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-				<!-- next -->
-			    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>Color mask shader</h4>
-          <p>Heres what it looks like</p>
-          </div>
-        </div>
-      </div>
-	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/shaders/5.webp" alt="Unity shader graph experiments tutorial image - 5" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-						    <section class="section">
-      <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <br>
-		  <h4>The shader graph</h4>			
-          </div>
-        </div>
-      </div>
-	  	        <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-              <img src="assets/img/shaders/5_2.JPG" alt="Unity shader graph experiments tutorial image - 5 2" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-			
-              </div>
-            </div>
-          </div>
-        </div>
-		<!-- next -->
-		<!-- next -->
-				    
-		<!-- next -->
-			    
-  </main><!-- End #main -->
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#writing" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Unity Shader Graph experiments</h1></div>
+<dl class="project-facts">
+<dt>Year:</dt>
+<dd>2019</dd>
+<dt>Type:</dt>
+<dd>Shader experiments</dd>
+<dt>Tech:</dt>
+<dd>Unity Shader Graph</dd>
+</dl></header><article class="project-copy"><p>I've always found shaders a bit complicated. In Unity, you write shader programs in HLSL, which always felt like a completely different world from the rest of Unity. I've learned HLSL too, but I wanted to experiment with Unity's Shader Graph.</p>
+<p>Here are a few I've made.</p></article><section class="project-media-section"><h2 class="project-media-label">Sprite Dissolve</h2>
+<div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/shaders/1.webp" alt="Unity shader graph experiments tutorial image - 1" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Result</figcaption></figure><figure class="project-gallery-item"><img src="assets/img/shaders/1_2.png" alt="Unity shader graph experiments tutorial image - 1 2" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Shader graph</figcaption></figure></div></section><section class="project-media-section"><h2 class="project-media-label">Water shader</h2>
+<div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/shaders/2_1.webp" alt="Unity shader graph experiments tutorial image - 2 1" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Result</figcaption></figure><figure class="project-gallery-item"><img src="assets/img/shaders/2_2.gif" alt="Unity shader graph experiments tutorial image - 2 2" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Shader graph</figcaption></figure></div></section><section class="project-media-section"><h2 class="project-media-label">Procedural skybox shader</h2>
+<p class="project-media-note">It blends two colors and adds stars at a set density using the Voronoi node.</p><p class="project-media-note">You can see it in action in <a href="Bird_game.html">Untitled Bird Game</a>.</p><div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/shaders/skybox2.webp" alt="Unity shader graph experiments tutorial image - skybox2" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Result</figcaption></figure><figure class="project-gallery-item"><img src="assets/img/shaders/skybox.png" alt="Unity shader graph experiments tutorial image - skybox" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Shader graph</figcaption></figure></div></section><section class="project-media-section"><h2 class="project-media-label">Pixelate shader</h2>
+<div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/shaders/4_1.webp" alt="Unity shader graph experiments tutorial image - 4 1" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Result</figcaption></figure><figure class="project-gallery-item"><img src="assets/img/shaders/4_2.JPG" alt="Unity shader graph experiments tutorial image - 4 2" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Shader graph</figcaption></figure></div></section><section class="project-media-section"><h2 class="project-media-label">Teleport shader</h2>
+<div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/shaders/3_1.webp" alt="Unity shader graph experiments tutorial image - 3 1" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Result</figcaption></figure><figure class="project-gallery-item"><img src="assets/img/shaders/3_2.JPG" alt="Unity shader graph experiments tutorial image - 3 2" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Shader graph</figcaption></figure></div></section><section class="project-media-section"><h2 class="project-media-label">Color mask shader</h2>
+<div class="project-gallery"><figure class="project-gallery-item"><img src="assets/img/shaders/5.webp" alt="Unity shader graph experiments tutorial image - 5" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Result</figcaption></figure><figure class="project-gallery-item"><img src="assets/img/shaders/5_2.JPG" alt="Unity shader graph experiments tutorial image - 5 2" class="project-gallery-image" loading="lazy" decoding="async"><figcaption class="project-gallery-caption">Shader graph</figcaption></figure></div></section><nav class="project-pagination" aria-label="Project navigation"><a href="wind.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Wind particles in Unity</strong></a></nav>
+</div></section></main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
-          <p class="mb-1"></p>
-        
-        </div>
-        <div class="col-sm-6 social text-md-right">
-          <a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer"><span class="icofont-twitter"></span></a>
-          <a href="https://ashaar.itch.io/" target="_blank" rel="noopener noreferrer"><span class="icofont-game"></span></a>
-        </div>
-      </div>
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
     </div>
   </footer>
 
@@ -404,7 +92,7 @@
   <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20260917043347"></script>
 
 </body>
 
