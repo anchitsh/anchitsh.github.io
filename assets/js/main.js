@@ -43,9 +43,9 @@
       $(this).addClass('active');
     });
   }
-  $(window).on('load', function() {
-    siteIstotope();
-  });
+  // Thumbnails carry width/height attributes, so the grid can be laid out as soon as
+  // the DOM is ready; image loads re-run the layout above.
+  $(siteIstotope);
 
   var siteProjectGalleries = function() {
     $('.project-gallery').each(function() {
@@ -169,10 +169,12 @@
   };
   siteGalleryLightbox();
 
-  $(window).on('load', function() {
+  // Start the reveal animations on DOM ready rather than window.load, so content
+  // isn't held invisible while every thumbnail finishes downloading.
+  $(function() {
     AOS.init({
       easing: 'ease',
-      duration: 1000,
+      duration: 600,
       once: true
     });
   });
