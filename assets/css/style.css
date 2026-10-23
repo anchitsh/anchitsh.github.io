@@ -43,6 +43,15 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   padding-top: 0;
 }
 
+.portfolio-filter-row {
+  margin-top: 48px;
+}
+
+.portfolio-filter-row .filters {
+  justify-content: flex-start;
+  margin-left: -10px;
+}
+
 .section-label {
   color: #000;
   font-size: 1rem;
@@ -452,6 +461,20 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 .custom-navbar .navbar-brand {
   font-size: 2rem;
+}
+
+.header-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.header-links a {
+  color: #000;
+}
+
+.header-links a:hover {
+  text-decoration: underline;
 }
 
 /*--------------------------------------------------------------
