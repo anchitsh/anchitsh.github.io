@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Farsight - Floating Icons</title>
+  <meta content="How the floating interaction icons in Farsight work: SDF shapes that morph from a dot into a glyph as you approach." name="description">
+  <meta property="og:title" content="Floating Icons | Anchit Sharma">
+  <meta property="og:description" content="How the floating interaction icons in Farsight work: SDF shapes that morph from a dot into a glyph as you approach.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anchitsh.github.io/Farsight_Icons.html">
+  <meta property="og:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-floating-icon.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Floating Icons | Anchit Sharma">
+  <meta name="twitter:description" content="How the floating interaction icons in Farsight work: SDF shapes that morph from a dot into a glyph as you approach.">
+  <meta name="twitter:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-floating-icon.webp">
+  <link rel="canonical" href="https://anchitsh.github.io/Farsight_Icons.html">
+
+  <!-- Favicons -->
+  <link href="favicon.ico" rel="icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css?v=20261023163351" rel="stylesheet">
+
+  <style>
+    .project-figure figcaption { color: #5b6b76; font-size: 14px; line-height: 1.55; margin-top: 10px; text-align: center; }
+    .project-copy pre { background: #f1f3f4; border: 1px solid #d7dcdf; border-radius: 4px; color: #172b39; font-size: 13px; line-height: 1.55; margin: 0 0 28px; overflow-x: auto; padding: 16px 18px; }
+    .project-copy code { font-family: SFMono-Regular, Menlo, Consolas, monospace; }
+    .project-copy p code { background: #f1f3f4; border-radius: 3px; font-size: 14px; padding: 1px 5px; }
+    .figure-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .figure-row img { display: block; height: auto; width: 100%; image-rendering: pixelated; }
+    .diagram { display: block; height: auto; margin: 0 auto; max-width: 100%; }
+    @media (max-width: 575px) { .figure-row { grid-template-columns: 1fr; } }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Navbar ======= -->
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
+    </div>
+  </nav>
+
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#tech-art" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Floating Icons</h1></div>
+<dl class="project-facts">
+<dt>Project:</dt>
+<dd><a href="Farsight.html">Farsight</a></dd>
+<dt>Year:</dt>
+<dd>2026</dd>
+<dt>Type:</dt>
+<dd>SDF shader, UI</dd>
+<dt>Tech:</dt>
+<dd>Unity, HLSL, C#</dd>
+</dl></header><article class="project-copy project-writeup">
+
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-floating-icon.webp" alt="A floating icon on a door morphing from a dot into an eye" class="project-figure-image" decoding="async"></figure>
+
+<h3 class="project-section-title">The goal</h3>
+
+<p>We needed a way to show what you can interact with without covering the screen in UI. The idea was that hints stay small and quiet from far away, only show what they are as you walk up, and feel like they're actually in the room.</p>
+
+<h3 class="project-section-title">How it works</h3>
+
+<p>Each icon's shape is drawn by a signed distance field shader, so it's sharp at any size. They're placed in the world next to their object instead of being drawn on top of the screen.</p>
+
+<h3 class="project-section-title">1. Dot to glyph</h3>
+
+<p>From far away you only see a little dot. As you get closer it grows into a ring, swells, and turns into the icon for that action, like this eye on a door you can peek through. When you're close enough that it'd get in the way, it fades out.</p>
+
+<figure class="project-figure"><img src="assets/img/farsight/icons/morph-strip.png" alt="Icon morph stages: dot, ring, orb, eye" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Dot, ring, orb, eye.</figcaption></figure>
+
+<figure class="project-figure"><img src="assets/img/farsight/icons/sdf-fields.png" alt="Distance field of a circle and of the eye glyph, with the edge marked in red" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The two distance fields, the circle and the eye from our icon atlas. The red line is where the shape's edge falls.</figcaption></figure>
+<p>The shape blends from a circle's distance field to the icon's. Since they're both distance fields, every step in between is a clean shape instead of two images fading over each other. For the hollow ring in the middle, the field gets folded around its edge for a moment, which turns a solid shape into an outline.</p>
+<figure class="project-figure"><img src="assets/img/farsight/icons/sdf-morph.png" alt="Five stages of the morph: dot, small ring, ring, reshaping, eye" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Dot, ring, larger ring, reshaping, eye.</figcaption></figure>
+<figure class="project-figure"><img src="assets/img/farsight/icons/sdf-morph.webp" alt="The full morph from dot to eye and back, animated" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The full morph, rendered with a Python port of the shader and our icon atlas. In the game, a sketchy wobble and glow are added on top by a second material.</figcaption></figure>
+
+<h3 class="project-section-title">2. Living in the world</h3>
+
+<p>Each icon is a small card facing the camera, sitting on its object and pulled a little towards you so the object doesn't hide it. Since they're in the world, walls and whatever you're holding cover them naturally, so they don't pop in and out around corners.</p>
+
+<p>Whether an icon shows only depends on how far away you are, the same walking in and walking out. They're also hidden from the Game Boy camera, so they never end up in your photos.</p>
+
+</article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Footprints.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Wet Footprints</strong></a></nav>
+</div></section></main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js?v=20261023163351"></script>
+
+</body>
+
+</html>

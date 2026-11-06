@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Farsight - Milk Pour</title>
+  <meta content="How the milk pour in Farsight works: a procedural tube mesh on a ballistic arc, with ripples, foam and floating cereal." name="description">
+  <meta property="og:title" content="Milk Pour | Anchit Sharma">
+  <meta property="og:description" content="How the milk pour in Farsight works: a procedural tube mesh on a ballistic arc, with ripples, foam and floating cereal.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anchitsh.github.io/Farsight_Milk.html">
+  <meta property="og:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-milk-pour.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Milk Pour | Anchit Sharma">
+  <meta name="twitter:description" content="How the milk pour in Farsight works: a procedural tube mesh on a ballistic arc, with ripples, foam and floating cereal.">
+  <meta name="twitter:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-milk-pour.webp">
+  <link rel="canonical" href="https://anchitsh.github.io/Farsight_Milk.html">
+
+  <!-- Favicons -->
+  <link href="favicon.ico" rel="icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css?v=20261023163351" rel="stylesheet">
+
+  <style>
+    .project-figure figcaption { color: #5b6b76; font-size: 14px; line-height: 1.55; margin-top: 10px; text-align: center; }
+    .project-copy pre { background: #f1f3f4; border: 1px solid #d7dcdf; border-radius: 4px; color: #172b39; font-size: 13px; line-height: 1.55; margin: 0 0 28px; overflow-x: auto; padding: 16px 18px; }
+    .project-copy code { font-family: SFMono-Regular, Menlo, Consolas, monospace; }
+    .project-copy p code { background: #f1f3f4; border-radius: 3px; font-size: 14px; padding: 1px 5px; }
+    .figure-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .figure-row img { display: block; height: auto; width: 100%; image-rendering: pixelated; }
+    .diagram { display: block; height: auto; margin: 0 auto; max-width: 100%; }
+    @media (max-width: 575px) { .figure-row { grid-template-columns: 1fr; } }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Navbar ======= -->
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
+    </div>
+  </nav>
+
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#tech-art" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Milk Pour</h1></div>
+<dl class="project-facts">
+<dt>Project:</dt>
+<dd><a href="Farsight.html">Farsight</a></dd>
+<dt>Year:</dt>
+<dd>2026</dd>
+<dt>Type:</dt>
+<dd>Procedural mesh</dd>
+<dt>Tech:</dt>
+<dd>Unity, C#, HLSL</dd>
+</dl></header><article class="project-copy project-writeup">
+
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-milk-pour.webp" alt="Milk pouring into a cereal bowl, with the wireframe switching on" class="project-figure-image" decoding="async"><figcaption>The wireframe switches on mid-pour to show the stream mesh.</figcaption></figure>
+
+<h3 class="project-section-title">The goal</h3>
+
+<p>There's a breakfast scene where you pour your own milk and cereal. Our first version of the pour was a particle effect, and it looked like one: a spray of dots, not a stream of milk.</p>
+
+<p>We wanted it to feel like actual liquid. One stream that falls in a nice arc, glugs as you tip the carton, breaks up into drops when you stop, and makes ripples where it lands.</p>
+
+<h3 class="project-section-title">How it works</h3>
+<p>The stream is one tube mesh that gets rebuilt in code every frame, 10 sides around and 48 segments long. A separate script on the bowl and a shader on the milk handle everything happening on the surface.</p>
+
+<h3 class="project-section-title">1. The arc</h3>
+<p>The tube follows the path a thrown object would take, from the carton's spout down to the milk, worked out from the pour speed and gravity. Each segment is a ring of vertices placed along that curve.</p>
+<p>The width follows the milk's speed. Falling liquid speeds up, and the same amount of milk moving faster has to get thinner, so the radius shrinks with the square root of the speed, down to 45% of the spout. Every glug from the carton sends a slight bulge down the stream with the milk.</p>
+<pre><code>float radius = spoutRadius * Mathf.Max(Mathf.Sqrt(speed0 / ArcVelocity(t).magnitude), minRadiusScale);
+radius *= 1f + glugAmount * Glug(time - t);</code></pre>
+<figure class="project-figure"><img src="assets/img/farsight/milk/milk-1-arc.png" alt="Side view of the stream with its mesh rings" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The stream at real scale, with its rings.</figcaption></figure>
+<figure class="project-figure"><img src="assets/img/farsight/milk/milk-1b-glugs.png" alt="The stream straightened out at five moments, with a bulge travelling from the spout to the surface" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The stream straightened out at five moments, 50 ms apart. A glug starts at the spout and rides down. The bulge is exaggerated 3x here so you can see it.</figcaption></figure>
+<div class="project-figure figure-row"><img src="assets/img/farsight/milk/milk-lit.jpg" alt="The milk stream as it appears in game" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/milk/milk-wire.jpg" alt="The milk stream with its wireframe visible" loading="lazy" decoding="async" style="image-rendering:auto"></div>
+<figure class="project-figure" style="margin-top:-24px"><figcaption>The same stream in game, and its mesh.</figcaption></figure>
+
+<h3 class="project-section-title">2. Stopping</h3>
+<p>When you stop pouring, the arc locks in place so the end of the stream doesn't swing around with the carton. The tail then falls, and the last 5 cm of it pinches into beads about 8 mm apart, using a sine along the stream's length. That's how a real stream of liquid breaks up.</p>
+<figure class="project-figure"><img src="assets/img/farsight/milk/milk-2-beads.png" alt="The end of the stream breaking into beads over four moments" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The tail of the stream after you stop pouring, zoomed in.</figcaption></figure>
+
+<h3 class="project-section-title">3. The surface</h3>
+<p>Where the stream lands it starts ripple rings and a patch of foam. Each ring is worked out in the milk shader: a wave that travels outwards at 9 cm a second, with a 1.6 cm wavelength, fading as it grows. Up to eight can run at once, and they're sent per bowl, so other bowls using the same material don't ripple too.</p>
+<figure class="project-figure"><img src="assets/img/farsight/milk/milk-3-ripples.png" alt="Top view of the milk surface with several overlapping ripple rings" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Four rings of different ages, from the shader's ripple function.</figcaption></figure>
+<p>Cereal makes its own ripples when it drops in, and some of it floats up and bobs as the milk rises.</p>
+
+<p>The diagrams on this page were rendered with a Python port of the stream and ripple code. The clip at the top is from the game.</p>
+
+</article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_GameBoy.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Game Boy Camera</strong></a><a href="Farsight_Drawing.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Drawing System</strong></a></nav>
+</div></section></main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js?v=20261023163351"></script>
+
+</body>
+
+</html>

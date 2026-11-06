@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Farsight - Drawing System</title>
+  <meta content="How the drawing system in Farsight works: soft stamps composited into erasable and permanent ink layers." name="description">
+  <meta property="og:title" content="Drawing System | Anchit Sharma">
+  <meta property="og:description" content="How the drawing system in Farsight works: soft stamps composited into erasable and permanent ink layers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anchitsh.github.io/Farsight_Drawing.html">
+  <meta property="og:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-drawing-journal.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Drawing System | Anchit Sharma">
+  <meta name="twitter:description" content="How the drawing system in Farsight works: soft stamps composited into erasable and permanent ink layers.">
+  <meta name="twitter:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-drawing-journal.webp">
+  <link rel="canonical" href="https://anchitsh.github.io/Farsight_Drawing.html">
+
+  <!-- Favicons -->
+  <link href="favicon.ico" rel="icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css?v=20261023163351" rel="stylesheet">
+
+  <style>
+    .project-figure figcaption { color: #5b6b76; font-size: 14px; line-height: 1.55; margin-top: 10px; text-align: center; }
+    .project-copy pre { background: #f1f3f4; border: 1px solid #d7dcdf; border-radius: 4px; color: #172b39; font-size: 13px; line-height: 1.55; margin: 0 0 28px; overflow-x: auto; padding: 16px 18px; }
+    .project-copy code { font-family: SFMono-Regular, Menlo, Consolas, monospace; }
+    .project-copy p code { background: #f1f3f4; border-radius: 3px; font-size: 14px; padding: 1px 5px; }
+    .figure-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .figure-row img { display: block; height: auto; width: 100%; image-rendering: pixelated; }
+    .diagram { display: block; height: auto; margin: 0 auto; max-width: 100%; }
+    @media (max-width: 575px) { .figure-row { grid-template-columns: 1fr; } }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Navbar ======= -->
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
+    </div>
+  </nav>
+
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#tech-art" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Drawing System</h1></div>
+<dl class="project-facts">
+<dt>Project:</dt>
+<dd><a href="Farsight.html">Farsight</a></dd>
+<dt>Year:</dt>
+<dd>2026</dd>
+<dt>Type:</dt>
+<dd>Tool, shader</dd>
+<dt>Tech:</dt>
+<dd>Unity, C#</dd>
+</dl></header><article class="project-copy project-writeup">
+
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-drawing-journal.webp" alt="Drawing in the journal with pencil and crayon" class="project-figure-image" decoding="async"></figure>
+
+<h3 class="project-section-title">The goal</h3>
+
+<p>You have a journal you can draw in. We wanted the tools to feel like the real thing: a pen that lays down flat ink, a pencil that gets darker as you go over it, a crayon with some texture, and an eraser that rubs out pencil but not pen.</p>
+
+<p>We also wanted the journal to be part of the world. You pick it up off your bedroom floor, and whatever you draw stays there for next time.</p>
+
+<h3 class="project-section-title">How it works</h3>
+<p>Each page is a texture, and all the painting happens on the CPU in plain pixel arrays. We keep three of them: the paper, an erasable ink layer and a permanent ink layer. The texture you see is built from those three, and only the bit that changed gets sent to the GPU each frame.</p>
+<p>Every tool is its own settings asset, so adding a new one doesn't need any new code.</p>
+
+<h3 class="project-section-title">1. Cleaning up the input</h3>
+<p>Raw mouse movement is jittery. The pointer first has to leave a small dead zone before the line follows it, which kills the shake without rounding off sharp corners. Then the tip of the pen chases the pointer on a spring, and the points get joined with a spline so the curve is smooth.</p>
+<figure class="project-figure"><img src="assets/img/farsight/drawing/draw-1-smoothing.png" alt="Jittery raw pointer samples and the smoothed line drawn through them" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Raw pointer samples in red, the line that gets drawn in black.</figcaption></figure>
+
+<h3 class="project-section-title">2. Stamping along the line</h3>
+<p>The line is drawn as a row of soft round stamps, spaced evenly so how fast you move doesn't change how dense the line is. The stamp size follows your speed: fast strokes get thinner, slow ones fatter, like pressing harder on a real pen. Each stamp also gets a tiny random wobble so the line doesn't look like a perfect vector.</p>
+<figure class="project-figure"><img src="assets/img/farsight/drawing/draw-2-stamps.png" alt="Circles stamped along a curve, smaller where the stroke is faster" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Each circle is one stamp. They shrink where the stroke speeds up.</figcaption></figure>
+<p>Inside each stamp, the edge softness comes from the tool's hardness, pencil and crayon get multiplied by the paper's grain so they catch on the texture, and a bit of noise roughens the outer edge.</p>
+
+<h3 class="project-section-title">3. How ink builds up</h3>
+<p>Stamps don't go straight onto the page. Each stroke has its own coverage buffer, a value from 0 to 255 per pixel. With the pen, each pixel keeps whichever stamp was darkest, so crossing your own line doesn't make it darker. With pencil and crayon the stamps add up, so going over a spot builds it up.</p>
+<figure class="project-figure"><img src="assets/img/farsight/drawing/draw-3-overlap.png" alt="A pen loop with flat ink on the left and a pencil loop that darkens where it crosses on the right" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Pen on the left stays flat where it crosses. Pencil on the right picks up the paper grain and builds up.</figcaption></figure>
+<p>When you let go, the stroke gets blended into its layer. Pencil goes into the erasable layer, and pen, marker and crayon into the permanent one, which sits on top. The eraser only clears the erasable layer, so it rubs out pencil and never touches ink.</p>
+
+<h3 class="project-section-title">4. Updating the texture</h3>
+<p>While you draw, the code tracks the rectangle the current stroke has touched. Each frame it rebuilds just that rectangle, paper then erasable ink then permanent ink with the live stroke mixed in, and uploads only that part to the texture. The maths for the preview and the final blend is the same, so nothing jumps when you let go.</p>
+<figure class="project-figure"><img src="assets/img/farsight/drawing/draw-4-dirty.png" alt="A page with a stroke and the small rectangle around it that gets updated" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Only the red rectangle gets rebuilt and uploaded, not the whole page.</figcaption></figure>
+<p>Each page's two ink layers are saved as PNGs, and loaded back over the page art next time you open the journal.</p>
+
+<h3 class="project-section-title">5. In the world</h3>
+<p>In the game, the journal is just lying in your room. Pick it up and it flies up to your face, then the drawing view opens over the blurred room.</p>
+
+<p>The diagrams on this page were drawn with Python to show what the code does. The clip at the top is from the game.</p>
+
+</article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Milk.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Milk Pour</strong></a><a href="Farsight_Fire.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Fire Volume</strong></a></nav>
+</div></section></main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js?v=20261023163351"></script>
+
+</body>
+
+</html>

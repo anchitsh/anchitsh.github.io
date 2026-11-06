@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Farsight - Rain on Glasses</title>
+  <meta content="How the rain-on-glasses lens pass in Farsight works: a single URP screen pass with procedural drops that refract out-of-focus copies of the frame." name="description">
+  <meta property="og:title" content="Rain on Glasses | Anchit Sharma">
+  <meta property="og:description" content="How the rain-on-glasses lens pass in Farsight works.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anchitsh.github.io/Farsight_Glasses.html">
+  <meta property="og:image" content="https://anchitsh.github.io/assets/img/farsight/glasses/step-result.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rain on Glasses | Anchit Sharma">
+  <meta name="twitter:description" content="How the rain-on-glasses lens pass in Farsight works.">
+  <meta name="twitter:image" content="https://anchitsh.github.io/assets/img/farsight/glasses/step-result.jpg">
+  <link rel="canonical" href="https://anchitsh.github.io/Farsight_Glasses.html">
+
+  <!-- Favicons -->
+  <link href="favicon.ico" rel="icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css?v=20261023163351" rel="stylesheet">
+
+  <style>
+    .project-figure figcaption { color: #5b6b76; font-size: 14px; line-height: 1.55; margin-top: 10px; text-align: center; }
+    .project-copy pre { background: #f1f3f4; border: 1px solid #d7dcdf; border-radius: 4px; color: #172b39; font-size: 13px; line-height: 1.55; margin: 0 0 28px; overflow-x: auto; padding: 16px 18px; }
+    .project-copy code { font-family: SFMono-Regular, Menlo, Consolas, monospace; }
+    .project-copy p code { background: #f1f3f4; border-radius: 3px; font-size: 14px; padding: 1px 5px; }
+    .figure-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .figure-row img { display: block; height: auto; width: 100%; image-rendering: pixelated; }
+    .diagram { display: block; height: auto; margin: 0 auto; max-width: 100%; }
+    @media (max-width: 575px) { .figure-row { grid-template-columns: 1fr; } }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Navbar ======= -->
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
+    </div>
+  </nav>
+
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#tech-art" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Rain on Glasses</h1></div>
+<dl class="project-facts">
+<dt>Project:</dt>
+<dd><a href="Farsight.html">Farsight</a></dd>
+<dt>Year:</dt>
+<dd>2026</dd>
+<dt>Type:</dt>
+<dd>Screen-space shader, gameplay system</dd>
+<dt>Tech:</dt>
+<dd>Unity URP, HLSL, C#</dd>
+</dl></header><article class="project-copy project-writeup">
+
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-glasses-lens-split.webp" alt="The same shot with the lens pass off on the left and on on the right" class="project-figure-image" decoding="async"><figcaption>Lens pass off on the left, on on the right.</figcaption></figure>
+
+<h3 class="project-section-title">The goal</h3>
+<p>In Farsight you're wearing glasses, and it rains a lot. We wanted the rain to actually collect on your glasses when you're outside, as a small touch that makes you feel like you're there.</p>
+<p>Since the drops are right in front of your eyes, they should be blurry and warp what's behind them. And they should react to you: building up when you're out in the open, drying once you head inside, and staying off while your umbrella's up.</p>
+
+<h3 class="project-section-title">How it works</h3>
+<p>It's a single full-screen pass on the player camera. No textures, no particles. It runs before post-processing, so bloom and grading hit the drops the same way they hit everything else. There are three parts to it: where the drops go, what each drop looks like, and how wet your glasses are.</p>
+
+<h3 class="project-section-title">1. Placing the drops</h3>
+<p>The screen gets split into a grid, and each cell turns its position into a random number. That number picks whether there's a drop in the cell, how big it is and where it sits. Drops always stay inside their cell, so none of them get cut off at the edges.</p>
+<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/gen-1-cells.png" alt="Screen divided into cells, each shaded by its random value" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/glasses/gen-2-drop-per-cell.png" alt="One soft circle per grid cell" loading="lazy" decoding="async" style="image-rendering:auto"></div>
+<figure class="project-figure" style="margin-top:-24px"><figcaption>A random value per cell, then one drop per cell. These show the layout only.</figcaption></figure>
+<p>Three grids are stacked on top of each other for big, medium and small drops. The edge blur is the same width no matter how big the drop is, so the small ones are basically all blur. They end up as faint smudges, which is pretty much what tiny droplets look like on real glasses.</p>
+<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-3-layers.png" alt="Large, medium and small drop layers on a game frame, then combined" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Large, medium and small layers on a frame from the game, then all three together.</figcaption></figure>
+
+<h3 class="project-section-title">2. Drawing a drop</h3>
+<p>Each drop works like a tiny lens. Inside it, we sample the image from a point pushed away from the drop's centre, which flips and bends whatever's behind it.</p>
+<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-5-refraction.png" alt="Checker pattern before and after one drop's refraction" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<p>Blurring every drop separately would be expensive, so instead we make two blurry copies of the whole frame first, at a quarter and a sixteenth of the resolution. The drops sample from those, so they're always soft and it's basically free.</p>
+<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/step-quarter.png" alt="Quarter-resolution copy of the frame" loading="lazy" decoding="async"><img src="assets/img/farsight/glasses/step-sixteenth.png" alt="Sixteenth-resolution copy of the frame" loading="lazy" decoding="async"></div>
+<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/step-frame.jpg" alt="Game frame before the lens pass" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/glasses/step-result.jpg" alt="Same frame after the lens pass" loading="lazy" decoding="async" style="image-rendering:auto"></div>
+<figure class="project-figure" style="margin-top:-24px"><figcaption>The two blurred copies, then a game frame before and after the pass.</figcaption></figure>
+
+<h3 class="project-section-title">3. How wet the glasses are</h3>
+<p>Everything runs off one wetness value between 0 and 1. Each drop has its own threshold, so as it goes up, drops pop in and grow one at a time, and as it goes down they shrink away again.</p>
+<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-4-wetness.webp" alt="Drops appearing on a game frame as wetness rises, then drying away" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<pre><code>float size = lerp(0.14, 0.4, r2.x * r2.y)
+           * saturate((cover - h * 0.95) * 5.0);</code></pre>
+<p>A small C# script sets that value based on what you're doing. Outside, your glasses get fully wet in about 25 seconds, and they dry in about 8 once you're indoors. Looking up at the sky gets them wet twice as fast, and looking down slows it right down. The umbrella keeps them dry, until you look up past 35 degrees. Past 60 it doesn't help at all.</p>
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-glasses-umbrella.webp" alt="Rain beads on the lenses, the umbrella opens and the lenses dry" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Drops build up, the umbrella opens, and the glasses clear.</figcaption></figure>
+
+<p>The images on this page were rendered with a Python port of the shader, run on frames from the game.</p>
+
+</article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Floaters.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Eye Floaters</strong></a></nav>
+</div></section></main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js?v=20261023163351"></script>
+
+</body>
+
+</html>
