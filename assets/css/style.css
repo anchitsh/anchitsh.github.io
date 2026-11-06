@@ -1504,19 +1504,22 @@ a:hover {
 .project-toc-count,
 .toc-section-count {
   align-items: center;
-  background: var(--minimal-chip-surface);
-  border-radius: 999px;
-  color: #737373;
+  background: transparent;
+  color: #999;
   display: inline-flex;
-  font-size: 10px;
+  font-size: 11px;
   font-variant-numeric: tabular-nums;
   justify-content: center;
   line-height: 14px;
-  min-width: 24px;
-  padding: 3px 6px;
+  padding: 0;
 }
 
 .toc-section-group { min-width: 0; }
+.toc-section-group + .toc-section-group {
+  border-top: 1px solid #eee;
+  margin-top: 8px;
+  padding-top: 20px;
+}
 .toc-detail-list {
   list-style: none;
   margin: 8px 0 0;
@@ -1651,6 +1654,7 @@ a:hover {
   .project-toc-more { align-self: center; grid-column: 3; grid-row: 1; margin: 0; padding: 0; }
   .toc-section-links { border: 0; flex-direction: row; gap: 12px; grid-column: 2; grid-row: 1; justify-content: center; margin: 0; padding: 0; }
   .toc-section-link { font-size: 11px; white-space: nowrap; }
+  .toc-section-group + .toc-section-group { border: 0; margin-top: 0; padding-top: 0; }
   .toc-detail-list,
   .toc-section-more { display: none; }
   .toc-section-count { display: none; }
