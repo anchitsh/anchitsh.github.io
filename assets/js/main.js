@@ -214,20 +214,16 @@
       var title = $project.find('h3').first().text();
       var slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
       var id = 'project-' + String(index + 1).padStart(2, '0') + '-' + slug;
+      var projectHref = $project.find('a.item-wrap').first().attr('href');
       $project.attr('id', id);
-      var $link = $('<a class="project-toc-link"></a>').attr('href', '#' + id).text(title);
+      var $link = $('<a class="project-toc-link"></a>').attr('href', projectHref).text(title);
       $link.on('mouseenter focus', function(event) {
         $previewImage.attr('src', $project.find('img').first().attr('src'));
         $preview[0].style.setProperty('--preview-angle', (index % 2 === 0 ? '-4' : '4') + 'deg');
         $preview.toggleClass('is-visible', placePreview(this, event.clientY));
       }).on('mousemove', function(event) {
         placePreview(this, event.clientY);
-      }).on('mouseleave blur', hidePreview).on('click', function(event) {
-        event.preventDefault();
-        if (!$project.is(':visible')) $('#filters a[data-filter="*"]').trigger('click');
-        hidePreview();
-        $project[0].scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
-      });
+      }).on('mouseleave blur', hidePreview);
       $('<li></li>').append($link).appendTo($list);
     });
 

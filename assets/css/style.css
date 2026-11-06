@@ -1464,6 +1464,7 @@ a:hover {
   margin-top: 12px;
   padding: 0 0 4px;
   text-align: left;
+  text-decoration: underline;
   white-space: nowrap;
 }
 
@@ -1632,7 +1633,7 @@ a:hover {
 
 .portfolio-filter-row {
   margin-top: 48px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 }
 
 .portfolio-filter-row .filters {
@@ -1712,7 +1713,7 @@ a:hover {
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
   overflow: visible;
 }
 
@@ -1933,12 +1934,12 @@ a:hover {
 .portfolio-home .section > .container,
 .portfolio-home .footer > .container {
   border: 0;
-  padding-left: 80px;
-  padding-right: 48px;
+  padding-left: 140px;
+  padding-right: 40px;
   width: 100%;
 }
 
-.portfolio-home .reference-rule { max-width: none; margin-left: 80px; margin-right: 48px; }
+.portfolio-home .reference-rule { max-width: none; margin-left: 140px; margin-right: 40px; }
 
 .portfolio-home .contact-rail { display: contents; }
 
@@ -1979,7 +1980,7 @@ a:hover {
 .portfolio-home .contact-column .side-contact-social {
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 21px;
+  gap: 8px;
   justify-content: flex-end;
   top: 180px;
   white-space: nowrap;
@@ -1987,7 +1988,7 @@ a:hover {
 
 .portfolio-home .item .item-wrap > .work-info {
   column-gap: 12px;
-  row-gap: 8px;
+  row-gap: 4px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 }
