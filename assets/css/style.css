@@ -1136,6 +1136,7 @@ body::before {
   --minimal-ink: #262626;
   --minimal-muted: #a3a3a3;
   --minimal-surface: #f5f5f5;
+  --minimal-chip-surface: #f0f0f0;
   --minimal-accent: #21754e;
   --minimal-accent-pale: #e8f2ec;
   --name-weight: 600;
@@ -1328,7 +1329,7 @@ a:hover {
 }
 
 .experience-tag {
-  background: var(--minimal-surface);
+  background: var(--minimal-chip-surface);
   border-radius: 12px;
   color: #737373;
   flex-shrink: 0;
@@ -1641,6 +1642,7 @@ a:hover {
 
 .portfolio-filter-row {
   margin-top: 48px;
+  margin-bottom: 48px;
 }
 
 .portfolio-filter-row .filters {
@@ -1661,7 +1663,7 @@ a:hover {
 
 .filters a {
   align-items: center;
-  background: #f0f0f0;
+  background: var(--minimal-chip-surface);
   border: 1px solid transparent;
   border-radius: 999px;
   color: #6b6b6b;
@@ -1784,7 +1786,7 @@ a:hover {
 }
 
 .tech-tag {
-  background: var(--minimal-surface);
+  background: var(--minimal-chip-surface);
   border-radius: 12px;
   color: var(--minimal-ink);
   padding: 5px 9px;
