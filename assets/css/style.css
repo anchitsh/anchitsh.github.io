@@ -1350,17 +1350,66 @@ a:hover {
 }
 
 .identity-strip {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
+  height: 164px;
+  isolation: isolate;
+  margin-bottom: 14px;
+  position: relative;
+  width: 220px;
 }
 
-.identity-strip img {
+.identity-strip .identity-card {
   background: var(--minimal-surface);
-  border-radius: 4px;
-  height: 48px;
+  border: 2px solid #fff;
+  border-radius: 22px;
+  box-shadow: 0 8px 18px rgba(38, 38, 38, .12);
+  height: 132px;
   object-fit: cover;
+  position: absolute;
+  top: 24px;
+  width: 100px;
+}
+
+.identity-card-left {
+  left: 4px;
+  transform: rotate(-12deg);
+  z-index: 1;
+}
+
+.identity-card-right {
+  left: 116px;
+  transform: rotate(12deg);
+  z-index: 1;
+}
+
+.identity-strip .identity-card-front {
+  left: 60px;
+  top: 0;
+  z-index: 2;
+}
+
+.identity-heading {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+}
+
+.identity-mascot {
+  flex: 0 0 64px;
+  height: 72px;
+  object-fit: contain;
   width: 64px;
+}
+
+.identity-name {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.identity-name .navbar-brand {
+  margin-right: 0;
+  white-space: normal;
 }
 
 .section-label {

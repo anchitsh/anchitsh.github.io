@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="72" viewBox="0 0 64 72" fill="none">
+  <!-- Temporary mascot: replace this standalone asset when the character is finalized. -->
+  <ellipse cx="32" cy="66" rx="24" ry="3" fill="#002FA7" opacity=".1"/>
+  <path d="M10 60V29C10 15 19 6 32 6s22 9 22 23v31l-9-6-7 7-7-6-8 6-6-7-7 6Z" fill="#E5EAF6" stroke="#002FA7" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M10 36 4 32m50 4 6-4" stroke="#002FA7" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="20" y="27" width="5" height="9" rx="2.5" fill="#002FA7"/>
+  <rect x="39" y="27" width="5" height="9" rx="2.5" fill="#002FA7"/>
+  <path d="M27 41c3 4 7 4 10 0" stroke="#002FA7" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="17" cy="39" r="3" fill="#AEBFEA"/>
+  <circle cx="47" cy="39" r="3" fill="#AEBFEA"/>
+</svg>
