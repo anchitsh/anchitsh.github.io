@@ -1034,6 +1034,13 @@ body.gallery-lightbox-open {
   }
 }
 
+@media (max-width: 1099px) {
+  .reference-rails,
+  .side-contact {
+    display: none;
+  }
+}
+
 .project-tweets {
   align-items: start;
   display: grid;
@@ -1136,6 +1143,9 @@ body::before {
   --name-weight: 600;
   --name-size: 28px;
   --name-tracking: -.035em;
+  --project-typeface: "DM Sans";
+  --project-weight: 500;
+  --project-size: 16px;
 }
 
 html {
@@ -1165,7 +1175,7 @@ a:hover {
 }
 
 .custom-navbar > .container,
-.site-portfolio > .container,
+.section > .container,
 .footer > .container {
   max-width: 800px;
   padding-left: 20px;
@@ -1270,6 +1280,68 @@ a:hover {
   color: var(--minimal-ink);
   font: inherit;
   padding: 6px 8px;
+}
+
+.typeface-dial-divider {
+  border-top: 1px solid rgba(38, 38, 38, .12);
+  margin: 2px 0;
+}
+
+.reference-rails {
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+}
+
+.reference-rails span {
+  background: rgba(38, 38, 38, .1);
+  bottom: 0;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.reference-rails span:first-child {
+  left: max(24px, calc(50% - 400px));
+}
+
+.reference-rails span:last-child {
+  right: max(24px, calc(50% - 400px));
+}
+
+.side-contact {
+  color: var(--minimal-muted);
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  gap: 6px;
+  position: fixed;
+  z-index: 3;
+}
+
+.side-contact p,
+.side-contact span {
+  margin: 0;
+}
+
+.side-contact a {
+  color: var(--minimal-ink);
+  text-decoration: none;
+}
+
+.side-contact a:hover {
+  color: var(--minimal-blue);
+}
+
+.side-contact-email {
+  bottom: 32px;
+  left: max(32px, calc(50% - 500px));
+}
+
+.side-contact-social {
+  right: max(32px, calc(50% - 500px));
+  top: 30%;
 }
 
 .header-title {
@@ -1431,7 +1503,12 @@ a:hover {
 #portfolio-grid {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 48px;
+}
+
+#portfolio-grid[data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 #portfolio-grid .item {
@@ -1481,30 +1558,49 @@ a:hover {
 }
 
 .item .item-wrap > .work-info h3 {
-  font-size: 16px;
-  font-weight: 500;
+  font-family: var(--project-typeface), sans-serif;
+  font-size: var(--project-size);
+  font-weight: var(--project-weight);
   letter-spacing: -.015em;
   line-height: 1.35;
   margin: 0;
 }
 
 .item .item-wrap > .work-info .work-tech {
-  background: var(--minimal-surface);
-  border-radius: 999px;
-  color: var(--minimal-ink);
+  align-items: center;
+  background: transparent;
+  border-radius: 0;
+  color: var(--minimal-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--project-typeface), sans-serif;
   font-size: 12px;
+  gap: 5px;
   line-height: 1.2;
-  padding: 5px 9px;
   position: absolute;
   right: 0;
   top: 14px;
   white-space: nowrap;
 }
 
+.tech-tag {
+  background: var(--minimal-surface);
+  border-radius: 999px;
+  color: var(--minimal-ink);
+  padding: 5px 9px;
+}
+
 .item .item-wrap > .work-info span {
   color: var(--minimal-muted);
   font-size: 14px;
   line-height: 1.45;
+}
+
+.item .item-wrap > .work-info .work-tech .tech-tag {
+  color: var(--minimal-ink);
+  font-size: 12px;
+  line-height: 1.2;
+  padding: 5px 9px;
 }
 
 .item .item-wrap > .work-info .work-role {
@@ -1592,7 +1688,7 @@ a:hover {
   }
 
   .custom-navbar > .container,
-  .site-portfolio > .container,
+  .section > .container,
   .footer > .container {
     padding-left: 16px;
     padding-right: 16px;
@@ -1603,7 +1699,7 @@ a:hover {
   }
 
   #portfolio-grid {
-    gap: 28px;
+    gap: 48px;
   }
 
   .intro-section {
@@ -1638,5 +1734,10 @@ a:hover {
   .typeface-dial-kit {
     bottom: 12px;
     right: 12px;
+  }
+
+  .reference-rails,
+  .side-contact {
+    display: none;
   }
 }

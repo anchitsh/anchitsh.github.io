@@ -8,30 +8,8 @@
   "use strict";
 
   var siteIstotope = function() {
-    var $container = $('#portfolio-grid').isotope({
-      itemSelector: '.item',
-      isFitWidth: true
-    });
-    var refreshLayout = function() {
-      $container.isotope('layout');
-    };
-
-    $container.find('img').each(function() {
-      if (!this.complete) {
-        $(this).one('load error', refreshLayout);
-      }
-    });
-
-    $(window).resize(function() {
-      $container.isotope({
-        columnWidth: '.col-sm-3'
-      });
-    });
-
-    $container.isotope({
-      filter: '*'
-    });
-    refreshLayout();
+    var $container = $('#portfolio-grid');
+    if (!$container.length) return;
 
     // Filtering changes the grid height, so AOS trigger offsets below it go stale; recompute them.
     $container.on('arrangeComplete', function() {
@@ -41,8 +19,9 @@
     $('#filters').on('click', 'a', function(e) {
       e.preventDefault();
       var filterValue = $(this).attr('data-filter');
-      $container.isotope({
-        filter: filterValue
+      $container.children('.item').each(function() {
+        var matches = filterValue === '*' || $(this).is(filterValue);
+        $(this).toggle(matches);
       });
       $('#filters a').removeClass('active');
       $(this).addClass('active');
@@ -174,6 +153,20 @@
   };
   siteGalleryLightbox();
 
+  var splitTechTags = function() {
+    $('.work-tech').each(function() {
+      var $stack = $(this);
+      var labels = $stack.text().split('/').map(function(label) {
+        return label.trim();
+      }).filter(Boolean);
+      $stack.empty();
+      labels.forEach(function(label) {
+        $('<span class="tech-tag"></span>').text(label).appendTo($stack);
+      });
+    });
+  };
+  splitTechTags();
+
   var typefaceDial = function() {
     var $kit = $('.typeface-dial-kit');
     if (!$kit.length) return;
@@ -185,7 +178,10 @@
       typeface: 'Space Grotesk',
       weight: '600',
       size: '28',
-      tracking: '-0.035'
+      tracking: '-0.035',
+      projectTypeface: 'DM Sans',
+      projectWeight: '500',
+      projectSize: '16'
     };
 
     var setValue = function(key, value) {
@@ -193,6 +189,9 @@
       if (key === 'weight') $root.css('--name-weight', value);
       if (key === 'size') $root.css('--name-size', value + 'px');
       if (key === 'tracking') $root.css('--name-tracking', value + 'em');
+      if (key === 'project-typeface') $root.css('--project-typeface', '"' + value + '"');
+      if (key === 'project-weight') $root.css('--project-weight', value);
+      if (key === 'project-size') $root.css('--project-size', value + 'px');
     };
 
     var applySettings = function(settings) {
@@ -200,11 +199,20 @@
       $kit.find('#name-weight').val(settings.weight);
       $kit.find('#name-size').val(settings.size);
       $kit.find('#name-tracking').val(settings.tracking);
-      Object.keys(settings).forEach(function(key) { setValue(key, settings[key]); });
+      $kit.find('#project-typeface').val(settings.projectTypeface);
+      $kit.find('#project-weight').val(settings.projectWeight);
+      $kit.find('#project-size').val(settings.projectSize);
+      setValue('typeface', settings.typeface);
+      setValue('weight', settings.weight);
+      setValue('size', settings.size);
+      setValue('tracking', settings.tracking);
+      setValue('project-typeface', settings.projectTypeface);
+      setValue('project-weight', settings.projectWeight);
+      setValue('project-size', settings.projectSize);
     };
 
     var stored = null;
-    try { stored = JSON.parse(window.localStorage.getItem('anchit-name-typeface')); } catch (error) {}
+    try { stored = JSON.parse(window.localStorage.getItem('anchit-typeface-dial')); } catch (error) {}
     applySettings($.extend({}, defaults, stored || {}));
 
     $toggle.on('click', function() {
@@ -218,17 +226,20 @@
       var key = $control.attr('id').replace('name-', '');
       var value = $control.val();
       setValue(key, value);
-      try { window.localStorage.setItem('anchit-name-typeface', JSON.stringify({
+      try { window.localStorage.setItem('anchit-typeface-dial', JSON.stringify({
         typeface: $kit.find('#name-typeface').val(),
         weight: $kit.find('#name-weight').val(),
         size: $kit.find('#name-size').val(),
-        tracking: $kit.find('#name-tracking').val()
+        tracking: $kit.find('#name-tracking').val(),
+        projectTypeface: $kit.find('#project-typeface').val(),
+        projectWeight: $kit.find('#project-weight').val(),
+        projectSize: $kit.find('#project-size').val()
       })); } catch (error) {}
     });
 
     $kit.find('.typeface-dial-reset').on('click', function() {
       applySettings(defaults);
-      try { window.localStorage.removeItem('anchit-name-typeface'); } catch (error) {}
+      try { window.localStorage.removeItem('anchit-typeface-dial'); } catch (error) {}
     });
   };
   typefaceDial();
