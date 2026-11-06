@@ -33,6 +33,11 @@
     });
     refreshLayout();
 
+    // Filtering changes the grid height, so AOS trigger offsets below it go stale; recompute them.
+    $container.on('arrangeComplete', function() {
+      if (window.AOS) AOS.refresh();
+    });
+
     $('#filters').on('click', 'a', function(e) {
       e.preventDefault();
       var filterValue = $(this).attr('data-filter');
