@@ -14,14 +14,21 @@
   var balanceProjectGrids = function() {
     var gridView = document.body.getAttribute('data-project-view') === 'grid';
     document.querySelectorAll('.portfolio-home #portfolio-grid, .portfolio-home #tech-art > .container > .row.no-gutter').forEach(function(grid) {
+      grid.style.removeProperty('--preview-row-height');
       var cards = Array.from(grid.children).filter(function(card) { return card.classList.contains('item'); });
       cards.forEach(function(card) {
         card.style.removeProperty('grid-column');
         card.style.removeProperty('grid-row');
       });
       if (!gridView) return;
-      var columns = getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length;
+      var gridStyle = getComputedStyle(grid);
+      var columnWidths = gridStyle.gridTemplateColumns.trim().split(/\s+/);
+      var columns = columnWidths.length;
       if (columns < 2) return;
+      // Scale previews with their column width, including on very wide displays.
+      var rowGap = parseFloat(gridStyle.rowGap) || 0;
+      var rowHeight = Math.max(48, (parseFloat(columnWidths[0]) * .75 - rowGap) / 2);
+      grid.style.setProperty('--preview-row-height', rowHeight + 'px');
       var visible = cards.filter(function(card) { return getComputedStyle(card).display !== 'none'; });
       var nextRows = Array(columns).fill(1);
       var lastCards = Array(columns).fill(null);
