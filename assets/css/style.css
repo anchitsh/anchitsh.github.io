@@ -1321,27 +1321,17 @@ a:hover {
   min-width: 0;
 }
 
-.identity-title-row {
+.identity-experience {
   align-items: center;
   display: flex;
-  gap: 12px;
-  justify-content: space-between;
-}
-
-.experience-tag {
-  background: var(--minimal-chip-surface);
-  border-radius: 12px;
   color: #737373;
-  flex-shrink: 0;
-  font-size: 10px;
+  font-size: 11px;
+  gap: 6px;
   line-height: 1.5;
-  padding: 4px 8px;
-  white-space: nowrap;
+  margin: 4px 0 0;
 }
 
-@media (max-width: 600px) {
-  .identity-title-row { flex-wrap: wrap; gap: 6px 12px; }
-}
+.identity-experience svg { color: var(--minimal-accent); flex-shrink: 0; }
 
 .identity-name .navbar-brand {
   margin-right: 0;
