@@ -1993,7 +1993,6 @@ a:hover {
 }
 
 .portfolio-home::after {
-  border-left: 1px solid rgba(38, 38, 38, .1);
   border-right: 1px solid rgba(38, 38, 38, .1);
   content: "";
   grid-column: 2;
