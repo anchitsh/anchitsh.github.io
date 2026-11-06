@@ -2149,8 +2149,13 @@ body.detail-layout {
 }
 
 .portfolio-home {
-  /* 2000px main column, plus the 240px sidebar and 80px gutter. */
-  max-width: calc(2000px + 240px + 80px);
+  /* Cap the main column at 1000px, with desktop outer margins of at least 80px. */
+  max-width: calc(1000px + 240px + 80px);
+  width: calc(100% - 160px);
+}
+
+@media (min-width: 860px) and (max-width: 1023px) {
+  .portfolio-home { width: calc(100% - 48px); }
 }
 
 .portfolio-home::after {
