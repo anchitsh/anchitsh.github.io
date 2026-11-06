@@ -2019,7 +2019,7 @@ a:hover {
 
 .portfolio-home .item .item-wrap > .work-info {
   column-gap: 12px;
-  row-gap: 24px;
+  row-gap: 16px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 }
