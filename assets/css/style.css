@@ -633,19 +633,6 @@ body.detail-layout .detail-metadata .project-facts dd {
 }
 body.detail-layout [id^="page-section-"] { scroll-margin-top: 32px; }
 
-@media (max-width: 859px) {
-  body.detail-layout { display: flex; flex-direction: column; column-gap: 0; width: calc(100% - 32px); }
-  body.detail-layout::after { display: none; }
-  body.detail-layout > main,
-  body.detail-layout > .footer {
-    border-left: 1px solid rgba(38, 38, 38, .1);
-    border-right: 1px solid rgba(38, 38, 38, .1);
-  }
-  body.detail-layout .detail-sidebar { order: 1; padding: 24px 40px; }
-  body.detail-layout > .footer { order: 2; }
-  body.detail-layout .detail-sidebar-inner { position: static; height: auto; max-height: none; }
-}
-
 .site-footer-links a {
   color: #0d1e2d;
   display: inline-block;
@@ -2369,17 +2356,22 @@ body:not(.portfolio-home) .project-overview .project-heading h1 {
 }
 
 body.detail-layout .project-overview .project-heading {
-  align-items: baseline;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 24px;
-  justify-content: space-between;
+  align-items: start;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+body.detail-layout .project-overview .project-heading h1 {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 body.detail-layout .project-overview .project-actions {
+  align-self: start;
   gap: 18px;
   justify-content: flex-end;
-  margin: 0 0 0 auto;
+  margin: 0;
 }
 
 body.detail-layout .project-overview .project-actions a.readmore,
@@ -2719,6 +2711,27 @@ body:not(.portfolio-home) .project-pagination-link strong {
   body:not(.portfolio-home) .project-header + .project-copy {
     margin-top: 40px;
   }
+}
+
+@media (max-width: 480px) {
+  body.detail-layout .project-overview .project-actions {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 859px) {
+  body.detail-layout { display: flex; flex-direction: column; column-gap: 0; width: calc(100% - 32px); }
+  body.detail-layout::after { display: none; }
+  body.detail-layout > main,
+  body.detail-layout > .footer {
+    border-left: 1px solid rgba(38, 38, 38, .1);
+    border-right: 1px solid rgba(38, 38, 38, .1);
+  }
+  body.detail-layout .detail-sidebar { order: 1; padding: 24px 40px; }
+  body.detail-layout > .footer { order: 2; }
+  body.detail-layout .detail-sidebar-inner { position: static; height: auto; max-height: none; }
 }
 
 .site-footer-links a {
