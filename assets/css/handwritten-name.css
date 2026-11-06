@@ -1,4 +1,5 @@
 .portfolio-home .navbar-brand.identity-signature {
+  color: var(--minimal-accent);
   display: block;
   flex: 0 1 236px;
   line-height: 1;
