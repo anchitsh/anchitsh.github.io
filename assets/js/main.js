@@ -304,6 +304,7 @@
       $('<li></li>').append($link).appendTo($list);
     });
 
+    var collapseExpandedList = null;
     var expandableList = function($items, $button, limit) {
       var expanded = false;
       var update = function() {
@@ -312,9 +313,12 @@
         if (!expanded) $items.scrollTop(0);
         hidePreview();
       };
+      var collapse = function() { expanded = false; update(); };
       $button.prop('hidden', $items.children().length <= limit).on('click', function() {
         var pageY = window.scrollY;
+        if (!expanded && collapseExpandedList) collapseExpandedList();
         expanded = !expanded;
+        collapseExpandedList = expanded ? collapse : null;
         update();
         $button[0].getBoundingClientRect();
         window.scrollTo({ top: pageY, behavior: 'instant' });
