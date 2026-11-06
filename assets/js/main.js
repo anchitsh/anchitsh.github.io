@@ -195,12 +195,18 @@
     var hidePreview = function() { $preview.removeClass('is-visible'); };
     var placePreview = function(link, pointerY) {
       var bounds = link.getBoundingClientRect();
-      var width = $preview.outerWidth();
+      var contentLeft = document.getElementById('main').getBoundingClientRect().left;
+      // Keep the tilted card inside the space to the left of the main content.
+      var width = Math.min(240, contentLeft - 48);
+      if (width < 96) { hidePreview(); return false; }
+      $preview.css('width', width);
       var height = width * 9 / 16 + 8;
-      var left = Math.min(bounds.right + 20, window.innerWidth - width - 24);
+      var left = Math.max(20, bounds.left - width - 20);
       var centerY = typeof pointerY === 'number' ? pointerY : bounds.top + bounds.height / 2;
-      var top = Math.max(20, Math.min(centerY - height / 2, window.innerHeight - height - 20));
-      $preview.css({ left: Math.max(20, left), top: top });
+      var preferredTop = bounds.left - width - 20 >= 20 ? centerY - height / 2 : bounds.bottom + 16;
+      var top = Math.max(20, Math.min(preferredTop, window.innerHeight - height - 20));
+      $preview.css({ left: left, top: top });
+      return true;
     };
 
     $projects.each(function(index) {
@@ -213,8 +219,7 @@
       $link.on('mouseenter focus', function(event) {
         $previewImage.attr('src', $project.find('img').first().attr('src'));
         $preview[0].style.setProperty('--preview-angle', (index % 2 === 0 ? '-4' : '4') + 'deg');
-        placePreview(this, event.clientY);
-        $preview.addClass('is-visible');
+        $preview.toggleClass('is-visible', placePreview(this, event.clientY));
       }).on('mousemove', function(event) {
         placePreview(this, event.clientY);
       }).on('mouseleave blur', hidePreview).on('click', function(event) {
