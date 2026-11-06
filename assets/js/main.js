@@ -11,6 +11,46 @@
     document.body.classList.add('portfolio-home--no-mascot');
   }
 
+  var balanceProjectGrids = function() {
+    var gridView = document.body.getAttribute('data-project-view') === 'grid';
+    document.querySelectorAll('.portfolio-home #portfolio-grid, .portfolio-home #tech-art > .container > .row.no-gutter').forEach(function(grid) {
+      var cards = Array.from(grid.children).filter(function(card) { return card.classList.contains('item'); });
+      cards.forEach(function(card) {
+        card.style.removeProperty('grid-column');
+        card.style.removeProperty('grid-row');
+      });
+      if (!gridView) return;
+      var columns = getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length;
+      if (columns < 2) return;
+      var visible = cards.filter(function(card) { return getComputedStyle(card).display !== 'none'; });
+      var nextRows = Array(columns).fill(1);
+      var lastCards = Array(columns).fill(null);
+
+      // Fill the shortest column while retaining the tall-center rhythm.
+      visible.forEach(function(card, index) {
+        var column = nextRows.indexOf(Math.min.apply(null, nextRows));
+        var span = index % 6 === 1 || index % 6 === 3 ? 3 : 2;
+        var start = nextRows[column];
+        card.style.gridColumn = String(column + 1);
+        card.style.gridRow = start + ' / span ' + span;
+        nextRows[column] += span;
+        lastCards[column] = { card: card, start: start };
+      });
+
+      // Extend only each column's final preview to a shared section baseline.
+      var bottom = Math.max.apply(null, nextRows);
+      lastCards.forEach(function(last) {
+        if (last) last.card.style.gridRow = last.start + ' / span ' + (bottom - last.start);
+      });
+    });
+  };
+  $(balanceProjectGrids);
+  var gridBalanceFrame;
+  window.addEventListener('resize', function() {
+    window.cancelAnimationFrame(gridBalanceFrame);
+    gridBalanceFrame = window.requestAnimationFrame(balanceProjectGrids);
+  });
+
   var siteIstotope = function() {
     var $container = $('#portfolio-grid');
     if (!$container.length) return;
@@ -39,6 +79,7 @@
       });
       $('#filters a').removeClass('active').attr('aria-pressed', 'false');
       $(this).addClass('active').attr('aria-pressed', 'true');
+      balanceProjectGrids();
     });
   }
   // Thumbnails carry width/height attributes, so the grid can be laid out as soon as
@@ -54,6 +95,7 @@
       $('body').attr('data-project-view', view);
       $buttons.attr('aria-pressed', 'false');
       $(this).attr('aria-pressed', 'true');
+      balanceProjectGrids();
       // Refresh the active sidebar title after the cards change position.
       $(window).trigger('resize');
     });
