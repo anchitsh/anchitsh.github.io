@@ -1,14 +1,14 @@
 .portfolio-home .navbar-brand.identity-signature {
   display: block;
-  flex: 0 1 236px;
+  flex: 0 1 var(--signature-width, 236px);
   line-height: 1;
   max-width: 100%;
   min-width: 0;
   padding: 0;
-  width: 236px;
+  width: var(--signature-width, 236px);
 }
 
-.signature-drawing { display: block; height: 36px; max-width: 100%; overflow: visible; width: 236px; }
+.signature-drawing { display: block; height: var(--signature-height, 40px); max-width: 100%; overflow: visible; stroke-width: var(--signature-ink, 1.2); width: 100%; }
 .signature-stroke {
   animation: signature-write var(--stroke-duration) linear var(--stroke-delay) both;
   stroke-dasharray: 1;
@@ -24,3 +24,26 @@
 @media (prefers-reduced-motion: reduce) {
   .signature-stroke { animation: none; opacity: 1; stroke-dashoffset: 0; }
 }
+
+.signature-style-kit { bottom: 24px; color: var(--minimal-ink); font-size: 12px; position: fixed; right: 24px; z-index: 50; }
+.signature-kit-toggle { align-items: center; background: rgba(255, 255, 255, .94); border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 18px rgb(0 0 0 / 7%); color: inherit; display: flex; font: inherit; gap: 8px; padding: 11px 14px; }
+.signature-kit-toggle[aria-expanded="true"] { border-color: var(--minimal-accent); color: var(--minimal-accent); }
+.signature-kit-panel { background: #fff; border: 1px solid #ddd; border-radius: 16px; bottom: calc(100% + 12px); box-shadow: 0 16px 60px rgb(0 0 0 / 12%); display: flex; flex-direction: column; gap: 16px; max-height: calc(100dvh - 100px); overflow-y: auto; padding: 18px; position: absolute; right: 0; width: min(340px, calc(100vw - 32px)); }
+.signature-kit-panel[hidden] { display: none; }
+.signature-kit-heading { align-items: center; display: flex; font-weight: 500; justify-content: space-between; }
+.signature-kit-heading > div { align-items: center; display: flex; gap: 12px; }
+.signature-kit-reset, .signature-kit-close { background: none; border: 0; color: var(--minimal-accent); font: inherit; padding: 0; }
+.signature-kit-close { color: #888; font-size: 20px; line-height: 1; }
+.signature-font-choices { display: flex; flex-direction: column; gap: 8px; }
+.signature-font-choice { align-items: center; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; color: var(--minimal-ink); display: grid; font: inherit; gap: 8px; grid-template-columns: 70px minmax(0, 1fr); padding: 8px 10px; text-align: left; }
+.signature-font-choice > span { display: flex; flex-direction: column; font-size: 11px; gap: 3px; }
+.signature-font-choice small { color: #999; font-size: 9px; }
+.signature-font-choice[aria-pressed="true"] { border-color: var(--minimal-accent); background: #fafcfb; }
+.signature-font-sample { display: block; fill: none; height: 34px; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.25; width: 100%; }
+.signature-kit-panel label { color: #737373; display: flex; font-size: 11px; justify-content: space-between; margin: 0 0 8px; }
+.signature-kit-panel output { color: #999; font-variant-numeric: tabular-nums; }
+.signature-kit-panel input { accent-color: var(--minimal-accent); display: block; margin: 0; width: 100%; }
+.signature-kit-replay { background: var(--minimal-chip-surface); border: 0; border-radius: 8px; color: var(--minimal-ink); font: inherit; padding: 9px; }
+.signature-style-kit button:focus-visible, .signature-style-kit input:focus-visible { outline: 2px solid var(--minimal-accent); outline-offset: 3px; }
+.portfolio-home.is-in-vortex .signature-style-kit { opacity: 0; pointer-events: none; visibility: hidden; }
+@media (max-width: 480px) { .signature-style-kit { bottom: 16px; right: 16px; } }

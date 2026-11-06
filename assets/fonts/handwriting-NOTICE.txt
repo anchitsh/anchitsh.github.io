@@ -1,10 +1,20 @@
-The name's single-stroke lettering uses selected glyphs from the public-domain
-Hershey Script 1-stroke (alt) data in Hershey Text JS:
-https://github.com/techninja/hersheytextjs/blob/master/hersheytext.json
+Name studies use name-only subsets of four EMS single-line typefaces, licensed
+under the SIL Open Font License 1.1. The complete license is in OFL.txt.
 
-Only the glyph paths needed for "Anchit Sharma." are embedded in index.html.
-The project identifies its JSON font data as Public Domain:
-https://github.com/techninja/hersheytextjs#readme
+EMS Capitol: derived from Sacramento by Brian J. Bonislawsky, Astigmatic One
+Eye Typographic Institute.
+EMS Allure: derived from Allura by Rob Leuschke, TypeSETit.
+EMS Decorous Script: derived from Petit Formal Script by Impallari Type.
+EMS Society: derived from Mrs Saint Delafield by Alejandro Paul, Sudtipos.
 
-Layout, stroke timing, and animation are implemented locally. No external font
-request or runtime dependency is required for the handwriting.
+EMS single-line adaptations: Sheldon B. Michaels.
+SVG font conversion: Windell H. Oskay.
+
+Sources:
+https://github.com/golanlevin/p5-single-line-font-resources/tree/main/p5_single_line_svg_fonts/single_line_svg_fonts/EMS
+https://github.com/techninja/hersheytextjs/blob/master/svg_fonts/EMSAllure.svg
+
+Only paths for "Anchit Sharma." are included in signature-fonts.js. They are
+scaled and gently smoothed for display. Layout and stroke timing are local.
+The preview names Capitol, Allure, Decorous, and Society identify these subsets.
+No external font request or runtime dependency is required.
