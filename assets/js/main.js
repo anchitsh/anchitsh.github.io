@@ -181,7 +181,7 @@
   var splitTechTags = function() {
     $('.work-tech').each(function() {
       var $stack = $(this);
-      $stack.addClass('label-treatment').attr('data-treatment', 'inline');
+      $stack.addClass('label-treatment').attr('data-treatment', 'filled');
       var labels = $stack.text().split('/').map(function(label) {
         return label.trim();
       }).filter(Boolean);
