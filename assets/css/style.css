@@ -1307,13 +1307,6 @@ a:hover {
   gap: 18px;
 }
 
-.identity-mascot {
-  flex: 0 0 64px;
-  height: 64px;
-  object-fit: contain;
-  width: 64px;
-}
-
 .identity-name {
   display: flex;
   flex: 1;
