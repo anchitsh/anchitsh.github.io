@@ -1305,10 +1305,10 @@ a:hover {
 }
 
 .identity-mascot {
-  flex: 0 0 var(--mascot-size, 64px);
-  height: var(--mascot-size, 64px);
+  flex: 0 0 64px;
+  height: 64px;
   object-fit: contain;
-  width: var(--mascot-size, 64px);
+  width: 64px;
 }
 
 .identity-name {
@@ -1323,75 +1323,6 @@ a:hover {
   white-space: normal;
 }
 
-.mascot-render {
-  filter: var(--mascot-filter, none);
-  transform: rotate(var(--mascot-tilt, 0deg));
-}
-
-.mascot-dial {
-  bottom: 24px;
-  color: var(--minimal-ink);
-  font-size: 12px;
-  right: 24px;
-  position: fixed;
-  z-index: 31;
-}
-
-.mascot-dial-toggle {
-  align-items: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, .08);
-  color: inherit;
-  display: flex;
-  font: inherit;
-  gap: 8px;
-  padding: 10px 14px;
-}
-
-.mascot-dial-toggle[aria-expanded="true"] {
-  border-color: var(--minimal-accent);
-  color: var(--minimal-accent);
-}
-
-.mascot-dial-panel {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  bottom: calc(100% + 12px);
-  box-shadow: 0 16px 60px rgba(0, 0, 0, .12);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  right: 0;
-  max-height: calc(100vh - 110px);
-  overflow-y: auto;
-  padding: 18px;
-  position: absolute;
-  width: 260px;
-}
-
-.mascot-dial-heading,
-.mascot-dial-panel label {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
-.mascot-dial-heading { font-weight: 600; }
-.mascot-dial-panel label { margin: 4px 0 0; }
-.mascot-dial-panel output { color: #777; }
-.mascot-reset { background: none; border: 0; color: var(--minimal-accent); font: inherit; padding: 0; }
-.mascot-dial-preview { align-items: center; background: #f5f6f8; border-radius: 10px; display: flex; height: 130px; justify-content: center; }
-.mascot-dial-preview img { height: 96px; object-fit: contain; width: 96px; }
-.mascot-dial-panel select { background: #fff; border: 1px solid #ddd; border-radius: 6px; color: inherit; font: inherit; padding: 8px; width: 100%; }
-.mascot-dial-panel input { accent-color: var(--minimal-accent); width: 100%; }
-
-@media (max-width: 480px) {
-  .mascot-dial { bottom: 16px; right: 16px; }
-  .mascot-dial-panel { width: min(260px, calc(100vw - 32px)); }
-}
 
 .section-label {
   color: var(--minimal-muted);
@@ -1693,6 +1624,8 @@ a:hover {
   margin-left: 0;
 }
 
+.portfolio-filter-row > .col-12 { padding-left: 0; padding-right: 0; }
+
 .portfolio-filter-row [data-aos] {
   opacity: 1 !important;
   transform: none !important;
@@ -1985,8 +1918,12 @@ a:hover {
 .portfolio-home .section > .container,
 .portfolio-home .footer > .container {
   border: 0;
+  padding-left: 80px;
+  padding-right: 80px;
   width: 100%;
 }
+
+.portfolio-home .reference-rule { max-width: none; margin-left: 80px; margin-right: 80px; }
 
 .portfolio-home .contact-rail { display: contents; }
 
@@ -2051,11 +1988,6 @@ a:hover {
   position: static;
 }
 
-.portfolio-home .site-portfolio > .container {
-  padding-left: 104px;
-  padding-right: 104px;
-}
-
 .portfolio-home .site-portfolio > .container > .row {
   margin-left: 0;
   margin-right: 0;
@@ -2094,13 +2026,19 @@ a:hover {
   }
 
   .portfolio-home .contact-column-left { grid-column: 1 / -1; }
-  .portfolio-home .site-portfolio > .container { padding-left: 48px; padding-right: 48px; }
+  .portfolio-home .custom-navbar > .container,
+  .portfolio-home .section > .container,
+  .portfolio-home .footer > .container { padding-left: 48px; padding-right: 48px; }
+  .portfolio-home .reference-rule { margin-left: 48px; margin-right: 48px; }
   .portfolio-home .contact-column .side-contact { position: static; }
   .portfolio-home .item .item-wrap > .work-info .work-tech { max-width: none; }
 }
 
 @media (max-width: 480px) {
-  .portfolio-home .site-portfolio > .container { padding-left: 24px; padding-right: 24px; }
+  .portfolio-home .custom-navbar > .container,
+  .portfolio-home .section > .container,
+  .portfolio-home .footer > .container { padding-left: 24px; padding-right: 24px; }
+  .portfolio-home .reference-rule { margin-left: 24px; margin-right: 24px; }
 }
 
 .site-footer-links a {
