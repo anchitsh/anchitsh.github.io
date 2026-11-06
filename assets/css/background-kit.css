@@ -10,6 +10,14 @@ html:has(.portfolio-home) {
   isolation: isolate;
 }
 
+/* Keep the chosen paper tone under content; texture only fills the empty gutters. */
+.portfolio-home > .custom-navbar,
+.portfolio-home > main,
+.portfolio-home > .footer,
+.portfolio-home .contact-column-left {
+  background: var(--canvas-paper);
+}
+
 .portfolio-home::before {
   animation: none;
   background-color: transparent;
@@ -61,8 +69,8 @@ html:has(.portfolio-home) {
 .canvas-kit-panel output { color: #888; font-variant-numeric: tabular-nums; }
 .canvas-kit-panel input { accent-color: var(--minimal-accent); display: block; margin: 0; width: 100%; }
 .canvas-kit-panel input:disabled { opacity: .35; }
-.canvas-tones { display: flex; gap: 6px; }
-.canvas-tone { background: var(--tone); border: 1px solid #e5e5e5; border-radius: 6px; color: #737373; flex: 1; font: inherit; font-size: 11px; padding: 7px; }
+.canvas-tones { display: grid; gap: 6px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.canvas-tone { background: var(--tone); border: 1px solid #e5e5e5; border-radius: 6px; color: #737373; font: inherit; font-size: 11px; padding: 7px; }
 .canvas-style-kit button:focus-visible, .canvas-style-kit input:focus-visible { outline: 2px solid var(--minimal-accent); outline-offset: 3px; }
 .portfolio-home.is-in-vortex .canvas-style-kit { opacity: 0; pointer-events: none; visibility: hidden; }
 

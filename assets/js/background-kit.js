@@ -8,7 +8,11 @@
   var strength = kit.querySelector('#canvas-strength');
   var spacing = kit.querySelector('#canvas-spacing');
   var patterns = ['plain', 'dots', 'grid', 'crosshairs', 'grain', 'rules'];
-  var tones = { white: '#ffffff', chalk: '#f6f7f5', warm: '#faf8f4' };
+  var tones = {
+    white: '#ffffff', chalk: '#f6f7f5', warm: '#faf8f4',
+    oat: '#f2eee5', sand: '#f3ecde', mist: '#eef2f4',
+    sage: '#eef3ed', rose: '#f7eeee', lilac: '#f2eff7'
+  };
   var defaults = { pattern: 'plain', strength: 4, spacing: 32, tone: 'white' };
   var settings = Object.assign({}, defaults);
   try {
