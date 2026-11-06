@@ -1393,7 +1393,7 @@ a:hover {
 
 .career-date {
   color: var(--minimal-muted);
-  flex: 0 0 128px;
+  flex: 0 0 104px;
   margin: 0;
 }
 
@@ -1403,7 +1403,7 @@ a:hover {
 }
 
 .career-detail h3 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1.45;
   margin: 0;
@@ -1411,8 +1411,155 @@ a:hover {
 
 .career-detail p {
   color: var(--minimal-muted);
+  font-size: 12px;
   line-height: 1.45;
   margin: 0;
+}
+
+.project-navigator {
+  bottom: 24px;
+  color: var(--minimal-ink);
+  font-size: 12px;
+  position: fixed;
+  right: 24px;
+  z-index: 30;
+}
+
+.project-index-toggle {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .08);
+  color: inherit;
+  display: flex;
+  font: inherit;
+  gap: 10px;
+  margin-left: auto;
+  padding: 12px 14px;
+}
+
+.project-index-toggle:hover,
+.project-index-toggle[aria-expanded="true"] {
+  color: var(--minimal-blue);
+  border-color: var(--minimal-blue);
+}
+
+.project-index-position,
+.project-index-number { font-variant-numeric: tabular-nums; }
+
+.project-index-position { color: #777; }
+
+.project-navigator-panel {
+  background: rgba(255, 255, 255, .98);
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  bottom: calc(100% + 12px);
+  box-shadow: 0 16px 60px rgba(0, 0, 0, .12);
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+  padding: 16px;
+  position: absolute;
+  right: 0;
+  width: min(380px, calc(100vw - 32px));
+}
+
+/* Keep the pointer inside the index while crossing the gap above its button. */
+.project-navigator::before {
+  bottom: 100%;
+  content: "";
+  height: 12px;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+
+.project-navigator-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.project-navigator-heading > span:first-child { font-weight: 600; }
+.project-navigator-heading > span:last-child { color: #777; font-size: 11px; }
+.project-total { color: var(--minimal-blue); margin-left: 6px; }
+
+.project-index-preview {
+  background: var(--minimal-surface);
+  border: 1px solid #eee;
+  border-radius: 10px;
+  margin: 0 2px 18px;
+  overflow: hidden;
+  transform: rotate(-1deg);
+}
+
+.project-index-image {
+  aspect-ratio: 16 / 9;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  width: 100%;
+}
+
+.project-index-caption {
+  align-items: center;
+  background: #fff;
+  display: flex;
+  font-size: 11px;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.project-index-number { color: #777; flex-shrink: 0; }
+
+.project-index-grid {
+  display: grid;
+  gap: 7px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.project-index-tile {
+  border: 2px solid transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .15s ease, border-color .15s ease;
+}
+
+.project-index-tile img {
+  aspect-ratio: 1;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.project-index-tile span {
+  background: rgba(0, 0, 0, .65);
+  bottom: 0;
+  color: #fff;
+  font-size: 9px;
+  left: 0;
+  line-height: 1.3;
+  padding: 2px 4px;
+  position: absolute;
+}
+
+.project-index-tile[aria-current="location"],
+.project-index-tile:hover,
+.project-index-tile:focus-visible { border-color: var(--minimal-blue); }
+.project-index-tile:hover { transform: translateY(-3px); }
+.portfolio-home .item { scroll-margin-top: 32px; }
+
+@media (max-width: 480px) {
+  .career-entry { flex-direction: column; gap: 6px; }
+  .career-entry .career-date { flex-basis: auto; }
+  .project-navigator { bottom: 16px; right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-index-tile { transition: none; }
 }
 
 .header-links {
