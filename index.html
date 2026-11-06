@@ -29,7 +29,7 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css?v=20261106170000" rel="stylesheet">
@@ -65,6 +65,38 @@
       </div>
     </div>
   </nav>
+
+  <aside class="typeface-dial-kit" aria-label="Name typeface controls">
+    <button class="typeface-dial-toggle" type="button" aria-expanded="false" aria-controls="typeface-dial-panel">Aa</button>
+    <div class="typeface-dial-panel" id="typeface-dial-panel" hidden>
+      <div class="typeface-dial-heading">
+        <span>Name typeface</span>
+        <button class="typeface-dial-reset" type="button">Reset</button>
+      </div>
+      <label>
+        Typeface
+        <select id="name-typeface">
+          <option value="Space Grotesk">Space Grotesk</option>
+          <option value="DM Sans">DM Sans</option>
+          <option value="Manrope">Manrope</option>
+          <option value="Inter">Inter</option>
+          <option value="Syne">Syne</option>
+        </select>
+      </label>
+      <label>
+        Weight
+        <input id="name-weight" type="range" min="400" max="800" step="100" value="600">
+      </label>
+      <label>
+        Size
+        <input id="name-size" type="range" min="20" max="48" step="1" value="28">
+      </label>
+      <label>
+        Tracking
+        <input id="name-tracking" type="range" min="-0.08" max="0.05" step="0.005" value="-0.035">
+      </label>
+    </div>
+  </aside>
   
   <main id="main">
 	    <section class="section intro-section" aria-labelledby="intro-heading">
@@ -862,7 +894,7 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js?v=20261106182123" defer></script>
+  <script src="assets/js/main.js?v=20261106173000" defer></script>
 
 </body>
 

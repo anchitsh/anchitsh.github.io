@@ -174,6 +174,65 @@
   };
   siteGalleryLightbox();
 
+  var typefaceDial = function() {
+    var $kit = $('.typeface-dial-kit');
+    if (!$kit.length) return;
+
+    var $toggle = $kit.find('.typeface-dial-toggle');
+    var $panel = $kit.find('.typeface-dial-panel');
+    var $root = $(':root');
+    var defaults = {
+      typeface: 'Space Grotesk',
+      weight: '600',
+      size: '28',
+      tracking: '-0.035'
+    };
+
+    var setValue = function(key, value) {
+      if (key === 'typeface') $root.css('--name-typeface', '"' + value + '"');
+      if (key === 'weight') $root.css('--name-weight', value);
+      if (key === 'size') $root.css('--name-size', value + 'px');
+      if (key === 'tracking') $root.css('--name-tracking', value + 'em');
+    };
+
+    var applySettings = function(settings) {
+      $kit.find('#name-typeface').val(settings.typeface);
+      $kit.find('#name-weight').val(settings.weight);
+      $kit.find('#name-size').val(settings.size);
+      $kit.find('#name-tracking').val(settings.tracking);
+      Object.keys(settings).forEach(function(key) { setValue(key, settings[key]); });
+    };
+
+    var stored = null;
+    try { stored = JSON.parse(window.localStorage.getItem('anchit-name-typeface')); } catch (error) {}
+    applySettings($.extend({}, defaults, stored || {}));
+
+    $toggle.on('click', function() {
+      var open = $toggle.attr('aria-expanded') === 'true';
+      $toggle.attr('aria-expanded', String(!open));
+      $panel.prop('hidden', open);
+    });
+
+    $kit.find('select, input').on('input change', function() {
+      var $control = $(this);
+      var key = $control.attr('id').replace('name-', '');
+      var value = $control.val();
+      setValue(key, value);
+      try { window.localStorage.setItem('anchit-name-typeface', JSON.stringify({
+        typeface: $kit.find('#name-typeface').val(),
+        weight: $kit.find('#name-weight').val(),
+        size: $kit.find('#name-size').val(),
+        tracking: $kit.find('#name-tracking').val()
+      })); } catch (error) {}
+    });
+
+    $kit.find('.typeface-dial-reset').on('click', function() {
+      applySettings(defaults);
+      try { window.localStorage.removeItem('anchit-name-typeface'); } catch (error) {}
+    });
+  };
+  typefaceDial();
+
   // Start the reveal animations on DOM ready rather than window.load, so content
   // isn't held invisible while every thumbnail finishes downloading.
   $(function() {

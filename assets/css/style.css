@@ -1132,6 +1132,10 @@ body::before {
   --minimal-surface: #f5f5f5;
   --minimal-blue: #002fa7;
   --minimal-blue-pale: #e5eaf6;
+  --name-typeface: "Space Grotesk";
+  --name-weight: 600;
+  --name-size: 28px;
+  --name-tracking: -.035em;
 }
 
 html {
@@ -1179,10 +1183,93 @@ a:hover {
 
 .custom-navbar .navbar-brand {
   color: var(--minimal-ink);
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -.035em;
+  font-family: var(--name-typeface), sans-serif;
+  font-size: var(--name-size);
+  font-weight: var(--name-weight);
+  letter-spacing: var(--name-tracking);
   line-height: 1.15;
+}
+
+.typeface-dial-kit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+}
+
+.typeface-dial-toggle,
+.typeface-dial-panel {
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid rgba(38, 38, 38, .16);
+  box-shadow: 0 10px 30px rgba(38, 38, 38, .08);
+}
+
+.typeface-dial-toggle {
+  border-radius: 999px;
+  color: var(--minimal-ink);
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  height: 40px;
+  width: 40px;
+}
+
+.typeface-dial-toggle:hover,
+.typeface-dial-toggle[aria-expanded="true"] {
+  background: var(--minimal-blue-pale);
+  color: var(--minimal-blue);
+}
+
+.typeface-dial-panel {
+  border-radius: 8px;
+  bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  position: absolute;
+  right: 0;
+  width: 220px;
+}
+
+.typeface-dial-heading {
+  align-items: center;
+  display: flex;
+  font-size: 12px;
+  font-weight: 600;
+  justify-content: space-between;
+}
+
+.typeface-dial-reset {
+  background: transparent;
+  border: 0;
+  color: var(--minimal-blue);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+}
+
+.typeface-dial-panel label {
+  color: var(--minimal-muted);
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  gap: 5px;
+}
+
+.typeface-dial-panel select,
+.typeface-dial-panel input {
+  accent-color: var(--minimal-blue);
+  width: 100%;
+}
+
+.typeface-dial-panel select {
+  background: #fff;
+  border: 1px solid rgba(38, 38, 38, .16);
+  border-radius: 4px;
+  color: var(--minimal-ink);
+  font: inherit;
+  padding: 6px 8px;
 }
 
 .header-title {
@@ -1546,5 +1633,10 @@ a:hover {
   .footer-contact {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .typeface-dial-kit {
+    bottom: 12px;
+    right: 12px;
   }
 }
