@@ -1136,8 +1136,8 @@ body::before {
   --minimal-ink: #262626;
   --minimal-muted: #a3a3a3;
   --minimal-surface: #f5f5f5;
-  --minimal-blue: #002fa7;
-  --minimal-blue-pale: #e5eaf6;
+  --minimal-accent: #21754e;
+  --minimal-accent-pale: #e8f2ec;
   --name-weight: 600;
   --name-size: 24px;
   --name-tracking: -.035em;
@@ -1159,12 +1159,12 @@ body {
 
 a {
   color: inherit;
-  text-decoration-color: rgba(0, 47, 167, .22);
+  text-decoration-color: rgba(33, 117, 78, .22);
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
 }
 
 .custom-navbar {
@@ -1242,7 +1242,7 @@ a:hover {
 }
 
 .side-contact a:hover {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
 }
 
 .side-contact-email {
@@ -1352,8 +1352,8 @@ a:hover {
 }
 
 .mascot-dial-toggle[aria-expanded="true"] {
-  border-color: var(--minimal-blue);
-  color: var(--minimal-blue);
+  border-color: var(--minimal-accent);
+  color: var(--minimal-accent);
 }
 
 .mascot-dial-panel {
@@ -1383,11 +1383,11 @@ a:hover {
 .mascot-dial-heading { font-weight: 600; }
 .mascot-dial-panel label { margin: 4px 0 0; }
 .mascot-dial-panel output { color: #777; }
-.mascot-reset { background: none; border: 0; color: var(--minimal-blue); font: inherit; padding: 0; }
+.mascot-reset { background: none; border: 0; color: var(--minimal-accent); font: inherit; padding: 0; }
 .mascot-dial-preview { align-items: center; background: #f5f6f8; border-radius: 10px; display: flex; height: 130px; justify-content: center; }
 .mascot-dial-preview img { height: 96px; object-fit: contain; width: 96px; }
 .mascot-dial-panel select { background: #fff; border: 1px solid #ddd; border-radius: 6px; color: inherit; font: inherit; padding: 8px; width: 100%; }
-.mascot-dial-panel input { accent-color: var(--minimal-blue); width: 100%; }
+.mascot-dial-panel input { accent-color: var(--minimal-accent); width: 100%; }
 
 @media (max-width: 480px) {
   .mascot-dial { bottom: 16px; left: 16px; }
@@ -1433,14 +1433,14 @@ a:hover {
 }
 
 .intro-summary a {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
   text-decoration: underline;
-  text-decoration-color: rgba(0, 47, 167, .28);
+  text-decoration-color: rgba(33, 117, 78, .28);
 }
 
 .intro-summary a:hover {
-  background: var(--minimal-blue-pale);
-  text-decoration-color: var(--minimal-blue);
+  background: var(--minimal-accent-pale);
+  text-decoration-color: var(--minimal-accent);
 }
 
 .career-timeline {
@@ -1513,7 +1513,7 @@ a:hover {
   align-self: flex-start;
   background: none;
   border: 0;
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
   font: inherit;
   font-size: 11px;
   margin-top: 12px;
@@ -1562,11 +1562,11 @@ a:hover {
 .project-toc-link:hover,
 .project-toc-link:focus-visible,
 .project-toc-link[aria-current="location"] {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
 }
 
 .project-toc-link:focus-visible {
-  outline: 1px solid var(--minimal-blue);
+  outline: 1px solid var(--minimal-accent);
   outline-offset: 2px;
 }
 
@@ -1665,10 +1665,10 @@ a:hover {
 
 .header-links a,
 .filters a {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
   font-size: 14px;
   text-decoration: underline;
-  text-decoration-color: rgba(0, 47, 167, .22);
+  text-decoration-color: rgba(33, 117, 78, .22);
   text-underline-offset: 3px;
 }
 
@@ -1676,9 +1676,9 @@ a:hover {
 .filters a:hover,
 .filters a:focus,
 .filters a:active {
-  background: var(--minimal-blue-pale);
-  color: var(--minimal-blue);
-  text-decoration-color: var(--minimal-blue);
+  background: var(--minimal-accent-pale);
+  color: var(--minimal-accent);
+  text-decoration-color: var(--minimal-accent);
 }
 
 .site-portfolio:first-child {
@@ -1846,7 +1846,7 @@ a:hover {
 }
 
 .item .item-wrap:hover .work-info {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
 }
 
 .item .item-wrap:hover .work-info span {
@@ -1885,8 +1885,8 @@ a:hover {
 
 .footer-email:hover,
 .footer-social a:hover {
-  border-color: var(--minimal-blue);
-  color: var(--minimal-blue);
+  border-color: var(--minimal-accent);
+  color: var(--minimal-accent);
 }
 
 .footer-social {
@@ -2084,9 +2084,9 @@ a:hover {
 }
 
 .site-footer-links a {
-  color: var(--minimal-blue);
+  color: var(--minimal-accent);
   font-size: 14px;
-  text-decoration-color: rgba(0, 47, 167, .22);
+  text-decoration-color: rgba(33, 117, 78, .22);
 }
 
 .site-footer-copy {
