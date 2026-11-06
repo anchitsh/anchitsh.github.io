@@ -15,8 +15,8 @@
   }
   if (!sources.length) { section.hidden = true; return; }
   var wallColumns = 8;
-  // Fill the wall with roughly two passes through the previews, then stop.
-  var rings = Math.max(1, Math.floor(sources.length * 2 / wallColumns));
+  // Three passes keep the wall full all the way into the distance.
+  var rings = Math.max(1, Math.floor(sources.length * 3 / wallColumns));
   section.dataset.vortexSources = sources.length;
   section.dataset.vortexTiles = rings * wallColumns;
   section.dataset.vortexProjects = projects.length;
@@ -90,8 +90,8 @@
     var drift = reducedMotion.matches ? [0, 0] : pointer;
     var rayX = (x - (.5 + Math.sin(progress * 2) * .015 + drift[0] * .015)) * (canvas.width / canvas.height);
     var rayY = y - (.5 + Math.cos(progress * 1.8) * .01 + drift[1] * .015);
-    var depth = 1.45 / Math.max(Math.hypot(rayX, rayY), .025);
-    var row = Math.log(depth / 1.75) * 2.6 + progress * .55;
+    var depth = 1.45 / Math.max(Math.hypot(rayX, rayY), .001);
+    var row = Math.log(depth / 1.75) * 2.6 + progress * 1.6;
     if (row < 0 || row >= rings) return -1;
     var angle = Math.atan2(rayY, rayX) / (Math.PI * 2) + .5 + Math.log(depth) * .02 + progress * .025;
     angle = ((angle % 1) + 1) % 1;
@@ -175,9 +175,9 @@
         'void main() {',
         '  vec2 center = vec2(0.5 + sin(uProgress * 2.0) * 0.015, 0.5 + cos(uProgress * 1.8) * 0.01) + uPointer * 0.015;',
         '  vec2 ray = (vUV - center) * vec2(uResolution.x / uResolution.y, 1.0);',
-        '  float radius = max(length(ray), 0.025);',
+        '  float radius = max(length(ray), 0.001);',
         '  float depth = 1.45 / radius;',
-        '  float ringPosition = log(depth / 1.75) * 2.6 + uProgress * 0.55;',
+        '  float ringPosition = log(depth / 1.75) * 2.6 + uProgress * 1.6;',
         '  vec3 dark = vec3(0.025, 0.03, 0.03);',
         '  if (ringPosition < 0.0 || ringPosition >= uRings) { gl_FragColor = vec4(dark, 1.0); return; }',
         '  float angle = atan(ray.y, ray.x) / 6.2831853 + 0.5;',

@@ -44,13 +44,13 @@
 }
 
 .project-vortex-back {
-  background: rgba(0, 0, 0, .55);
+  background: rgba(255, 255, 255, .84);
   -webkit-backdrop-filter: blur(18px) saturate(.7);
   backdrop-filter: blur(18px) saturate(.7);
-  border: 1px solid rgba(255, 255, 255, .2);
+  border: 1px solid rgba(255, 255, 255, .7);
   border-radius: 999px;
   bottom: 24px;
-  color: #fff;
+  color: var(--minimal-ink);
   font-size: 11px;
   left: 50%;
   padding: 9px 14px;
@@ -60,17 +60,17 @@
   z-index: 2;
 }
 
-.project-vortex-back:hover { background: rgba(0, 0, 0, .75); color: #fff; }
+.project-vortex-back:hover { background: rgba(255, 255, 255, .96); color: var(--minimal-accent); }
 .project-vortex-back:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
 .project-vortex-card {
-  background: rgba(10, 12, 12, .8);
+  background: rgba(255, 255, 255, .88);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, .18);
+  border: 1px solid rgba(255, 255, 255, .7);
   border-radius: 12px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
-  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .12);
+  color: var(--minimal-ink);
   max-width: calc(100% - 32px);
   padding: 14px;
   pointer-events: none;
@@ -79,9 +79,9 @@
   z-index: 3;
 }
 .project-vortex-card[hidden] { display: none; }
-.project-vortex-card h3 { color: #fff; font-size: 13px; font-weight: 500; line-height: 1.4; margin: 0; }
-.project-vortex-card-role { color: rgba(255, 255, 255, .55); font-size: 10px; line-height: 1.5; margin: 4px 0 0; }
-.project-vortex-card-description { color: rgba(255, 255, 255, .75); display: -webkit-box; font-size: 12px; line-height: 1.5; margin: 10px 0 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.project-vortex-card h3 { color: var(--minimal-ink); font-size: 13px; font-weight: 500; line-height: 1.4; margin: 0; }
+.project-vortex-card-role { color: #888; font-size: 10px; line-height: 1.5; margin: 4px 0 0; }
+.project-vortex-card-description { color: #666; display: -webkit-box; font-size: 12px; line-height: 1.5; margin: 10px 0 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 
 .project-vortex-fallback {
   display: grid;
