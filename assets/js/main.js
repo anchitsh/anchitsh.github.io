@@ -181,16 +181,73 @@
   var splitTechTags = function() {
     $('.work-tech').each(function() {
       var $stack = $(this);
+      $stack.addClass('label-treatment').attr('data-treatment', 'inline');
       var labels = $stack.text().split('/').map(function(label) {
         return label.trim();
       }).filter(Boolean);
       $stack.empty();
       labels.forEach(function(label) {
-        $('<span class="tech-tag"></span>').text(label).appendTo($stack);
+        $('<span class="tech-tag label-token"></span>').text(label).appendTo($stack);
       });
     });
   };
   splitTechTags();
+
+  var labelStyleKit = function() {
+    var $kit = $('.label-style-kit');
+    if (!$kit.length) return;
+    var $toggle = $kit.find('.label-kit-toggle');
+    var $panel = $kit.find('.label-kit-panel');
+    var defaults = { treatment: 'inline', size: 10, weight: 400, tracking: 0 };
+    var settings = $.extend({}, defaults);
+    try { settings = $.extend(settings, JSON.parse(localStorage.getItem('anchit-label-style-kit')) || {}); } catch (error) {}
+
+    var apply = function() {
+      if (['inline', 'outline', 'caps', 'filled'].indexOf(settings.treatment) < 0) settings.treatment = defaults.treatment;
+      settings.size = Math.max(9, Math.min(14, Number(settings.size) || defaults.size));
+      settings.weight = [400, 500, 600].indexOf(Number(settings.weight)) >= 0 ? Number(settings.weight) : defaults.weight;
+      settings.tracking = Math.max(0, Math.min(.12, Number(settings.tracking) || 0));
+      $('.work-tech.label-treatment').attr('data-treatment', settings.treatment);
+      document.documentElement.style.setProperty('--label-size', settings.size + 'px');
+      document.documentElement.style.setProperty('--label-weight', settings.weight);
+      document.documentElement.style.setProperty('--label-tracking', settings.tracking + 'em');
+      $kit.find('[data-label-choice]').each(function() {
+        $(this).attr('aria-pressed', String($(this).attr('data-label-choice') === settings.treatment));
+      });
+      ['size', 'weight', 'tracking'].forEach(function(key) {
+        $kit.find('#label-' + key).val(settings[key]);
+      });
+      $kit.find('#label-size-value').text(settings.size + 'px');
+      $kit.find('#label-weight-value').text(settings.weight);
+      $kit.find('#label-tracking-value').text(settings.tracking.toFixed(2) + 'em');
+    };
+    var save = function() {
+      try { localStorage.setItem('anchit-label-style-kit', JSON.stringify(settings)); } catch (error) {}
+    };
+    var close = function() { $panel.prop('hidden', true); $toggle.attr('aria-expanded', 'false'); };
+    $toggle.on('click', function() {
+      var open = $panel.prop('hidden');
+      $panel.prop('hidden', !open);
+      $toggle.attr('aria-expanded', String(open));
+    });
+    $kit.find('[data-label-choice]').on('click', function() {
+      settings.treatment = $(this).attr('data-label-choice');
+      apply(); save();
+    });
+    $kit.find('input').on('input change', function() {
+      settings[this.id.replace('label-', '')] = this.value;
+      apply(); save();
+    });
+    $kit.find('.label-kit-reset').on('click', function() {
+      settings = $.extend({}, defaults);
+      apply(); save();
+    });
+    $kit.find('.label-kit-close').on('click', function() { close(); $toggle[0].focus(); });
+    $kit.on('keydown', function(event) { if (event.key === 'Escape') { close(); $toggle[0].focus(); } });
+    $(document).on('click', function(event) { if (!$kit[0].contains(event.target)) close(); });
+    apply();
+  };
+  labelStyleKit();
 
   var projectNavigator = function() {
     var $toc = $('.project-toc');

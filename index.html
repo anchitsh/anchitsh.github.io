@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css?v=20261106-aligned-insets" rel="stylesheet">
+  <link href="assets/css/style.css?v=20261106-label-kit" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPortfolio - v2.1.0
@@ -797,13 +797,32 @@
   <div class="project-hover-preview" aria-hidden="true"><img alt="" width="480" height="270"></div>
 
 
+  <aside class="label-style-kit" aria-label="Technology label style controls">
+    <div class="label-kit-panel" id="label-kit-panel" hidden>
+      <div class="label-kit-heading"><span>Technology labels</span><div><button class="label-kit-reset" type="button">Reset</button><button class="label-kit-close" type="button" aria-label="Close label styles">×</button></div></div>
+      <div class="label-choices" role="group" aria-label="Text treatment">
+        <button class="label-choice" type="button" data-label-choice="inline" aria-label="Inline labels" aria-pressed="true"><span>Inline</span><span class="label-sample label-treatment" data-treatment="inline" aria-hidden="true"><span class="label-token">Unity</span><span class="label-token">C#</span><span class="label-token">HLSL</span></span></button>
+        <button class="label-choice" type="button" data-label-choice="outline" aria-label="Outline labels" aria-pressed="false"><span>Outline</span><span class="label-sample label-treatment" data-treatment="outline" aria-hidden="true"><span class="label-token">Unity</span><span class="label-token">C#</span><span class="label-token">HLSL</span></span></button>
+        <button class="label-choice" type="button" data-label-choice="caps" aria-label="Small caps labels" aria-pressed="false"><span>Small caps</span><span class="label-sample label-treatment" data-treatment="caps" aria-hidden="true"><span class="label-token">Unity</span><span class="label-token">C#</span><span class="label-token">HLSL</span></span></button>
+        <button class="label-choice" type="button" data-label-choice="filled" aria-label="Soft fill labels" aria-pressed="false"><span>Soft fill</span><span class="label-sample label-treatment" data-treatment="filled" aria-hidden="true"><span class="label-token">Unity</span><span class="label-token">C#</span><span class="label-token">HLSL</span></span></button>
+      </div>
+      <label for="label-size">Size <output id="label-size-value">10px</output></label>
+      <input id="label-size" type="range" min="9" max="14" step="1" value="10">
+      <label for="label-weight">Weight <output id="label-weight-value">400</output></label>
+      <input id="label-weight" type="range" min="400" max="600" step="100" value="400">
+      <label for="label-tracking">Letter spacing <output id="label-tracking-value">0.00em</output></label>
+      <input id="label-tracking" type="range" min="0" max="0.12" step="0.01" value="0">
+    </div>
+    <button class="label-kit-toggle" type="button" aria-expanded="false" aria-controls="label-kit-panel"><span aria-hidden="true">Aa</span> Label styles</button>
+  </aside>
+
   <!-- Vendor JS Files -->
   <script src="assets/vendor/jquery/jquery.min.js" defer></script>
   <script src="assets/vendor/aos/aos.js" defer></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js?v=20261106-aligned-insets" defer></script>
+  <script src="assets/js/main.js?v=20261106-label-kit" defer></script>
 
 </body>
 
