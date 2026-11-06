@@ -62,11 +62,6 @@
     var $container = $('#portfolio-grid');
     if (!$container.length) return;
 
-    // Filtering changes the grid height, so AOS trigger offsets below it go stale; recompute them.
-    $container.on('arrangeComplete', function() {
-      if (window.AOS) AOS.refresh();
-    });
-
     $('#filters a').each(function() {
       var filter = $(this).attr('data-filter');
       var count = filter === '*' ? $container.children('.item').length : $container.children('.item').filter(filter).length;
@@ -87,6 +82,7 @@
       $('#filters a').removeClass('active').attr('aria-pressed', 'false');
       $(this).addClass('active').attr('aria-pressed', 'true');
       balanceProjectGrids();
+      if (window.AOS) AOS.refresh();
     });
   }
   // Thumbnails carry width/height attributes, so the grid can be laid out as soon as
@@ -103,6 +99,7 @@
       $buttons.attr('aria-pressed', 'false');
       $(this).attr('aria-pressed', 'true');
       balanceProjectGrids();
+      if (window.AOS) AOS.refresh();
       // Refresh the active sidebar title after the cards change position.
       $(window).trigger('resize');
     });
@@ -235,7 +232,7 @@
     $('.work-tech').each(function() {
       var $stack = $(this);
       $stack.addClass('label-treatment').attr('data-treatment', 'filled');
-      var labels = $stack.text().split('/').map(function(label) {
+      var labels = $stack.text().split(/\s*\/\s*|,\s*/).map(function(label) {
         return label.trim();
       }).filter(Boolean);
       $stack.empty();
