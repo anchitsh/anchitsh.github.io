@@ -1143,6 +1143,7 @@ body {
   background: #fff;
   font-size: 14px;
   line-height: 1.5;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 47px, rgba(38, 38, 38, .045) 48px);
 }
 
 a {
@@ -1163,6 +1164,10 @@ a:hover {
 .site-portfolio > .container,
 .footer > .container {
   max-width: 800px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left: 1px solid rgba(38, 38, 38, .08);
+  border-right: 1px solid rgba(38, 38, 38, .08);
 }
 
 .custom-navbar > .container {
@@ -1184,6 +1189,20 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.identity-strip {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.identity-strip img {
+  background: var(--minimal-surface);
+  border-radius: 4px;
+  height: 48px;
+  object-fit: cover;
+  width: 64px;
 }
 
 .section-label {
@@ -1208,6 +1227,12 @@ a:hover {
   padding: 48px 0 0;
 }
 
+.reference-rule {
+  border-top: 1px solid rgba(38, 38, 38, .14);
+  margin: 48px auto 0;
+  max-width: 760px;
+}
+
 .intro-copy {
   max-width: 480px;
 }
@@ -1229,6 +1254,11 @@ a:hover {
   display: flex;
   gap: 16px;
   width: 100%;
+}
+
+.career-entry + .career-entry {
+  border-top: 1px solid rgba(38, 38, 38, .08);
+  padding-top: 12px;
 }
 
 .career-date {
@@ -1418,6 +1448,47 @@ a:hover {
   padding: 32px 0 48px;
 }
 
+.footer-contact {
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  justify-content: space-between;
+  margin: 36px 0 28px;
+}
+
+.footer-contact-label {
+  color: var(--minimal-muted);
+  flex-basis: 100%;
+  font-size: 12px;
+  margin: 0;
+}
+
+.footer-email,
+.footer-social a {
+  border-bottom: 1px solid rgba(38, 38, 38, .18);
+  color: var(--minimal-ink);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.footer-email:hover,
+.footer-social a:hover {
+  border-color: var(--minimal-blue);
+  color: var(--minimal-blue);
+}
+
+.footer-social {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.footer-social span {
+  color: var(--minimal-muted);
+  font-size: 13px;
+}
+
 .site-footer-links a {
   color: var(--minimal-blue);
   font-size: 14px;
@@ -1452,6 +1523,15 @@ a:hover {
     padding-top: 36px;
   }
 
+  .reference-rule {
+    margin-top: 36px;
+  }
+
+  .identity-strip img {
+    height: 42px;
+    width: 54px;
+  }
+
   .career-date {
     flex-basis: 88px;
   }
@@ -1461,5 +1541,10 @@ a:hover {
     max-width: 48%;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .footer-contact {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
