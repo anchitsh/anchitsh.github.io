@@ -98,7 +98,6 @@
 .project-vortex-fallback::after { background: radial-gradient(circle, #101212 0%, transparent 70%); content: ""; inset: 0; pointer-events: none; position: absolute; }
 
 /* The sidebar's grid area ends at the footer, above the immersive fourth row. */
-.portfolio-home.is-in-vortex .label-style-kit { opacity: 0; pointer-events: none; visibility: hidden; }
 
 @media (max-width: 859px) {
   /* Keep the mobile contact row above the final scene as well. */

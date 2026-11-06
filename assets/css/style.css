@@ -1993,6 +1993,7 @@ a:hover {
 }
 
 .portfolio-home::after {
+  border-left: 1px solid rgba(38, 38, 38, .1);
   border-right: 1px solid rgba(38, 38, 38, .1);
   content: "";
   grid-column: 2;
@@ -2257,27 +2258,6 @@ a:hover {
   content: "·";
   letter-spacing: normal;
   margin: 0 6px;
-}
-
-.label-style-kit { bottom: 24px; color: var(--minimal-ink); font-size: 12px; position: fixed; right: 24px; z-index: 50; }
-.label-kit-toggle { align-items: center; background: #fff; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 18px rgba(0, 0, 0, .08); color: inherit; display: flex; font: inherit; gap: 8px; padding: 11px 14px; }
-.label-kit-toggle[aria-expanded="true"] { border-color: var(--minimal-accent); color: var(--minimal-accent); }
-.label-kit-panel { background: #fff; border: 1px solid #ddd; border-radius: 16px; bottom: calc(100% + 12px); box-shadow: 0 16px 60px rgba(0, 0, 0, .12); display: flex; flex-direction: column; gap: 12px; max-height: calc(100dvh - 110px); overflow-y: auto; padding: 18px; position: absolute; right: 0; width: 320px; }
-.label-kit-heading { align-items: center; display: flex; font-weight: 600; justify-content: space-between; }
-.label-kit-heading > div { align-items: center; display: flex; gap: 12px; }
-.label-kit-reset, .label-kit-close { background: none; border: 0; color: var(--minimal-accent); font: inherit; padding: 0; }
-.label-kit-close { color: #888; font-size: 20px; line-height: 1; }
-.label-choices { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.label-choice { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; color: inherit; display: flex; flex-direction: column; font: inherit; gap: 10px; min-width: 0; padding: 10px; text-align: left; }
-.label-choice > span:first-child { font-size: 11px; font-weight: 500; }
-.label-choice[aria-pressed="true"] { border-color: var(--minimal-accent); box-shadow: 0 0 0 1px var(--minimal-accent); }
-.label-kit-panel label { display: flex; font-size: 11px; justify-content: space-between; margin: 4px 0 0; }
-.label-kit-panel output { color: #888; }
-.label-kit-panel input { accent-color: var(--minimal-accent); width: 100%; }
-
-@media (max-width: 480px) {
-  .label-style-kit { bottom: 16px; right: 16px; }
-  .label-kit-panel { width: min(320px, calc(100vw - 32px)); }
 }
 
 .project-toolbar {
