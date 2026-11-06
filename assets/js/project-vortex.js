@@ -5,8 +5,21 @@
   if (!section) return;
   var stage = section.querySelector('.project-vortex-stage');
   var canvas = section.querySelector('canvas');
-  var sources = Array.from(document.querySelectorAll('#portfolio-grid > .item img, #tech-art .item img'));
+  var projects = Array.from(document.querySelectorAll('#portfolio-grid > .item img'));
+  var techArt = Array.from(document.querySelectorAll('#tech-art .item img'));
+  var sources = [];
+  // Mix the two sections throughout the rings, rather than hiding Tech Art at the back.
+  for (var i = 0; i < Math.max(projects.length, techArt.length); i++) {
+    if (projects[i]) sources.push(projects[i]);
+    if (techArt[i]) sources.push(techArt[i]);
+  }
   if (!sources.length) { section.hidden = true; return; }
+  var wallColumns = 8;
+  var rings = Math.ceil(sources.length / wallColumns);
+  section.dataset.vortexSources = sources.length;
+  section.dataset.vortexTiles = rings * wallColumns;
+  section.dataset.vortexProjects = projects.length;
+  section.dataset.vortexTechArt = techArt.length;
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var pointer = [0, 0];
@@ -51,34 +64,42 @@
         'varying vec2 vUV;',
         'void main() { vUV = aPosition * 0.5 + 0.5; gl_Position = vec4(aPosition, 0.0, 1.0); }'
       ].join('\n'));
+      var precision = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT).precision > 0 ? 'highp' : 'mediump';
       var fragment = shader(gl.FRAGMENT_SHADER, [
-        'precision mediump float;',
+        'precision ' + precision + ' float;',
         'varying vec2 vUV;',
         'uniform sampler2D uAtlas;',
         'uniform vec2 uResolution;',
         'uniform vec2 uPointer;',
-        'uniform vec2 uAtlasGrid;',
+        'uniform vec2 uAtlasSize;',
+        'uniform vec2 uCellSize;',
+        'uniform float uAtlasColumns;',
+        'uniform float uWallColumns;',
+        'uniform float uRings;',
         'uniform float uCount;',
         'uniform float uProgress;',
         'void main() {',
-        '  vec2 center = vec2(0.5 + sin(uProgress * 3.0) * 0.045, 0.5 + cos(uProgress * 2.4) * 0.025) + uPointer * 0.025;',
+        '  vec2 center = vec2(0.5 + sin(uProgress * 2.0) * 0.015, 0.5 + cos(uProgress * 1.8) * 0.01) + uPointer * 0.015;',
         '  vec2 ray = (vUV - center) * vec2(uResolution.x / uResolution.y, 1.0);',
         '  float radius = max(length(ray), 0.025);',
-        '  float depth = 1.45 / pow(radius, 0.94);',
+        '  float depth = 1.45 / radius;',
+        '  float ringPosition = log(depth / 1.75) * 2.6 + uProgress * 0.55;',
+        '  vec3 dark = vec3(0.025, 0.03, 0.03);',
+        '  if (ringPosition < 0.0 || ringPosition >= uRings) { gl_FragColor = vec4(dark, 1.0); return; }',
         '  float angle = atan(ray.y, ray.x) / 6.2831853 + 0.5;',
-        '  angle += depth * 0.019 + uProgress * 0.18;',
-        '  vec2 wall = vec2(angle * 12.0, depth * 3.0 + uProgress * 38.0);',
+        '  angle = fract(angle + log(depth) * 0.02 + uProgress * 0.025);',
+        '  vec2 wall = vec2(angle * uWallColumns, ringPosition);',
         '  vec2 tile = fract(wall);',
         '  float column = floor(wall.x);',
         '  float row = floor(wall.y);',
-        '  float index = mod(column + row * 7.0, uCount);',
-        '  vec2 cell = vec2(mod(index, uAtlasGrid.x), uAtlasGrid.y - 1.0 - floor(index / uAtlasGrid.x));',
-        '  vec2 localUV = vec2(mix(0.01, 0.99, tile.x), mix(0.99, 0.01, tile.y));',
-        '  vec3 image = texture2D(uAtlas, (cell + localUV) / uAtlasGrid).rgb;',
-        '  float seams = smoothstep(0.0, 0.012, tile.x) * smoothstep(0.0, 0.012, tile.y);',
-        '  float distanceFade = 1.0 - smoothstep(12.0, 25.0, depth);',
+        '  float index = mod(column + row * uWallColumns, uCount);',
+        '  vec2 cell = vec2(mod(index, uAtlasColumns) * uCellSize.x, uAtlasSize.y - (floor(index / uAtlasColumns) + 1.0) * uCellSize.y);',
+        '  vec2 inset = vec2(8.0) / uCellSize;',
+        '  vec2 localUV = mix(inset, 1.0 - inset, vec2(tile.x, 1.0 - tile.y));',
+        '  vec3 image = texture2D(uAtlas, (cell + localUV * uCellSize) / uAtlasSize).rgb;',
+        '  float seams = smoothstep(0.0, 0.008, tile.x) * smoothstep(0.0, 0.008, tile.y);',
+        '  float distanceFade = 1.0 - smoothstep(uRings - 0.6, uRings, ringPosition);',
         '  float light = 0.88 + 0.12 * cos(angle * 6.2831853);',
-        '  vec3 dark = vec3(0.025, 0.03, 0.03);',
         '  gl_FragColor = vec4(mix(dark, image * light * seams, distanceFade), 1.0);',
         '}'
       ].join('\n'));
@@ -98,24 +119,34 @@
       gl.enableVertexAttribArray(position);
       gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
-      var columns = 6;
+      var columns = 8;
       var rows = Math.ceil(sources.length / columns);
+      var maxTexture = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+      var cellWidth = Math.min(512, Math.pow(2, Math.floor(Math.log2(maxTexture / columns))));
+      var cellHeight = Math.round(cellWidth * 9 / 16);
+      var powerOfTwo = function(value) { return Math.pow(2, Math.ceil(Math.log2(value))); };
       var atlas = document.createElement('canvas');
-      atlas.width = columns * 256;
-      atlas.height = rows * 144;
+      atlas.width = powerOfTwo(columns * cellWidth);
+      atlas.height = powerOfTwo(rows * cellHeight);
       var context = atlas.getContext('2d');
       context.fillStyle = '#202424';
       context.fillRect(0, 0, atlas.width, atlas.height);
       var texture = gl.createTexture();
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      var anisotropy = gl.getExtension('EXT_texture_filter_anisotropic') || gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+      if (anisotropy) gl.texParameterf(gl.TEXTURE_2D, anisotropy.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(4, gl.getParameter(anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
       gl.uniform1i(gl.getUniformLocation(program, 'uAtlas'), 0);
-      gl.uniform2f(gl.getUniformLocation(program, 'uAtlasGrid'), columns, rows);
+      gl.uniform2f(gl.getUniformLocation(program, 'uAtlasSize'), atlas.width, atlas.height);
+      gl.uniform2f(gl.getUniformLocation(program, 'uCellSize'), cellWidth, cellHeight);
+      gl.uniform1f(gl.getUniformLocation(program, 'uAtlasColumns'), columns);
+      gl.uniform1f(gl.getUniformLocation(program, 'uWallColumns'), wallColumns);
+      gl.uniform1f(gl.getUniformLocation(program, 'uRings'), rings);
       gl.uniform1f(gl.getUniformLocation(program, 'uCount'), sources.length);
       var resolution = gl.getUniformLocation(program, 'uResolution');
       var progressUniform = gl.getUniformLocation(program, 'uProgress');
@@ -123,7 +154,7 @@
       var dirty = true;
 
       renderer = function(progress) {
-        var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
         var width = Math.round(stage.clientWidth * dpr);
         var height = Math.round(stage.clientHeight * dpr);
         if (canvas.width !== width || canvas.height !== height) {
@@ -133,6 +164,7 @@
         }
         if (dirty) {
           gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlas);
+          gl.generateMipmap(gl.TEXTURE_2D);
           dirty = false;
         }
         gl.uniform2f(resolution, width, height);
@@ -144,10 +176,10 @@
       sources.forEach(function(image, index) {
         function paint() {
           if (disposed || !image.naturalWidth) return;
-          var scale = Math.max(256 / image.naturalWidth, 144 / image.naturalHeight);
-          var cropWidth = 256 / scale;
-          var cropHeight = 144 / scale;
-          context.drawImage(image, (image.naturalWidth - cropWidth) / 2, (image.naturalHeight - cropHeight) / 2, cropWidth, cropHeight, (index % columns) * 256, Math.floor(index / columns) * 144, 256, 144);
+          var scale = Math.max(cellWidth / image.naturalWidth, cellHeight / image.naturalHeight);
+          var cropWidth = cellWidth / scale;
+          var cropHeight = cellHeight / scale;
+          context.drawImage(image, (image.naturalWidth - cropWidth) / 2, (image.naturalHeight - cropHeight) / 2, cropWidth, cropHeight, (index % columns) * cellWidth, Math.floor(index / columns) * cellHeight, cellWidth, cellHeight);
           dirty = true;
           schedule();
         }
@@ -162,6 +194,7 @@
         if (!disposed) fallback();
       }, { once: true });
       section.dataset.vortexRenderer = 'webgl';
+      section.dataset.vortexTextureWidth = cellWidth;
     } catch (error) {
       fallback();
       section.dataset.vortexRenderer = 'fallback';
