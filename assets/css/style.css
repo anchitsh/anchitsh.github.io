@@ -1961,13 +1961,23 @@ a:hover {
 
 /* Two columns: contents and contact / portfolio. */
 .portfolio-home {
-  border-right: 1px solid rgba(38, 38, 38, .1);
+  column-gap: 24px;
   display: grid;
-  grid-template-columns: minmax(230px, 1.05fr) minmax(0, 3fr);
+  grid-template-columns: clamp(200px, 20vw, 240px) minmax(0, 1fr);
   margin: 0 auto;
-  max-width: 1080px;
+  max-width: 1200px;
   min-height: 100vh;
   width: calc(100% - 48px);
+}
+
+.portfolio-home::after {
+  border-left: 1px solid rgba(38, 38, 38, .1);
+  border-right: 1px solid rgba(38, 38, 38, .1);
+  content: "";
+  grid-column: 2;
+  grid-row: 1 / 4;
+  min-width: 0;
+  pointer-events: none;
 }
 
 .portfolio-home > .custom-navbar,
@@ -1985,12 +1995,13 @@ a:hover {
 .portfolio-home .section > .container,
 .portfolio-home .footer > .container {
   border: 0;
-  padding-left: 140px;
+  max-width: none;
+  padding-left: 48px;
   padding-right: 40px;
   width: 100%;
 }
 
-.portfolio-home .reference-rule { max-width: none; margin-left: 140px; margin-right: 40px; }
+.portfolio-home .reference-rule { max-width: none; margin-left: 48px; margin-right: 40px; }
 
 .portfolio-home .contact-rail { display: contents; }
 
@@ -2075,11 +2086,14 @@ a:hover {
 
 @media (max-width: 859px) {
   .portfolio-home {
+    column-gap: 0;
     grid-template-columns: minmax(0, 1fr);
     width: calc(100% - 32px);
     border-left: 1px solid rgba(38, 38, 38, .1);
     border-right: 1px solid rgba(38, 38, 38, .1);
   }
+
+  .portfolio-home::after { display: none; }
 
   .portfolio-home > .custom-navbar,
   .portfolio-home > main,
