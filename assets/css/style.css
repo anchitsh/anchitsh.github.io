@@ -1700,8 +1700,16 @@ a:hover {
 
 .filters a {
   border-radius: 999px;
+  color: #737373;
   padding: 6px 14px;
   text-decoration: none;
+}
+
+.filters a:hover,
+.filters a:focus,
+.filters a:active {
+  background: var(--minimal-surface);
+  color: var(--minimal-ink);
 }
 
 .filters a:before,
