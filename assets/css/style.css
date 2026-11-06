@@ -2937,32 +2937,44 @@ body:not(.portfolio-home) .project-pagination-link strong {
   order: 0;
 }
 
+.portfolio-home[data-project-view="grid"] .item .item-wrap::after {
+  background: linear-gradient(to top, rgba(6, 12, 9, .94) 0%, rgba(6, 12, 9, .68) 32%, rgba(6, 12, 9, .2) 65%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+  visibility: visible;
+  z-index: 1;
+}
+
 .portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info {
   align-items: flex-start;
-  background: var(--grid-caption-surface, rgba(255, 255, 255, .88));
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--grid-caption-border, rgba(255, 255, 255, .6));
-  border-radius: 6px;
-  bottom: 8px;
-  color: var(--minimal-ink);
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 0;
+  border-radius: 0;
+  bottom: 12px;
+  color: #fff;
   display: flex;
   gap: 3px;
-  left: 8px;
-  max-width: calc(100% - 16px);
+  left: 12px;
+  max-width: calc(100% - 24px);
   opacity: 0;
   order: 1;
-  padding: 8px;
+  padding: 0;
   pointer-events: none;
   position: absolute;
   right: auto;
   text-align: left;
   top: auto;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .25);
   transform: translateY(5px);
   transition: opacity .16s ease, transform .16s ease;
-  width: max-content;
+  width: calc(100% - 24px);
   z-index: 2;
 }
+
+.portfolio-home[data-project-view="grid"] .item .item-wrap:is(:hover, :focus-visible)::after { opacity: 1; }
 
 .portfolio-home[data-project-view="grid"] .item .item-wrap:is(:hover, :focus-visible) > .work-info {
   opacity: 1;
@@ -2977,7 +2989,7 @@ body:not(.portfolio-home) .project-pagination-link strong {
 .portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info h3 {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  color: var(--minimal-ink);
+  color: #fff;
   display: -webkit-box;
   font-size: 12px;
   line-height: 1.3;
@@ -2985,6 +2997,7 @@ body:not(.portfolio-home) .project-pagination-link strong {
 }
 
 .portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info .work-role {
+  color: rgba(255, 255, 255, .82);
   font-size: 10px;
   line-height: 1.3;
   max-width: 100%;
@@ -3000,12 +3013,16 @@ body:not(.portfolio-home) .project-pagination-link strong {
   white-space: normal;
 }
 
-.portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info .work-tech.label-treatment[data-treatment] .label-token {
+.portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info .work-tech.label-treatment[data-treatment] .label-token.tech-tag {
+  background: rgba(255, 255, 255, .16);
+  border: 0;
+  color: #fff;
   font-size: 9px;
   padding: 2px 5px;
 }
 
 @media (hover: none) {
+  .portfolio-home[data-project-view="grid"] .item .item-wrap::after { opacity: 1; }
   .portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info {
     opacity: 1;
     transform: none;
@@ -3013,6 +3030,7 @@ body:not(.portfolio-home) .project-pagination-link strong {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .portfolio-home[data-project-view="grid"] .item .item-wrap::after,
   .portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info { transition: none; }
 }
 
