@@ -29,17 +29,110 @@
   var renderer = null;
   var disposed = false;
   var clamp = function(value, low, high) { return Math.max(low, Math.min(high, value)); };
+  var hoverPoint = null;
+  var hovered = -1;
+  var card = document.createElement('div');
+  card.className = 'project-vortex-card';
+  card.hidden = true;
+  card.setAttribute('aria-hidden', 'true');
+  var cardTitle = document.createElement('h3');
+  var cardRole = document.createElement('p');
+  cardRole.className = 'project-vortex-card-role';
+  var cardDescription = document.createElement('p');
+  cardDescription.className = 'project-vortex-card-description';
+  card.append(cardTitle, cardRole, cardDescription);
+  stage.appendChild(card);
+  var details = sources.map(function(image) {
+    var item = image.closest('.item');
+    var title = item.querySelector('h3');
+    var role = item.querySelector('.work-role');
+    var tech = item.querySelector('.work-tech');
+    var link = item.querySelector('a.item-wrap[href]');
+    var technologies = tech ? Array.from(tech.querySelectorAll('.tech-tag')).map(function(tag) { return tag.textContent.trim(); }).join(', ') || tech.textContent.trim() : '';
+    return {
+      title: title ? title.textContent.trim() : image.alt.replace(/ preview$/i, ''),
+      role: role ? role.textContent.trim() : '',
+      description: technologies ? 'Built with ' + technologies.replace(/\s*\/\s*/g, ', ') + '.' : '',
+      url: link ? link.href : '',
+      loading: false
+    };
+  });
+
+  function hideCard() {
+    card.hidden = true;
+    hovered = -1;
+  }
+
+  function loadDescription(index) {
+    var detail = details[index];
+    if (detail.loading || !detail.url) return;
+    var url = new URL(detail.url, window.location.href);
+    if (url.origin !== window.location.origin || !/\.html$/i.test(url.pathname)) return;
+    detail.loading = true;
+    fetch(url.href).then(function(response) {
+      if (!response.ok) throw new Error('Project description unavailable');
+      return response.text();
+    }).then(function(html) {
+      var page = new DOMParser().parseFromString(html, 'text/html');
+      var paragraph = page.querySelector('.project-copy > p, .project-overview-description p');
+      if (!paragraph) return;
+      var text = paragraph.textContent.replace(/\s+/g, ' ').trim();
+      if (text.length > 220) text = text.slice(0, 217).replace(/\s+\S*$/, '') + '…';
+      if (text) detail.description = text;
+      if (hovered === index) { cardDescription.textContent = detail.description; schedule(); }
+    }).catch(function() { /* Keep the existing role and technology details. */ });
+  }
+
+  // Inverse of the shader's wall coordinates, including its scroll and pointer drift.
+  function previewAt(point, bounds, progress) {
+    var x = (point.x - bounds.left) / bounds.width;
+    var y = 1 - (point.y - bounds.top) / bounds.height;
+    var drift = reducedMotion.matches ? [0, 0] : pointer;
+    var rayX = (x - (.5 + Math.sin(progress * 2) * .015 + drift[0] * .015)) * (canvas.width / canvas.height);
+    var rayY = y - (.5 + Math.cos(progress * 1.8) * .01 + drift[1] * .015);
+    var depth = 1.45 / Math.max(Math.hypot(rayX, rayY), .025);
+    var row = Math.log(depth / 1.75) * 2.6 + progress * .55;
+    if (row < 0 || row >= rings) return -1;
+    var angle = Math.atan2(rayY, rayX) / (Math.PI * 2) + .5 + Math.log(depth) * .02 + progress * .025;
+    angle = ((angle % 1) + 1) % 1;
+    return (Math.floor(angle * wallColumns) + Math.floor(row) * wallColumns) % sources.length;
+  }
+
+  function updateCard(progress) {
+    if (!hoverPoint) { hideCard(); return; }
+    var bounds = stage.getBoundingClientRect();
+    var index = renderer ? previewAt(hoverPoint, bounds, progress) : hoverPoint.fallbackIndex;
+    if (index == null || index < 0) { hideCard(); return; }
+    if (hovered !== index) {
+      hovered = index;
+      cardTitle.textContent = details[index].title;
+      cardRole.textContent = details[index].role;
+      cardDescription.textContent = details[index].description;
+      card.dataset.projectIndex = index;
+      loadDescription(index);
+    }
+    card.hidden = false;
+    var x = hoverPoint.x - bounds.left;
+    var y = hoverPoint.y - bounds.top;
+    var left = x + 20;
+    var top = y + 20;
+    if (left + card.offsetWidth > bounds.width - 16) left = x - card.offsetWidth - 20;
+    if (top + card.offsetHeight > bounds.height - 80) top = y - card.offsetHeight - 20;
+    card.style.left = clamp(left, 16, Math.max(16, bounds.width - card.offsetWidth - 16)) + 'px';
+    card.style.top = clamp(top, 16, Math.max(16, bounds.height - card.offsetHeight - 80)) + 'px';
+  }
 
   function fallback() {
     section.dataset.vortexRenderer = 'fallback';
     canvas.hidden = true;
     var gallery = section.querySelector('.project-vortex-fallback');
     gallery.hidden = false;
-    sources.forEach(function(source) {
+    sources.forEach(function(source, index) {
       var image = document.createElement('img');
       image.src = source.currentSrc || source.src;
       image.alt = '';
       image.decoding = 'async';
+      image.dataset.vortexIndex = index;
       gallery.appendChild(image);
     });
     renderer = null;
@@ -209,28 +302,30 @@
     var height = window.innerHeight;
     var visible = bounds.top < height && bounds.bottom > 0;
     document.body.classList.toggle('is-in-vortex', bounds.top <= 32 && bounds.bottom > 32);
-    if (!visible) return;
+    if (!visible) { hideCard(); return; }
     initialize();
     var entry = clamp((height - bounds.top) / height, 0, 1);
     var progress = clamp(-bounds.top / Math.max(1, section.offsetHeight - height), 0, 1);
     section.style.setProperty('--vortex-entry', entry);
     section.style.setProperty('--vortex-caption', clamp(1 - progress * 7, 0, 1));
     if (renderer) renderer(progress);
+    updateCard(reducedMotion.matches ? .2 : progress);
   }
 
   function schedule() {
     if (!frame && !disposed) frame = requestAnimationFrame(render);
   }
 
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
+  window.addEventListener('scroll', function() { hoverPoint = null; hideCard(); schedule(); }, { passive: true });
+  window.addEventListener('resize', function() { hoverPoint = null; hideCard(); schedule(); });
   stage.addEventListener('pointermove', function(event) {
-    if (reducedMotion.matches) return;
+    if (event.pointerType === 'touch' || event.target.closest('a, button')) { hoverPoint = null; hideCard(); return; }
     var bounds = stage.getBoundingClientRect();
-    pointer = [(event.clientX - bounds.left) / bounds.width - .5, .5 - (event.clientY - bounds.top) / bounds.height];
+    if (!reducedMotion.matches) pointer = [(event.clientX - bounds.left) / bounds.width - .5, .5 - (event.clientY - bounds.top) / bounds.height];
+    hoverPoint = { x: event.clientX, y: event.clientY, fallbackIndex: event.target.hasAttribute('data-vortex-index') ? Number(event.target.dataset.vortexIndex) : null };
     schedule();
   });
-  stage.addEventListener('pointerleave', function() { pointer = [0, 0]; schedule(); });
+  stage.addEventListener('pointerleave', function() { pointer = [0, 0]; hoverPoint = null; hideCard(); schedule(); });
   reducedMotion.addEventListener('change', schedule);
   window.addEventListener('pagehide', function() {
     disposed = true;
