@@ -33,6 +33,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css?v=20261106-label-kit" rel="stylesheet">
+  <link href="assets/css/project-vortex.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPortfolio - v2.1.0
@@ -45,7 +46,7 @@
 <body class="portfolio-home" data-project-view="grid">
 
   <!-- ======= Navbar ======= -->
-  <nav class="navbar navbar-light custom-navbar">
+  <nav class="navbar navbar-light custom-navbar" id="top">
     <div class="container">
       <div class="header-title">
         <div class="identity-strip" aria-hidden="true">
@@ -793,6 +794,17 @@
     </div>
   </footer>
 
+  <section class="project-vortex" id="project-vortex" aria-labelledby="project-vortex-heading">
+    <h2 class="sr-only" id="project-vortex-heading">Project vortex</h2>
+    <p class="sr-only">Scroll through a tunnel of project previews. All projects are available in the sections above.</p>
+    <div class="project-vortex-stage">
+      <canvas class="project-vortex-canvas" aria-hidden="true"></canvas>
+      <div class="project-vortex-fallback" aria-hidden="true" hidden></div>
+      <p class="project-vortex-caption">Scroll to dive into the work ↓</p>
+      <a class="project-vortex-back" href="#top">Back to top ↑</a>
+    </div>
+  </section>
+
   <div class="project-hover-preview" aria-hidden="true"><img alt="" width="480" height="270"></div>
 
 
@@ -822,6 +834,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js?v=20261106-label-kit" defer></script>
+  <script src="assets/js/project-vortex.js" defer></script>
 
 </body>
 
