@@ -14,11 +14,9 @@
     if (techArt[i]) sources.push(techArt[i]);
   }
   if (!sources.length) { section.hidden = true; return; }
-  var wallColumns = 8;
-  // Three passes keep the wall full all the way into the distance.
-  var rings = Math.max(1, Math.floor(sources.length * 3 / wallColumns));
+  var wallColumns = 12;
   section.dataset.vortexSources = sources.length;
-  section.dataset.vortexTiles = rings * wallColumns;
+  section.dataset.vortexDepth = 'continuous';
   section.dataset.vortexProjects = projects.length;
   section.dataset.vortexTechArt = techArt.length;
 
@@ -88,14 +86,13 @@
     var x = (point.x - bounds.left) / bounds.width;
     var y = 1 - (point.y - bounds.top) / bounds.height;
     var drift = reducedMotion.matches ? [0, 0] : pointer;
-    var rayX = (x - (.5 + Math.sin(progress * 2) * .015 + drift[0] * .015)) * (canvas.width / canvas.height);
-    var rayY = y - (.5 + Math.cos(progress * 1.8) * .01 + drift[1] * .015);
-    var depth = 1.45 / Math.max(Math.hypot(rayX, rayY), .001);
-    var row = Math.log(depth / 1.75) * 2.6 + progress * 1.6;
-    if (row < 0 || row >= rings) return -1;
-    var angle = Math.atan2(rayY, rayX) / (Math.PI * 2) + .5 + Math.log(depth) * .02 + progress * .025;
-    angle = ((angle % 1) + 1) % 1;
-    return (Math.floor(angle * wallColumns) + Math.floor(row) * wallColumns) % sources.length;
+    var rayX = (x - (.5 + Math.sin(progress * 3) * .045 + drift[0] * .025)) * (canvas.width / canvas.height);
+    var rayY = y - (.5 + Math.cos(progress * 2.4) * .025 + drift[1] * .025);
+    var depth = 1.45 / Math.pow(Math.max(Math.hypot(rayX, rayY), .025), .94);
+    if (depth >= 25) return -1;
+    var row = depth * 3 + progress * 38;
+    var angle = Math.atan2(rayY, rayX) / (Math.PI * 2) + .5 + depth * .019 + progress * .18;
+    return (Math.floor(angle * wallColumns) + Math.floor(row) * 7) % sources.length;
   }
 
   function updateCard(progress) {
@@ -169,30 +166,27 @@
         'uniform vec2 uCellSize;',
         'uniform float uAtlasColumns;',
         'uniform float uWallColumns;',
-        'uniform float uRings;',
         'uniform float uCount;',
         'uniform float uProgress;',
         'void main() {',
-        '  vec2 center = vec2(0.5 + sin(uProgress * 2.0) * 0.015, 0.5 + cos(uProgress * 1.8) * 0.01) + uPointer * 0.015;',
+        '  vec2 center = vec2(0.5 + sin(uProgress * 3.0) * 0.045, 0.5 + cos(uProgress * 2.4) * 0.025) + uPointer * 0.025;',
         '  vec2 ray = (vUV - center) * vec2(uResolution.x / uResolution.y, 1.0);',
-        '  float radius = max(length(ray), 0.001);',
-        '  float depth = 1.45 / radius;',
-        '  float ringPosition = log(depth / 1.75) * 2.6 + uProgress * 1.6;',
+        '  float radius = max(length(ray), 0.025);',
+        '  float depth = 1.45 / pow(radius, 0.94);',
         '  vec3 dark = vec3(0.025, 0.03, 0.03);',
-        '  if (ringPosition < 0.0 || ringPosition >= uRings) { gl_FragColor = vec4(dark, 1.0); return; }',
         '  float angle = atan(ray.y, ray.x) / 6.2831853 + 0.5;',
-        '  angle = fract(angle + log(depth) * 0.02 + uProgress * 0.025);',
-        '  vec2 wall = vec2(angle * uWallColumns, ringPosition);',
+        '  angle += depth * 0.019 + uProgress * 0.18;',
+        '  vec2 wall = vec2(angle * uWallColumns, depth * 3.0 + uProgress * 38.0);',
         '  vec2 tile = fract(wall);',
         '  float column = floor(wall.x);',
         '  float row = floor(wall.y);',
-        '  float index = mod(column + row * uWallColumns, uCount);',
+        '  float index = mod(column + row * 7.0, uCount);',
         '  vec2 cell = vec2(mod(index, uAtlasColumns) * uCellSize.x, uAtlasSize.y - (floor(index / uAtlasColumns) + 1.0) * uCellSize.y);',
         '  vec2 inset = vec2(8.0) / uCellSize;',
         '  vec2 localUV = mix(inset, 1.0 - inset, vec2(tile.x, 1.0 - tile.y));',
         '  vec3 image = texture2D(uAtlas, (cell + localUV * uCellSize) / uAtlasSize).rgb;',
-        '  float seams = smoothstep(0.0, 0.008, tile.x) * smoothstep(0.0, 0.008, tile.y);',
-        '  float distanceFade = 1.0 - smoothstep(uRings - 0.6, uRings, ringPosition);',
+        '  float seams = smoothstep(0.0, 0.012, tile.x) * smoothstep(0.0, 0.012, tile.y);',
+        '  float distanceFade = 1.0 - smoothstep(12.0, 25.0, depth);',
         '  float light = 0.88 + 0.12 * cos(angle * 6.2831853);',
         '  gl_FragColor = vec4(mix(dark, image * light * seams, distanceFade), 1.0);',
         '}'
@@ -240,7 +234,6 @@
       gl.uniform2f(gl.getUniformLocation(program, 'uCellSize'), cellWidth, cellHeight);
       gl.uniform1f(gl.getUniformLocation(program, 'uAtlasColumns'), columns);
       gl.uniform1f(gl.getUniformLocation(program, 'uWallColumns'), wallColumns);
-      gl.uniform1f(gl.getUniformLocation(program, 'uRings'), rings);
       gl.uniform1f(gl.getUniformLocation(program, 'uCount'), sources.length);
       var resolution = gl.getUniformLocation(program, 'uResolution');
       var progressUniform = gl.getUniformLocation(program, 'uProgress');
