@@ -1,0 +1,10 @@
+The name's single-stroke lettering uses selected glyphs from the public-domain
+Hershey Script 1-stroke (alt) data in Hershey Text JS:
+https://github.com/techninja/hersheytextjs/blob/master/hersheytext.json
+
+Only the glyph paths needed for "Anchit Sharma." are embedded in index.html.
+The project identifies its JSON font data as Public Domain:
+https://github.com/techninja/hersheytextjs#readme
+
+Layout, stroke timing, and animation are implemented locally. No external font
+request or runtime dependency is required for the handwriting.
