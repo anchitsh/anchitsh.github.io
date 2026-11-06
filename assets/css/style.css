@@ -1500,25 +1500,34 @@ a:hover {
   text-decoration: none;
 }
 
-.toc-section-count { color: #999; font-size: 10px; font-variant-numeric: tabular-nums; }
+.project-toc-count,
+.toc-section-count {
+  align-items: center;
+  background: var(--minimal-chip-surface);
+  border-radius: 999px;
+  color: #737373;
+  display: inline-flex;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  justify-content: center;
+  line-height: 14px;
+  min-width: 24px;
+  padding: 3px 6px;
+}
+
+.toc-detail-list { list-style: none; margin: 8px 0 0; padding: 0; }
 .toc-section-link:hover,
 .toc-section-link[aria-current="location"] { color: var(--minimal-accent); }
 .portfolio-home #tech-art,
 .portfolio-home #writing { scroll-margin-top: 32px; }
 
 .project-toc-heading {
-  align-items: baseline;
+  align-items: center;
   color: var(--minimal-ink);
   display: flex;
   font-size: 12px;
   justify-content: space-between;
   margin-bottom: 16px;
-}
-
-.project-toc-count {
-  color: #999;
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
 }
 
 .project-toc-list {
@@ -1628,6 +1637,7 @@ a:hover {
   .project-toc-more { align-self: center; grid-column: 3; grid-row: 1; margin: 0; padding: 0; }
   .toc-section-links { border: 0; flex-direction: row; gap: 12px; grid-column: 2; grid-row: 1; justify-content: center; margin: 0; padding: 0; }
   .toc-section-link { font-size: 11px; white-space: nowrap; }
+  .toc-detail-list { display: none; }
   .toc-section-count { display: none; }
   .portfolio-home .item,
   .portfolio-home #tech-art,
@@ -1954,7 +1964,7 @@ a:hover {
 
 /* Two columns: contents and contact / portfolio. */
 .portfolio-home {
-  column-gap: 24px;
+  column-gap: 80px;
   display: grid;
   grid-template-columns: clamp(200px, 20vw, 240px) minmax(0, 1fr);
   margin: 0 auto;

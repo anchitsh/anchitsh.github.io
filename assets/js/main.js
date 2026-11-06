@@ -282,6 +282,16 @@
       return true;
     };
 
+    var attachPreview = function($link, $project, index) {
+      $link.on('mouseenter focus', function(event) {
+        $previewImage.attr('src', $project.find('img').first().attr('src'));
+        $preview[0].style.setProperty('--preview-angle', (index % 2 === 0 ? '-4' : '4') + 'deg');
+        $preview.toggleClass('is-visible', placePreview(this, event.clientY));
+      }).on('mousemove', function(event) {
+        placePreview(this, event.clientY);
+      }).on('mouseleave blur', hidePreview);
+    };
+
     $projects.each(function(index) {
       var $project = $(this);
       var title = $project.find('h3').first().text();
@@ -290,21 +300,32 @@
       var projectHref = $project.find('a.item-wrap').first().attr('href');
       $project.attr('id', id);
       var $link = $('<a class="project-toc-link"></a>').attr('href', projectHref).text(title);
-      $link.on('mouseenter focus', function(event) {
-        $previewImage.attr('src', $project.find('img').first().attr('src'));
-        $preview[0].style.setProperty('--preview-angle', (index % 2 === 0 ? '-4' : '4') + 'deg');
-        $preview.toggleClass('is-visible', placePreview(this, event.clientY));
-      }).on('mousemove', function(event) {
-        placePreview(this, event.clientY);
-      }).on('mouseleave blur', hidePreview);
+      attachPreview($link, $project, index);
       $('<li></li>').append($link).appendTo($list);
     });
 
     $toc.find('.project-toc-count').text($projects.length);
     $sectionLinks.each(function() {
       var $section = $($(this).attr('href'));
-      var count = $section.find('.item, .writing-list > li').length;
-      $(this).find('.toc-section-count').text(count);
+      var $entries = $section.find('.item, .writing-list > li');
+      $(this).find('.toc-section-count').text($entries.length);
+      var $details = $(this).siblings('.toc-detail-list');
+      $entries.slice(0, 2).each(function(index) {
+        var $entry = $(this);
+        var isProject = $entry.hasClass('item');
+        var $sourceLink = $entry.find(isProject ? 'a.item-wrap' : 'a.writing-link').first();
+        var title = isProject ? $entry.find('h3').first().text() : $sourceLink.find('span').first().text();
+        var href = $sourceLink.attr('href');
+        if (!href) {
+          var id = $section.attr('id') + '-entry-' + (index + 1);
+          $entry.attr('id', id);
+          href = '#' + id;
+        }
+        var $link = $('<a class="project-toc-link toc-detail-link"></a>').attr('href', href).text(title);
+        if ($sourceLink.attr('target') === '_blank') $link.attr({ target: '_blank', rel: 'noopener noreferrer' });
+        if (isProject) attachPreview($link, $entry, index);
+        $('<li></li>').append($link).appendTo($details);
+      });
     });
     var previewLimit = 5;
     var expanded = false;
