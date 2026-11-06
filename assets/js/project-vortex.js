@@ -21,7 +21,6 @@
   section.dataset.vortexTechArt = techArt.length;
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var pointer = [0, 0];
   var frame = 0;
   var initialized = false;
   var renderer = null;
@@ -81,13 +80,12 @@
     }).catch(function() { /* Keep the existing role and technology details. */ });
   }
 
-  // Inverse of the shader's wall coordinates, including its scroll and pointer drift.
+  // Match the shader's fixed center and scroll-driven wall coordinates.
   function previewAt(point, bounds, progress) {
     var x = (point.x - bounds.left) / bounds.width;
     var y = 1 - (point.y - bounds.top) / bounds.height;
-    var drift = reducedMotion.matches ? [0, 0] : pointer;
-    var rayX = (x - (.5 + Math.sin(progress * 3) * .045 + drift[0] * .025)) * (canvas.width / canvas.height);
-    var rayY = y - (.5 + Math.cos(progress * 2.4) * .025 + drift[1] * .025);
+    var rayX = (x - .5) * (canvas.width / canvas.height);
+    var rayY = y - .5;
     var depth = 1.45 / Math.pow(Math.max(Math.hypot(rayX, rayY), .025), .94);
     if (depth >= 25) return -1;
     var row = depth * 3 + progress * 38;
@@ -161,7 +159,6 @@
         'varying vec2 vUV;',
         'uniform sampler2D uAtlas;',
         'uniform vec2 uResolution;',
-        'uniform vec2 uPointer;',
         'uniform vec2 uAtlasSize;',
         'uniform vec2 uCellSize;',
         'uniform float uAtlasColumns;',
@@ -169,7 +166,7 @@
         'uniform float uCount;',
         'uniform float uProgress;',
         'void main() {',
-        '  vec2 center = vec2(0.5 + sin(uProgress * 3.0) * 0.045, 0.5 + cos(uProgress * 2.4) * 0.025) + uPointer * 0.025;',
+        '  vec2 center = vec2(0.5);',
         '  vec2 ray = (vUV - center) * vec2(uResolution.x / uResolution.y, 1.0);',
         '  float radius = max(length(ray), 0.025);',
         '  float depth = 1.45 / pow(radius, 0.94);',
@@ -237,7 +234,6 @@
       gl.uniform1f(gl.getUniformLocation(program, 'uCount'), sources.length);
       var resolution = gl.getUniformLocation(program, 'uResolution');
       var progressUniform = gl.getUniformLocation(program, 'uProgress');
-      var pointerUniform = gl.getUniformLocation(program, 'uPointer');
       var dirty = true;
 
       renderer = function(progress) {
@@ -255,7 +251,6 @@
           dirty = false;
         }
         gl.uniform2f(resolution, width, height);
-        gl.uniform2f(pointerUniform, reducedMotion.matches ? 0 : pointer[0], reducedMotion.matches ? 0 : pointer[1]);
         gl.uniform1f(progressUniform, reducedMotion.matches ? 0.2 : progress);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       };
@@ -313,12 +308,10 @@
   window.addEventListener('resize', function() { hoverPoint = null; hideCard(); schedule(); });
   stage.addEventListener('pointermove', function(event) {
     if (event.pointerType === 'touch' || event.target.closest('a, button')) { hoverPoint = null; hideCard(); return; }
-    var bounds = stage.getBoundingClientRect();
-    if (!reducedMotion.matches) pointer = [(event.clientX - bounds.left) / bounds.width - .5, .5 - (event.clientY - bounds.top) / bounds.height];
     hoverPoint = { x: event.clientX, y: event.clientY, fallbackIndex: event.target.hasAttribute('data-vortex-index') ? Number(event.target.dataset.vortexIndex) : null };
     schedule();
   });
-  stage.addEventListener('pointerleave', function() { pointer = [0, 0]; hoverPoint = null; hideCard(); schedule(); });
+  stage.addEventListener('pointerleave', function() { hoverPoint = null; hideCard(); schedule(); });
   reducedMotion.addEventListener('change', schedule);
   window.addEventListener('pagehide', function() {
     disposed = true;
