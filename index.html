@@ -34,6 +34,7 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css?v=20261106-mascot-removed" rel="stylesheet">
   <link href="assets/css/project-vortex.css" rel="stylesheet">
+  <link href="assets/css/background-kit.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPortfolio - v2.1.0
@@ -829,6 +830,28 @@
     <button class="label-kit-toggle" type="button" aria-expanded="false" aria-controls="label-kit-panel"><span aria-hidden="true">Aa</span> Label styles</button>
   </aside>
 
+  <aside class="canvas-style-kit" aria-label="Page background controls">
+    <div class="canvas-kit-panel" id="canvas-kit-panel" hidden>
+      <div class="canvas-kit-heading"><span>Page background</span><div><button class="canvas-kit-reset" type="button">Reset</button><button class="canvas-kit-close" type="button" aria-label="Close background controls">×</button></div></div>
+      <div class="canvas-choices" role="group" aria-label="Background pattern">
+        <button class="canvas-choice" type="button" data-canvas-choice="plain" aria-pressed="true"><span class="canvas-swatch" data-pattern="plain" aria-hidden="true"></span>Plain</button>
+        <button class="canvas-choice" type="button" data-canvas-choice="dots" aria-pressed="false"><span class="canvas-swatch" data-pattern="dots" aria-hidden="true"></span>Dots</button>
+        <button class="canvas-choice" type="button" data-canvas-choice="grid" aria-pressed="false"><span class="canvas-swatch" data-pattern="grid" aria-hidden="true"></span>Fine grid</button>
+        <button class="canvas-choice" type="button" data-canvas-choice="crosshairs" aria-pressed="false"><span class="canvas-swatch" data-pattern="crosshairs" aria-hidden="true"></span>Crosshairs</button>
+        <button class="canvas-choice" type="button" data-canvas-choice="grain" aria-pressed="false"><span class="canvas-swatch" data-pattern="grain" aria-hidden="true"></span>Paper grain</button>
+        <button class="canvas-choice" type="button" data-canvas-choice="rules" aria-pressed="false"><span class="canvas-swatch" data-pattern="rules" aria-hidden="true"></span>Vertical rules</button>
+      </div>
+      <fieldset><legend>Paper tone</legend><div class="canvas-tones">
+        <button class="canvas-tone" type="button" style="--tone: #fff" data-canvas-tone="white" aria-pressed="true">White</button>
+        <button class="canvas-tone" type="button" style="--tone: #f6f7f5" data-canvas-tone="chalk" aria-pressed="false">Chalk</button>
+        <button class="canvas-tone" type="button" style="--tone: #faf8f4" data-canvas-tone="warm" aria-pressed="false">Warm</button>
+      </div></fieldset>
+      <div><label for="canvas-strength">Intensity <output id="canvas-strength-value">4%</output></label><input id="canvas-strength" type="range" min="0" max="12" step="1" value="4"></div>
+      <div><label for="canvas-spacing">Pattern scale <output id="canvas-spacing-value">32px</output></label><input id="canvas-spacing" type="range" min="16" max="80" step="4" value="32"></div>
+    </div>
+    <button class="canvas-kit-toggle" type="button" aria-expanded="false" aria-controls="canvas-kit-panel"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M1 5.5h14M1 10.5h14M5.5 1v14M10.5 1v14" stroke="currentColor" fill="none" stroke-width=".8"/></svg>Canvas</button>
+  </aside>
+
   <!-- Vendor JS Files -->
   <script src="assets/vendor/jquery/jquery.min.js" defer></script>
   <script src="assets/vendor/aos/aos.js" defer></script>
@@ -837,6 +860,7 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js?v=20261106-label-kit" defer></script>
   <script src="assets/js/project-vortex.js" defer></script>
+  <script src="assets/js/background-kit.js" defer></script>
 
 </body>
 
