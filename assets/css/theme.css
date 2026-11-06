@@ -76,6 +76,9 @@ html[data-theme="dark"] body:is(.portfolio-home, .detail-layout)::before {
 }
 
 html[data-theme="dark"] .portfolio-home::after,
+html[data-theme="dark"] body.detail-layout::after,
+html[data-theme="dark"] body.detail-layout > main,
+html[data-theme="dark"] body.detail-layout > .footer,
 html[data-theme="dark"] body.portfolio-home,
 html[data-theme="dark"] .portfolio-home .contact-column,
 html[data-theme="dark"] .custom-navbar > .container,
