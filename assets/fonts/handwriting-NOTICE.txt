@@ -1,20 +1,15 @@
-Name studies use name-only subsets of four EMS single-line typefaces, licensed
-under the SIL Open Font License 1.1. The complete license is in OFL.txt.
+The name uses a name-only subset of EMS Capitol, licensed under the SIL Open
+Font License 1.1. The complete license is in OFL.txt.
 
 EMS Capitol: derived from Sacramento by Brian J. Bonislawsky, Astigmatic One
 Eye Typographic Institute.
-EMS Allure: derived from Allura by Rob Leuschke, TypeSETit.
-EMS Decorous Script: derived from Petit Formal Script by Impallari Type.
-EMS Society: derived from Mrs Saint Delafield by Alejandro Paul, Sudtipos.
 
 EMS single-line adaptations: Sheldon B. Michaels.
 SVG font conversion: Windell H. Oskay.
 
 Sources:
 https://github.com/golanlevin/p5-single-line-font-resources/tree/main/p5_single_line_svg_fonts/single_line_svg_fonts/EMS
-https://github.com/techninja/hersheytextjs/blob/master/svg_fonts/EMSAllure.svg
 
-Only paths for "Anchit Sharma." are included in signature-fonts.js. They are
-scaled and gently smoothed for display. Layout and stroke timing are local.
-The preview names Capitol, Allure, Decorous, and Society identify these subsets.
+Only paths for "Anchit Sharma." are embedded in index.html. They are scaled
+and gently smoothed for display. Layout and stroke timing are local.
 No external font request or runtime dependency is required.
