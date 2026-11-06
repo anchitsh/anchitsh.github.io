@@ -2590,9 +2590,22 @@ body:not(.portfolio-home) .project-copy li + li {
   margin-top: 6px;
 }
 
-body:not(.portfolio-home) .project-copy a:not(.readmore) {
+body:not(.portfolio-home) :is(.project-copy, .project-overview-description, .project-facts, .project-media-note, .project-gallery-caption) a[href] {
   color: var(--minimal-accent);
-  text-decoration-color: rgba(33, 117, 78, .28);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+body:not(.portfolio-home) :is(.project-copy, .project-overview-description, .project-facts, .project-media-note, .project-gallery-caption) a[href]:hover {
+  color: var(--minimal-accent);
+  text-decoration-thickness: 2px;
+}
+
+body:not(.portfolio-home) :is(.project-copy, .project-overview-description, .project-facts, .project-media-note, .project-gallery-caption) a[href]:focus-visible {
+  outline: 2px solid var(--minimal-accent);
+  outline-offset: 3px;
 }
 
 body:not(.portfolio-home) .project-media-section {
