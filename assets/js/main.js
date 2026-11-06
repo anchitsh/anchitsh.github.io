@@ -409,12 +409,12 @@
     $('body').addClass('detail-layout');
     $('<link rel="stylesheet" href="assets/css/page-background.css">').appendTo('head');
     $('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap">').appendTo('head');
-    var $sidebar = $('<aside class="detail-sidebar" aria-label="Page contents and project details"><div class="detail-sidebar-inner"></div></aside>').appendTo('body');
+    var $sidebar = $('<aside class="detail-sidebar" aria-label="Page contents"><div class="detail-sidebar-inner"></div></aside>').appendTo('body');
     var $sidebarInner = $sidebar.children();
     var $sidebarContent = $('<div class="detail-sidebar-content"></div>').appendTo($sidebarInner);
     $shell.children('.project-back').detach().addClass('detail-home-card').appendTo($sidebarInner);
 
-    var $overview = $('<section class="project-overview" aria-label="Project overview"></section>');
+    var $overview = $('<section class="project-overview"></section>').attr('aria-label', $shell.attr('data-overview-label') || 'Project overview');
     var $heading = $header.find('.project-heading').first();
     var $facts = $header.find('.project-facts').first();
     var $description = $('<div class="project-overview-description"></div>');
@@ -442,7 +442,7 @@
     $overview.append('<div class="project-overview-rule" aria-hidden="true"></div>');
     var $overviewGrid = $('<div class="project-overview-grid"></div>');
     $overviewGrid.append($description);
-    $('<div class="detail-metadata"></div>').append($facts.detach()).appendTo($sidebarContent);
+    if ($facts.length) $('<div class="detail-metadata"></div>').append($facts.detach()).appendTo($sidebarContent);
     $overview.append($overviewGrid);
     $header.replaceWith($overview);
 
