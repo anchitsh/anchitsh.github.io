@@ -1138,11 +1138,9 @@ body::before {
   --minimal-surface: #f5f5f5;
   --minimal-blue: #002fa7;
   --minimal-blue-pale: #e5eaf6;
-  --name-typeface: "Caveat";
   --name-weight: 600;
   --name-size: 28px;
   --name-tracking: -.035em;
-  --project-typeface: "DM Sans";
   --project-weight: 500;
   --project-size: 16px;
 }
@@ -1192,99 +1190,13 @@ a:hover {
 
 .custom-navbar .navbar-brand {
   color: var(--minimal-ink);
-  font-family: var(--name-typeface), sans-serif;
+  font-family: inherit;
   font-size: var(--name-size);
   font-weight: var(--name-weight);
   letter-spacing: var(--name-tracking);
   line-height: 1.15;
 }
 
-.typeface-dial-kit {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 20;
-}
-
-.typeface-dial-toggle,
-.typeface-dial-panel {
-  background: rgba(255, 255, 255, .94);
-  border: 1px solid rgba(38, 38, 38, .16);
-  box-shadow: 0 10px 30px rgba(38, 38, 38, .08);
-}
-
-.typeface-dial-toggle {
-  border-radius: 999px;
-  color: var(--minimal-ink);
-  cursor: pointer;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 14px;
-  height: 40px;
-  width: 40px;
-}
-
-.typeface-dial-toggle:hover,
-.typeface-dial-toggle[aria-expanded="true"] {
-  background: var(--minimal-blue-pale);
-  color: var(--minimal-blue);
-}
-
-.typeface-dial-panel {
-  border-radius: 8px;
-  bottom: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px;
-  position: absolute;
-  right: 0;
-  width: 220px;
-}
-
-.typeface-dial-heading {
-  align-items: center;
-  display: flex;
-  font-size: 12px;
-  font-weight: 600;
-  justify-content: space-between;
-}
-
-.typeface-dial-reset {
-  background: transparent;
-  border: 0;
-  color: var(--minimal-blue);
-  cursor: pointer;
-  font-size: 11px;
-  padding: 0;
-}
-
-.typeface-dial-panel label {
-  color: var(--minimal-muted);
-  display: flex;
-  flex-direction: column;
-  font-size: 11px;
-  gap: 5px;
-}
-
-.typeface-dial-panel select,
-.typeface-dial-panel input {
-  accent-color: var(--minimal-blue);
-  width: 100%;
-}
-
-.typeface-dial-panel select {
-  background: #fff;
-  border: 1px solid rgba(38, 38, 38, .16);
-  border-radius: 4px;
-  color: var(--minimal-ink);
-  font: inherit;
-  padding: 6px 8px;
-}
-
-.typeface-dial-divider {
-  border-top: 1px solid rgba(38, 38, 38, .12);
-  margin: 2px 0;
-}
 
 .reference-rails {
   inset: 0;
@@ -1562,7 +1474,7 @@ a:hover {
 #portfolio-grid {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 48px;
 }
 
 #portfolio-grid[data-aos] {
@@ -1583,6 +1495,7 @@ a:hover {
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  gap: 24px;
   overflow: visible;
 }
 
@@ -1598,10 +1511,9 @@ a:hover {
   filter: none;
   object-fit: contain;
   order: 1;
-  padding: 16px;
-  margin-left: 40px;
-  margin-right: 40px;
-  width: calc(100% - 80px);
+  padding: 0;
+  margin: 0;
+  width: 100%;
   transform: none;
 }
 
@@ -1612,19 +1524,19 @@ a:hover {
   gap: 2px;
   margin: 0;
   opacity: 1;
-  order: 2;
-  padding: 14px 0 0;
+  order: 0;
+  padding: 0;
   position: relative;
   transform: none;
   visibility: visible;
 }
 
 .item .item-wrap > .work-info h3 {
-  font-family: var(--project-typeface), sans-serif;
+  font-family: inherit;
   font-size: var(--project-size);
   font-weight: var(--project-weight);
   letter-spacing: -.015em;
-  line-height: 1.35;
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -1635,7 +1547,7 @@ a:hover {
   color: var(--minimal-muted);
   display: flex;
   flex-wrap: wrap;
-  font-family: var(--project-typeface), sans-serif;
+  font-family: inherit;
   font-size: 12px;
   gap: 5px;
   line-height: 1.2;
@@ -1647,7 +1559,7 @@ a:hover {
 
 .tech-tag {
   background: var(--minimal-surface);
-  border-radius: 999px;
+  border-radius: 12px;
   color: var(--minimal-ink);
   padding: 5px 9px;
 }
@@ -1853,19 +1765,43 @@ a:hover {
 
 .portfolio-home .item .item-wrap > .work-info {
   column-gap: 12px;
+  row-gap: 24px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 }
 
-.portfolio-home .work-info h3,
-.portfolio-home .work-info .work-role { grid-column: 1; }
+.portfolio-home .work-info h3 { grid-column: 1; }
+.portfolio-home .work-info .work-role { grid-column: 1 / -1; }
 
 .portfolio-home .item .item-wrap > .work-info .work-tech {
   align-self: start;
   grid-column: 2;
-  grid-row: 1 / 3;
+  grid-row: 1;
   justify-content: flex-end;
   position: static;
+}
+
+.portfolio-home .site-portfolio > .container {
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+.portfolio-home .site-portfolio > .container > .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.portfolio-home #tech-art > .container > .row.no-gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.portfolio-home #tech-art .item {
+  margin: 0 !important;
+  max-width: none;
+  padding: 0;
+  width: 100%;
 }
 
 @media (max-width: 859px) {
@@ -1920,7 +1856,7 @@ a:hover {
   }
 
   #portfolio-grid {
-    gap: 40px;
+    gap: 48px;
   }
 
   .intro-section {
@@ -1950,11 +1886,6 @@ a:hover {
   .footer-contact {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .typeface-dial-kit {
-    bottom: 12px;
-    right: 12px;
   }
 
   .reference-rails {
