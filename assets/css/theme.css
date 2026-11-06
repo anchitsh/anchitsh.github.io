@@ -1,0 +1,118 @@
+:root {
+  --theme-border: #dedede;
+  --theme-switch-bg: rgba(255, 255, 255, .88);
+  --theme-switch-active: #fff;
+  --theme-switch-ink: #777;
+  color-scheme: light;
+}
+
+html[data-theme="dark"]:root {
+  --canvas-paper: #171c19;
+  --minimal-ink: #e5ebe7;
+  --minimal-muted: #a1aaa4;
+  --minimal-surface: #252d28;
+  --minimal-chip-surface: #29322c;
+  --minimal-tag-border: #3c4941;
+  --minimal-accent: #8ac7a5;
+  --minimal-accent-pale: #263d30;
+  --theme-border: #354038;
+  --theme-switch-bg: rgba(29, 36, 31, .9);
+  --theme-switch-active: #354239;
+  --theme-switch-ink: #a1aaa4;
+  background: var(--canvas-paper);
+  color-scheme: dark;
+}
+
+.theme-switch {
+  align-items: center;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  background: var(--theme-switch-bg);
+  border: 1px solid var(--theme-border);
+  border-radius: 999px;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  position: fixed;
+  right: 24px;
+  top: 24px;
+  z-index: 45;
+}
+.theme-switch button { align-items: center; background: transparent; border: 0; border-radius: 999px; color: var(--theme-switch-ink); display: flex; height: 30px; justify-content: center; padding: 0; width: 30px; }
+.theme-switch button[aria-pressed="true"] { background: var(--theme-switch-active); color: var(--minimal-ink); box-shadow: 0 1px 4px rgb(0 0 0 / 10%); }
+.theme-switch button:focus-visible { outline: 2px solid var(--minimal-accent); outline-offset: 3px; }
+.is-in-vortex .theme-switch { opacity: 0; pointer-events: none; visibility: hidden; }
+
+html[data-theme="dark"] body { background: var(--canvas-paper); color: var(--minimal-ink); }
+html[data-theme="dark"] :is(h1, h2, h3, h4, h5, h6) { color: var(--minimal-ink); }
+html[data-theme="dark"] a { text-decoration-color: rgba(138, 199, 165, .35); }
+html[data-theme="dark"] .intro-summary a:hover { background: var(--minimal-accent-pale); }
+html[data-theme="dark"] .skill-list { color: var(--minimal-muted); }
+html[data-theme="dark"] .about-copy a { color: var(--minimal-accent); }
+html[data-theme="dark"] .footer { border-color: var(--theme-border); }
+html[data-theme="dark"] body:is(.portfolio-home, .detail-layout)::before {
+  background-image: linear-gradient(to right, #bdcec2 1px, transparent 1px), linear-gradient(to bottom, #bdcec2 1px, transparent 1px);
+  opacity: .07;
+}
+
+html[data-theme="dark"] .portfolio-home::after,
+html[data-theme="dark"] body.portfolio-home,
+html[data-theme="dark"] .portfolio-home .contact-column,
+html[data-theme="dark"] .custom-navbar > .container,
+html[data-theme="dark"] .section > .container,
+html[data-theme="dark"] .footer > .container,
+html[data-theme="dark"] body .project-shell,
+html[data-theme="dark"] .detail-sidebar { border-color: var(--theme-border); }
+
+html[data-theme="dark"] .portfolio-home .reference-rule,
+html[data-theme="dark"] .portfolio-section-heading--divided,
+html[data-theme="dark"] .portfolio-home > .footer > .container::before,
+html[data-theme="dark"] .writing-list li + li,
+html[data-theme="dark"] .toc-section-links,
+html[data-theme="dark"] .toc-section-group + .toc-section-group,
+html[data-theme="dark"] .portfolio-home .side-contact-email a { border-color: var(--theme-border); }
+
+html[data-theme="dark"] .portfolio-section-heading h2,
+html[data-theme="dark"] .custom-navbar .section-label,
+html[data-theme="dark"] .project-toc-link,
+html[data-theme="dark"] .toc-section-link,
+html[data-theme="dark"] .identity-experience,
+html[data-theme="dark"] .project-toc-count,
+html[data-theme="dark"] .toc-section-count { color: var(--minimal-muted); }
+html[data-theme="dark"] .project-toc-link:hover,
+html[data-theme="dark"] .project-toc-link:focus-visible,
+html[data-theme="dark"] .project-toc-link[aria-current="location"],
+html[data-theme="dark"] .toc-section-link:hover,
+html[data-theme="dark"] .toc-section-link[aria-current="location"] { color: var(--minimal-accent); }
+html[data-theme="dark"] .identity-strip .identity-card { border-color: #354038; }
+
+html[data-theme="dark"] .filters a { background: #242d27; color: #acb6af; }
+html[data-theme="dark"] .filters a:hover,
+html[data-theme="dark"] .filters a:focus { background: #303d34; color: var(--minimal-ink); }
+html[data-theme="dark"] .filters a.active { background: #354239; border-color: #45564a; color: var(--minimal-ink); box-shadow: 0 3px 8px rgb(0 0 0 / 20%); }
+html[data-theme="dark"] .filter-count { color: #a6b1a9; }
+html[data-theme="dark"] .project-view-switch button { color: var(--minimal-muted); }
+html[data-theme="dark"] .project-view-switch button[aria-pressed="true"] { background: #3a493f; color: var(--minimal-ink); }
+html[data-theme="dark"] .portfolio-home .item .item-wrap > .work-info .work-tech.label-treatment[data-treatment] .label-token { color: #b6c4bb; }
+html[data-theme="dark"] .project-hover-preview { background: #27312a; border-color: #435348; }
+
+html[data-theme="dark"] body .project-overview-rule,
+html[data-theme="dark"] body .project-page-toc,
+html[data-theme="dark"] body .project-facts,
+html[data-theme="dark"] body .project-facts dt,
+html[data-theme="dark"] body .project-facts dd,
+html[data-theme="dark"] body .project-media-section,
+html[data-theme="dark"] body .project-pagination,
+html[data-theme="dark"] body .project-pagination-link { border-color: var(--theme-border); }
+html[data-theme="dark"] body .project-gallery-caption,
+html[data-theme="dark"] body .project-media-note,
+html[data-theme="dark"] body .project-pagination-label { color: var(--minimal-muted); }
+
+html[data-theme="dark"] .project-vortex-card,
+html[data-theme="dark"] .project-vortex-back { background: rgba(29, 36, 31, .9); border-color: rgba(172, 194, 180, .24); color: var(--minimal-ink); }
+html[data-theme="dark"] .project-vortex-card h3 { color: var(--minimal-ink); }
+html[data-theme="dark"] .project-vortex-card-role,
+html[data-theme="dark"] .project-vortex-card-description { color: #acb8b0; }
+html[data-theme="dark"] .project-vortex-back:hover { background: rgba(47, 61, 52, .96); color: var(--minimal-accent); }
+
+@media (max-width: 480px) { .theme-switch { right: 16px; top: 16px; } }
