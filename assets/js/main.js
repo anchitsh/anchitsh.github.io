@@ -168,81 +168,57 @@
   splitTechTags();
 
   var projectNavigator = function() {
-    var $navigator = $('.project-navigator');
-    if (!$navigator.length) return;
+    var $toc = $('.project-toc');
+    if (!$toc.length) return;
     var $projects = $('#portfolio-grid > .item, #tech-art .item').filter(function() {
       return $(this).find('h3, img').length >= 2;
     });
     if (!$projects.length) return;
 
-    var $panel = $navigator.find('.project-navigator-panel');
-    var $toggle = $navigator.find('.project-index-toggle');
-    var $grid = $navigator.find('.project-index-grid');
-    var pinned = false;
+    var $list = $toc.find('.project-toc-list');
+    var $preview = $('.project-hover-preview');
+    var $previewImage = $preview.find('img');
     var active = -1;
     var queued = false;
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var number = function(index) { return String(index + 1).padStart(2, '0'); };
-    var total = String($projects.length).padStart(2, '0');
-
-    var showPreview = function(index) {
-      var $project = $projects.eq(index);
-      $navigator.find('.project-index-image').attr('src', $project.find('img').first().attr('src'));
-      $navigator.find('.project-index-name').text($project.find('h3').first().text());
-      $navigator.find('.project-index-number').text(number(index) + ' / ' + total);
-    };
-
-    var setOpen = function(open) {
-      $panel.prop('hidden', !open);
-      $toggle.attr('aria-expanded', String(open));
+    var hidePreview = function() { $preview.removeClass('is-visible'); };
+    var placePreview = function(link, pointerY) {
+      var bounds = link.getBoundingClientRect();
+      var width = $preview.outerWidth();
+      var height = width * 9 / 16 + 8;
+      var left = Math.min(bounds.right + 20, window.innerWidth - width - 24);
+      var centerY = typeof pointerY === 'number' ? pointerY : bounds.top + bounds.height / 2;
+      var top = Math.max(20, Math.min(centerY - height / 2, window.innerHeight - height - 20));
+      $preview.css({ left: Math.max(20, left), top: top });
     };
 
     $projects.each(function(index) {
       var $project = $(this);
       var title = $project.find('h3').first().text();
       var slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      var id = 'project-' + number(index) + '-' + slug;
+      var id = 'project-' + String(index + 1).padStart(2, '0') + '-' + slug;
       $project.attr('id', id);
-      var $tile = $('<a class="project-index-tile"></a>').attr({
-        href: '#' + id,
-        'aria-label': number(index) + '. ' + title,
-        title: title
-      });
-      $('<img alt="" loading="lazy" width="64" height="64">').attr('src', $project.find('img').first().attr('src')).appendTo($tile);
-      $('<span aria-hidden="true"></span>').text(number(index)).appendTo($tile);
-      $tile.on('mouseenter focus', function() { showPreview(index); });
-      $tile.on('click', function(event) {
+      var $link = $('<a class="project-toc-link"></a>').attr('href', '#' + id).text(title);
+      $link.on('mouseenter focus', function(event) {
+        $previewImage.attr('src', $project.find('img').first().attr('src'));
+        $preview[0].style.setProperty('--preview-angle', (index % 2 === 0 ? '-4' : '4') + 'deg');
+        placePreview(this, event.clientY);
+        $preview.addClass('is-visible');
+      }).on('mousemove', function(event) {
+        placePreview(this, event.clientY);
+      }).on('mouseleave blur', hidePreview).on('click', function(event) {
         event.preventDefault();
         if (!$project.is(':visible')) $('#filters a[data-filter="*"]').trigger('click');
-        pinned = false;
-        setOpen(false);
-        $toggle[0].focus({ preventScroll: true });
+        hidePreview();
         $project[0].scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
       });
-      $grid.append($tile);
+      $('<li></li>').append($link).appendTo($list);
     });
 
-    $navigator.find('.project-total').text($projects.length);
-    $navigator.prop('hidden', false);
-    showPreview(0);
-    $navigator.on('mouseenter', function() { setOpen(true); });
-    $navigator.on('mouseleave', function() { if (!pinned) setOpen(false); });
-    $toggle.on('click', function() {
-      pinned = !pinned;
-      setOpen(pinned);
-    });
-    $navigator.on('focusout', function(event) {
-      if (!this.contains(event.relatedTarget)) { pinned = false; setOpen(false); }
-    });
-    $(document).on('keydown', function(event) {
-      if (event.key === 'Escape' && !$panel.prop('hidden')) {
-        pinned = false;
-        setOpen(false);
-        $toggle[0].focus({ preventScroll: true });
-      }
-    }).on('click', function(event) {
-      if (!$navigator[0].contains(event.target)) { pinned = false; setOpen(false); }
-    });
+    $toc.find('.project-toc-count').text($projects.length);
+    $toc.prop('hidden', false);
+    $list.on('scroll', hidePreview);
+    $(document).on('keydown', function(event) { if (event.key === 'Escape') hidePreview(); });
 
     var updatePosition = function() {
       queued = false;
@@ -251,16 +227,24 @@
       $projects.each(function(index) {
         if ($(this).is(':visible') && $(this).offset().top <= position) next = index;
       });
-      if (next === active && $navigator.find('.project-index-position').text()) return;
+      if (next === active) return;
       active = next;
-      $navigator.find('.project-index-position').text((active < 0 ? '00' : number(active)) + ' / ' + total);
-      $grid.children().removeAttr('aria-current');
+      var $links = $list.find('a').removeAttr('aria-current');
       if (active >= 0) {
-        $grid.children().eq(active).attr('aria-current', 'location');
-        if ($panel.prop('hidden')) showPreview(active);
+        var link = $links.eq(active).attr('aria-current', 'location')[0];
+        // Keep the current title in view without moving the main document.
+        if (!document.activeElement || !$toc[0].contains(document.activeElement)) {
+          var bounds = link.getBoundingClientRect();
+          var listBounds = $list[0].getBoundingClientRect();
+          if (window.innerWidth > 859) {
+            if (bounds.top < listBounds.top) $list[0].scrollTop -= listBounds.top - bounds.top;
+            else if (bounds.bottom > listBounds.bottom) $list[0].scrollTop += bounds.bottom - listBounds.bottom;
+          }
+        }
       }
     };
     $(window).on('scroll resize', function() {
+      hidePreview();
       if (!queued) { queued = true; window.requestAnimationFrame(updatePosition); }
     });
     $('#filters a').on('click', updatePosition);

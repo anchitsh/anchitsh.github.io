@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css?v=20261106-mascot-dial" rel="stylesheet">
+  <link href="assets/css/style.css?v=20261106-left-toc" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPortfolio - v2.1.0
@@ -72,10 +72,16 @@
 
 
   <div class="contact-rail">
-    <aside class="contact-column contact-column-left" aria-label="Email contact">
+    <aside class="contact-column contact-column-left" aria-label="Projects and email">
+    <div class="left-column-content">
+      <nav class="project-toc" aria-label="Project contents" hidden>
+        <div class="project-toc-heading"><span>Projects</span><span class="project-toc-count"></span></div>
+        <ol class="project-toc-list"></ol>
+      </nav>
     <div class="side-contact side-contact-email">
       <p>If you like writing emails:</p>
       <a href="mailto:anchitsharma11@gmail.com">anchitsharma11@gmail.com</a>
+    </div>
     </div>
     </aside>
     <aside class="contact-column contact-column-right" aria-label="Social profiles">
@@ -878,23 +884,7 @@
     </div>
   </footer>
 
-  <nav class="project-navigator" aria-label="Project index" hidden>
-    <div class="project-navigator-panel" id="project-index-panel" hidden>
-      <div class="project-navigator-heading">
-        <span>Project index <span class="project-total"></span></span>
-        <span>Hover to preview · click to jump</span>
-      </div>
-      <div class="project-index-preview" aria-hidden="true">
-        <img class="project-index-image" alt="" width="640" height="360">
-        <div class="project-index-caption"><span class="project-index-name"></span><span class="project-index-number"></span></div>
-      </div>
-      <div class="project-index-grid" aria-label="Choose a project"></div>
-    </div>
-    <button class="project-index-toggle" type="button" aria-expanded="false" aria-controls="project-index-panel">
-      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M2 2h6v6H2zm10 0h6v6h-6zM2 12h6v6H2zm10 0h6v6h-6z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span>Explore projects</span><span class="project-index-position"></span>
-    </button>
-  </nav>
+  <div class="project-hover-preview" aria-hidden="true"><img alt="" width="480" height="270"></div>
 
   <aside class="mascot-dial" aria-label="Mascot controls">
     <div class="mascot-dial-panel" id="mascot-dial-panel" hidden>
@@ -920,7 +910,7 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js?v=20261106-mascot-dial" defer></script>
+  <script src="assets/js/main.js?v=20261106-left-toc" defer></script>
 
 </body>
 
