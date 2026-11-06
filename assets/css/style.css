@@ -2181,7 +2181,7 @@ a:hover {
 
 .writing-link {
   align-items: center;
-  color: var(--minimal-ink);
+  color: var(--minimal-muted);
   display: flex;
   font-size: 13px;
   font-weight: 400;
@@ -2192,7 +2192,7 @@ a:hover {
   text-decoration: none;
 }
 
-.writing-link svg { color: #888; flex-shrink: 0; }
+.writing-link svg { color: inherit; flex-shrink: 0; }
 .writing-link:hover,
 .writing-link:focus-visible,
 .writing-link:hover svg { color: var(--minimal-accent); }
