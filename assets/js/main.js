@@ -41,6 +41,21 @@
   // the DOM is ready; image loads re-run the layout above.
   $(siteIstotope);
 
+  var projectViews = function() {
+    var $buttons = $('[data-project-layout]');
+    if (!$buttons.length) return;
+    $buttons.on('click', function() {
+      var view = $(this).attr('data-project-layout');
+      if (view !== 'grid' && view !== 'list') return;
+      $('body').attr('data-project-view', view);
+      $buttons.attr('aria-pressed', 'false');
+      $(this).attr('aria-pressed', 'true');
+      // Refresh the active sidebar title after the cards change position.
+      $(window).trigger('resize');
+    });
+  };
+  projectViews();
+
   var siteProjectGalleries = function() {
     $('.project-gallery').each(function() {
       var $gallery = $(this);

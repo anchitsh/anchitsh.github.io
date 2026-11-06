@@ -42,7 +42,7 @@
   ======================================================== -->
 </head>
 
-<body class="portfolio-home">
+<body class="portfolio-home" data-project-view="grid">
 
   <!-- ======= Navbar ======= -->
   <nav class="navbar navbar-light custom-navbar">
@@ -140,11 +140,17 @@
 	      <div class="container">
         <div class="row portfolio-filter-row">
           <div class="col-12" data-aos="fade-up" data-aos-delay="100">
+            <div class="project-toolbar">
             <div id="filters" class="filters" role="group" aria-label="Filter projects">
               <a href="#" data-filter="*" class="active" role="button" aria-pressed="true"><span>All</span><span class="filter-count">23</span></a>
               <a href="#" data-filter=".Commercial" role="button" aria-pressed="false"><span>Commercial</span><span class="filter-count">7</span></a>
               <a href="#" data-filter=".Independent" role="button" aria-pressed="false"><span>Independent</span><span class="filter-count">16</span></a>
               <a href="#" data-filter=".Tools" role="button" aria-pressed="false"><span>Tools</span><span class="filter-count">2</span></a>
+            </div>
+            <div class="project-view-switch" role="group" aria-label="Project layout">
+              <button type="button" data-project-layout="grid" aria-label="Grid view" aria-pressed="true" title="Grid view"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 3h5v5H3zm9 0h5v5h-5zM3 12h5v5H3zm9 0h5v5h-5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button type="button" data-project-layout="list" aria-label="List view" aria-pressed="false" title="List view"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M7 4h10M7 10h10M7 16h10M3 4h.1M3 10h.1M3 16h.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+            </div>
             </div>
           </div>
         </div>
