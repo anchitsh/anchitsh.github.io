@@ -6,51 +6,30 @@
   // Run in the head so a saved dark theme is applied before the page paints.
   root.dataset.theme = current;
 
-  // Create audio only after a switch press; never play on load or storage sync.
-  var audioContext;
-  var switchSounds = {};
-  function playSwitchSound(on) {
+  // DRAGON-STUDIO / Pixabay Content License; see assets/audio/NOTICE.txt.
+  var scriptSource = document.currentScript && document.currentScript.src;
+  var switchSoundUrl = scriptSource ? new URL('../audio/light-switch.mp3', scriptSource).href : 'assets/audio/light-switch.mp3';
+  var switchSound;
+  function prepareSwitchSound() {
     try {
-      var AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      if (!audioContext || audioContext.state === 'closed') {
-        audioContext = new AudioContext();
-        switchSounds = {};
+      if (!switchSound && window.Audio) {
+        switchSound = new window.Audio(switchSoundUrl);
+        switchSound.preload = 'auto';
+        switchSound.volume = .6;
+        switchSound.load();
       }
-      var context = audioContext;
-      function play() {
-        try {
-          if (context.state !== 'running') return;
-          var key = on ? 'on' : 'off';
-          if (!switchSounds[key]) {
-            var buffer = context.createBuffer(1, Math.ceil(context.sampleRate * .09), context.sampleRate);
-            var samples = buffer.getChannelData(0);
-            var seed = 17;
-            for (var i = 0; i < samples.length; i++) {
-              var time = i / context.sampleRate;
-              seed = (seed * 16807) % 2147483647;
-              var noise = (seed / 2147483647) * 2 - 1;
-              // Two tiny latch impacts, with a brighter click when the light turns on.
-              var second = Math.max(0, time - .014);
-              var impact = Math.exp(-time * 540) + (time >= .014 ? .55 * Math.exp(-second * 660) : 0);
-              var resonance = Math.sin(2 * Math.PI * (on ? 1650 : 1050) * time) * Math.exp(-time * 95);
-              var body = Math.sin(2 * Math.PI * (on ? 380 : 260) * time) * Math.exp(-time * 125);
-              samples[i] = (noise * impact * .48 + resonance * .17 + body * .25) * Math.min(1, time / .0006);
-            }
-            switchSounds[key] = buffer;
-          }
-          var source = context.createBufferSource();
-          var volume = context.createGain();
-          source.buffer = switchSounds[key];
-          volume.gain.value = .4;
-          source.connect(volume);
-          volume.connect(context.destination);
-          source.onended = function() { source.disconnect(); volume.disconnect(); };
-          source.start();
-        } catch (error) { /* Feedback must never interrupt a theme change. */ }
-      }
-      if (context.state === 'suspended') context.resume().then(play).catch(function() {});
-      else play();
+    } catch (error) { /* Audio is optional; theme switching must remain available. */ }
+  }
+
+  function playSwitchSound() {
+    try {
+      prepareSwitchSound();
+      if (!switchSound) return;
+      // Restart the single recording on every press, without overlapping clicks.
+      switchSound.pause();
+      switchSound.currentTime = 0;
+      var playback = switchSound.play();
+      if (playback && playback.catch) playback.catch(function() {});
     } catch (error) { /* Audio may be unavailable or blocked by the browser. */ }
   }
 
@@ -90,12 +69,14 @@
         control.classList.add('is-pulling');
       }
       apply(on ? 'light' : 'dark', true);
-      playSwitchSound(on);
+      playSwitchSound();
       if (!reducedMotion && typeof navigator.vibrate === 'function') {
         try { navigator.vibrate(on ? 12 : 8); } catch (error) {}
       }
     });
     control.addEventListener('animationend', function(event) { if (event.animationName === 'bulb-pull') control.classList.remove('is-pulling'); });
+    // Preload the small local asset, but play only in response to a switch press.
+    prepareSwitchSound();
     document.body.appendChild(control);
     apply(current, false);
     window.addEventListener('storage', function(event) {
