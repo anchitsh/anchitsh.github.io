@@ -2319,19 +2319,38 @@ a:hover {
   align-items: start;
   column-gap: 12px;
   display: grid;
+  grid-auto-flow: dense;
+  grid-auto-rows: clamp(48px, 5vw, 68px);
   grid-template-columns: repeat(3, minmax(0, 1fr));
   row-gap: 24px;
 }
 
-.portfolio-home[data-project-view="grid"] .item { min-width: 0; }
+.portfolio-home[data-project-view="grid"] .item {
+  grid-row: span 2;
+  height: 100%;
+  min-width: 0;
+}
+
+/* A repeating, staggered rhythm keeps the first center preview taller. */
+.portfolio-home[data-project-view="grid"] .item:nth-child(6n + 2),
+.portfolio-home[data-project-view="grid"] .item:nth-child(6n + 4) {
+  grid-row: span 3;
+}
 
 .portfolio-home[data-project-view="grid"] .item .item-wrap {
   gap: 0;
+  height: 100%;
   overflow: hidden;
   position: relative;
 }
 
-.portfolio-home[data-project-view="grid"] .item .item-wrap img { aspect-ratio: 4 / 3; order: 0; }
+.portfolio-home[data-project-view="grid"] .item .item-wrap img {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  order: 0;
+}
 
 .portfolio-home[data-project-view="grid"] .item .item-wrap > .work-info {
   align-items: flex-start;
@@ -2422,8 +2441,12 @@ a:hover {
 @media (max-width: 400px) {
   .portfolio-home[data-project-view="grid"] #portfolio-grid,
   .portfolio-home[data-project-view="grid"] #tech-art > .container > .row.no-gutter {
+    grid-auto-rows: auto;
     grid-template-columns: minmax(0, 1fr);
   }
+  .portfolio-home[data-project-view="grid"] .item:nth-child(n) { grid-row: auto; height: auto; }
+  .portfolio-home[data-project-view="grid"] .item .item-wrap { height: auto; }
+  .portfolio-home[data-project-view="grid"] .item .item-wrap img { aspect-ratio: 4 / 3; height: auto; }
 }
 
 @media (max-width: 767px) {
