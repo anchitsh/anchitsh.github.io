@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Farsight - Grass Field</title>
+  <meta content="How the grass field in Farsight works: three layers of grass that share the same wind, clouds and colour." name="description">
+  <meta property="og:title" content="Grass Field | Anchit Sharma">
+  <meta property="og:description" content="How the grass field in Farsight works: three layers of grass that share the same wind, clouds and colour.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anchitsh.github.io/Farsight_Grass.html">
+  <meta property="og:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-grass-field.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Grass Field | Anchit Sharma">
+  <meta name="twitter:description" content="How the grass field in Farsight works: three layers of grass that share the same wind, clouds and colour.">
+  <meta name="twitter:image" content="https://anchitsh.github.io/assets/img/farsight/techart/farsight-grass-field.webp">
+  <link rel="canonical" href="https://anchitsh.github.io/Farsight_Grass.html">
+
+  <!-- Favicons -->
+  <link href="favicon.ico" rel="icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css?v=20261023163351" rel="stylesheet">
+
+  <style>
+    .project-figure figcaption { color: #5b6b76; font-size: 14px; line-height: 1.55; margin-top: 10px; text-align: center; }
+    .project-copy pre { background: #f1f3f4; border: 1px solid #d7dcdf; border-radius: 4px; color: #172b39; font-size: 13px; line-height: 1.55; margin: 0 0 28px; overflow-x: auto; padding: 16px 18px; }
+    .project-copy code { font-family: SFMono-Regular, Menlo, Consolas, monospace; }
+    .project-copy p code { background: #f1f3f4; border-radius: 3px; font-size: 14px; padding: 1px 5px; }
+    .photo-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .photo-row img { display: block; height: auto; width: 100%; }
+    .pixel-art { image-rendering: pixelated; }
+    @media (max-width: 575px) { .photo-row { grid-template-columns: 1fr; } }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Navbar ======= -->
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Anchit Sharma.</a>
+    </div>
+  </nav>
+
+  <main id="main"><section class="section project-page"><div class="container project-shell">
+<a href="index.html#tech-art" class="project-back">Home</a><header class="project-header"><div class="project-heading"><h1>Grass Field</h1></div>
+<dl class="project-facts">
+<dt>Project:</dt>
+<dd><a href="Farsight.html">Farsight</a></dd>
+<dt>Year:</dt>
+<dd>2026</dd>
+<dt>Type:</dt>
+<dd>Layered grass rendering</dd>
+<dt>Tech:</dt>
+<dd>Unity URP, HLSL, C#</dd>
+</dl></header><article class="project-copy project-writeup">
+
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-grass-field.webp" alt="A wide grass field moving in the wind, with a house on the horizon" class="project-figure-image" decoding="async"></figure>
+
+<h3 class="project-section-title">The goal</h3>
+
+<p>Part of Farsight takes place out in a huge field, walking towards a house in the middle of it. The grass needed to look good right at your feet, keep going all the way to the horizon, and still run well on a Mac.</p>
+
+<h3 class="project-section-title">How it works</h3>
+<p>No single grass system did all of that, so the field is three layers, each covering a different distance. Up close it's meadow grass from The Vegetation Engine, drawn with GPU Instancer Pro. Further out it's GrassFlow, which draws blades on the GPU. Past that, a ground shader paints grass all the way to the horizon. All three read the same settings for colour, wind and clouds, so you can't see where one stops and the next one starts.</p>
+
+<h3 class="project-section-title">1. Three layers</h3>
+<p>Each layer only has to be good at its own distance. The meadow grass is detailed but expensive, so it only covers the 30 metres around you. GrassFlow's blades are cheap, so they cover the middle distance and thin out as they go. The ground shader is the cheapest of all and fills in everything beyond that.</p>
+<div class="project-figure"><div class="photo-row"><img src="assets/img/farsight/grass/grass-layers-meadow.jpg" alt="Only the meadow grass, near the camera" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-layers-grassflow.jpg" alt="Only the GrassFlow blades" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-layers-ground.jpg" alt="Only the ground shader" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-layers-all.jpg" alt="All three layers together" loading="lazy" decoding="async"></div><figcaption>The meadow grass, the GrassFlow blades, the ground shader, then all three together.</figcaption></div>
+
+<h3 class="project-section-title">2. Grass that follows you</h3>
+<p>The meadow grass comes in patches about 6 metres wide. They sit on a grid that moves with you, and each grid cell picks its patch's position, rotation and size from a hash of its coordinates. That way the same spot always gets the same patch, nothing pops as you walk, and the cost stays the same however big the field gets.</p>
+<p>The first version had bare holes in it. The patch's grass sits about a metre off its pivot, so when patches were placed by their pivot, the thin sides of a few neighbours would line up and leave gaps. Placing each patch by the middle of its grass instead got rid of them.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-1-patch-grid.png" alt="Top-down view of the patch grid, with bare ground in red" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Top-down, 18 m around the camera. Each dot is a patch and red is bare ground. Placed by the pivot on the left (3.35% bare), by the grass on the right (0.32%).</figcaption></div>
+<p>Slopes were the other problem. A flat 6 metre patch on a bank sinks into the ground on one side and hangs over the edge on the other. Each patch now samples the ground at nine points, fits a plane through them and tilts to match. If the ground still bends too far away from that plane, like on the edge of a bank, the patch isn't placed at all.</p>
+<div class="project-figure"><div class="photo-row"><img src="assets/img/farsight/grass/grass-bank-before.jpg" alt="Grass patches hanging over a bank as flat shelves" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-bank-after.jpg" alt="The same bank covered in grass that follows the slope" loading="lazy" decoding="async"></div><figcaption>A bank before and after.</figcaption></div>
+
+<h3 class="project-section-title">3. Handing over</h3>
+<p>Where the meadow grass is, the GrassFlow blades need to stay out of the way, or you get two layers of grass on top of each other. Every time the patches move, the meadow writes a small map of where it actually covers the ground, and the blades hide only there. The spots it skipped, like steep banks, keep their blades.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-2-coverage.png" alt="The coverage map in green over a map of how steep the ground is" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The coverage map in green, over the ground's steepness in grey. The gaps follow the steep parts.</figcaption></div>
+
+<h3 class="project-section-title">4. Drawing less</h3>
+<p>GrassFlow splits the field into chunks and decides how many blades to draw per chunk, based on its nearest edge. With 31 metre chunks, any chunk touching you was drawn at full density all the way across, even its far side. Halving the chunk size, and adjusting how quickly density drops off, made it draw about 36% fewer blades for the same look.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-3-blades-by-distance.png" alt="Bar chart of blades drawn at each distance, before and after" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Roughly how many blades are drawn every 6 m from the opening camera. Grey is the old chunk size, green is the new one.</figcaption></div>
+<p>Far away, GrassFlow faded blades out by hiding them pixel by pixel. Once a blade is only a pixel or two wide, that leaves stray dark specks. Now each blade gets its own random cut-off and shrinks into the ground as a whole when the fade passes it.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-4-fade.png" alt="Distant blades fading out with a dither pattern, and by shrinking" class="project-figure-image pixel-art" loading="lazy" decoding="async"><figcaption>Fading by pixel at the top, by blade at the bottom.</figcaption></div>
+<p>Along the way we found that when GrassFlow counts its blades, it writes them into a tiny placeholder buffer, past its end. On Windows the extra writes get thrown away, but on a Mac they corrupted GPU memory. Skipping those writes while counting fixed it.</p>
+
+<h3 class="project-section-title">5. One sky for everything</h3>
+<p>All three layers take their colour, wind gusts and haze from the same set of global values, so a gust or a change in colour moves across the whole field at once. Cloud shadows are a texture the sun shines through, which drifts with the wind, so anything the sun lights darkens under the same clouds.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-5-cloud-cookie.png" alt="The tiling cloud texture, repeated two by two" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The cloud texture. It tiles, so it can drift forever.</figcaption></div>
+<p>GrassFlow works out its colour per vertex and doesn't read that texture itself, so its shader samples the same cloud texture through the same projection as the sun. That lines its shadows up exactly with the ones on the meadow and the ground.</p>
+<pre><code>float2 uv = ComputeLightCookieUVDirectional(_MainLightWorldToLight, positionWS,
+                                            float4(1, 1, 0, 0), URP_TEXTURE_WRAP_MODE_NONE);
+float cookie = SAMPLE_TEXTURE2D_LOD(_MainLightCookieTexture, sampler_MainLightCookieTexture, uv, 0).r;</code></pre>
+<figure class="project-figure"><img src="assets/img/farsight/grass/grass-5-clouds.webp" alt="Cloud shadows drifting across all three layers of grass" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Cloud shadows crossing the meadow, the blades and the ground. Sped up.</figcaption></figure>
+
+<p>The diagrams on this page were drawn with Python from data exported from the game. Everything else was captured in Unity.</p>
+
+</article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Icons.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Floating Icons</strong></a></nav>
+</div></section></main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <ul class="site-footer-links">
+        <li><a href="about.html">About me</a></li>
+        <li><a href="mailto:anchitsharma11@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/anchit-sh/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://anchitsh.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a></li>
+        <li><a href="https://twitter.com/NooriGames" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      </ul>
+      <p class="site-footer-copy">&copy; 2026 Anchit Sharma</p>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js?v=20261023163351"></script>
+
+</body>
+
+</html>
