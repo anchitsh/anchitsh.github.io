@@ -1945,11 +1945,11 @@ a:hover {
 .portfolio-home .footer > .container {
   border: 0;
   padding-left: 80px;
-  padding-right: 80px;
+  padding-right: 48px;
   width: 100%;
 }
 
-.portfolio-home .reference-rule { max-width: none; margin-left: 80px; margin-right: 80px; }
+.portfolio-home .reference-rule { max-width: none; margin-left: 80px; margin-right: 48px; }
 
 .portfolio-home .contact-rail { display: contents; }
 
