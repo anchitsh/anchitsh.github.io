@@ -19,6 +19,11 @@ html:has(:is(.portfolio-home, .detail-layout)) {
   background: var(--canvas-paper);
 }
 
+:is(.portfolio-home, .detail-layout) > .footer {
+  border-top: 0;
+  margin-top: 0;
+}
+
 :is(.portfolio-home, .detail-layout)::before {
   animation: none;
   background-color: transparent;
