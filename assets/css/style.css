@@ -1996,7 +1996,7 @@ a:hover {
 
 .portfolio-home .item .item-wrap > .work-info {
   column-gap: 12px;
-  row-gap: 16px;
+  row-gap: 8px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 }
