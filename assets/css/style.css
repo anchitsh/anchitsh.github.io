@@ -1262,23 +1262,23 @@ a:hover {
 }
 
 .identity-strip {
-  height: 164px;
+  height: 62px;
   isolation: isolate;
   margin-bottom: 14px;
   position: relative;
-  width: 220px;
+  width: 108px;
 }
 
 .identity-strip .identity-card {
   background: var(--minimal-surface);
   border: 2px solid #fff;
-  border-radius: 22px;
+  border-radius: 12px;
   box-shadow: 0 8px 18px rgba(38, 38, 38, .12);
-  height: 132px;
+  height: 48px;
   object-fit: cover;
   position: absolute;
-  top: 24px;
-  width: 100px;
+  top: 10px;
+  width: 48px;
 }
 
 .identity-card-left {
@@ -1288,13 +1288,13 @@ a:hover {
 }
 
 .identity-card-right {
-  left: 116px;
+  left: 56px;
   transform: rotate(12deg);
   z-index: 1;
 }
 
 .identity-strip .identity-card-front {
-  left: 60px;
+  left: 30px;
   top: 0;
   z-index: 2;
 }
@@ -1306,10 +1306,10 @@ a:hover {
 }
 
 .identity-mascot {
-  flex: 0 0 64px;
-  height: 72px;
+  flex: 0 0 var(--mascot-size, 64px);
+  height: var(--mascot-size, 64px);
   object-fit: contain;
-  width: 64px;
+  width: var(--mascot-size, 64px);
 }
 
 .identity-name {
@@ -1322,6 +1322,76 @@ a:hover {
 .identity-name .navbar-brand {
   margin-right: 0;
   white-space: normal;
+}
+
+.mascot-render {
+  filter: var(--mascot-filter, none);
+  transform: rotate(var(--mascot-tilt, 0deg));
+}
+
+.mascot-dial {
+  bottom: 24px;
+  color: var(--minimal-ink);
+  font-size: 12px;
+  left: 24px;
+  position: fixed;
+  z-index: 31;
+}
+
+.mascot-dial-toggle {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .08);
+  color: inherit;
+  display: flex;
+  font: inherit;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.mascot-dial-toggle[aria-expanded="true"] {
+  border-color: var(--minimal-blue);
+  color: var(--minimal-blue);
+}
+
+.mascot-dial-panel {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  bottom: calc(100% + 12px);
+  box-shadow: 0 16px 60px rgba(0, 0, 0, .12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  left: 0;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  padding: 18px;
+  position: absolute;
+  width: 260px;
+}
+
+.mascot-dial-heading,
+.mascot-dial-panel label {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mascot-dial-heading { font-weight: 600; }
+.mascot-dial-panel label { margin: 4px 0 0; }
+.mascot-dial-panel output { color: #777; }
+.mascot-reset { background: none; border: 0; color: var(--minimal-blue); font: inherit; padding: 0; }
+.mascot-dial-preview { align-items: center; background: #f5f6f8; border-radius: 10px; display: flex; height: 130px; justify-content: center; }
+.mascot-dial-preview img { height: 96px; object-fit: contain; width: 96px; }
+.mascot-dial-panel select { background: #fff; border: 1px solid #ddd; border-radius: 6px; color: inherit; font: inherit; padding: 8px; width: 100%; }
+.mascot-dial-panel input { accent-color: var(--minimal-blue); width: 100%; }
+
+@media (max-width: 480px) {
+  .mascot-dial { bottom: 16px; left: 16px; }
+  .mascot-dial-panel { width: min(260px, calc(100vw - 32px)); }
 }
 
 .section-label {

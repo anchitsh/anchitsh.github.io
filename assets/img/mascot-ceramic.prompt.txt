@@ -1,0 +1,6 @@
+Asset: mascot-ceramic.png
+Generated with the built-in image generation tool; transparent background.
+The original outline is mascot-placeholder.svg. Ceramic and glow styles use this PNG.
+
+Prompt:
+Create one website mascot asset on a genuinely transparent background. A tiny friendly pale ivory-blue ghost, rendered as a realistic small ceramic designer toy photographed in a studio. Full body front view, rounded domed head seamlessly flowing to short softly scalloped ghost hem, two dark cobalt-blue small oval eyes and a tiny smiling mouth, subtle pale blue cheeks, tiny raised nub arms. Soft sculptural three-dimensional form, ceramic glaze with restrained highlights, realistic soft ambient occlusion and warm studio lighting, gently rounded tactile edges, very legible at 64 pixels. Single character centered with 8 percent transparent padding, feet near bottom, no floor, no backdrop, no text, no watermark, no accessories, no other objects. Calm charming rather than spooky, refined minimal portfolio character. Asset should be square.

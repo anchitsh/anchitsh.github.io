@@ -268,6 +268,53 @@
   };
   projectNavigator();
 
+  var mascotDial = function() {
+    var $dial = $('.mascot-dial');
+    if (!$dial.length) return;
+    var $toggle = $dial.find('.mascot-dial-toggle');
+    var $panel = $dial.find('.mascot-dial-panel');
+    var defaults = { style: 'ceramic', color: 'blue', size: 64, depth: 50, tilt: 0 };
+    var settings = $.extend({}, defaults);
+    try { settings = $.extend(settings, JSON.parse(localStorage.getItem('anchit-mascot-dial')) || {}); } catch (error) {}
+
+    var apply = function() {
+      var sources = { outline: 'assets/img/mascot-placeholder.svg', ceramic: 'assets/img/mascot-ceramic.png', glow: 'assets/img/mascot-ceramic.png' };
+      if (!sources[settings.style]) settings.style = defaults.style;
+      var hue = { blue: 0, sage: -75, rose: 100 }[settings.color] || 0;
+      var depth = Math.max(0, Math.min(100, Number(settings.depth))) / 100;
+      var shadow = settings.style === 'glow' ? 'drop-shadow(0 0 ' + (4 + depth * 12) + 'px rgba(79, 123, 245, .5))' : 'drop-shadow(0 ' + (depth * 4) + 'px ' + (depth * 5) + 'px rgba(27, 40, 78, ' + (depth * .25) + '))';
+      $('.mascot-render').attr('src', sources[settings.style]);
+      document.documentElement.style.setProperty('--mascot-filter', 'hue-rotate(' + hue + 'deg) ' + shadow);
+      document.documentElement.style.setProperty('--mascot-size', settings.size + 'px');
+      document.documentElement.style.setProperty('--mascot-tilt', settings.tilt + 'deg');
+      Object.keys(settings).forEach(function(key) { $dial.find('#mascot-' + key).val(settings[key]); });
+      $dial.find('#mascot-size-value').text(settings.size + 'px');
+      $dial.find('#mascot-depth-value').text(settings.depth + '%');
+      $dial.find('#mascot-tilt-value').text(settings.tilt + '°');
+    };
+
+    var close = function() { $panel.prop('hidden', true); $toggle.attr('aria-expanded', 'false'); };
+    $toggle.on('click', function() {
+      var open = $panel.prop('hidden');
+      $panel.prop('hidden', !open);
+      $toggle.attr('aria-expanded', String(open));
+    });
+    $dial.find('select, input').on('input change', function() {
+      settings[this.id.replace('mascot-', '')] = this.value;
+      apply();
+      try { localStorage.setItem('anchit-mascot-dial', JSON.stringify(settings)); } catch (error) {}
+    });
+    $dial.find('.mascot-reset').on('click', function() {
+      settings = $.extend({}, defaults);
+      apply();
+      try { localStorage.removeItem('anchit-mascot-dial'); } catch (error) {}
+    });
+    $(document).on('click', function(event) { if (!$dial[0].contains(event.target)) close(); });
+    $dial.on('keydown', function(event) { if (event.key === 'Escape') { close(); $toggle[0].focus(); } });
+    apply();
+  };
+  mascotDial();
+
   // Start the reveal animations on DOM ready rather than window.load, so content
   // isn't held invisible while every thumbnail finishes downloading.
   $(function() {
