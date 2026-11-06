@@ -6,6 +6,54 @@
   // Run in the head so a saved dark theme is applied before the page paints.
   root.dataset.theme = current;
 
+  // Create audio only after a switch press; never play on load or storage sync.
+  var audioContext;
+  var switchSounds = {};
+  function playSwitchSound(on) {
+    try {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      if (!audioContext || audioContext.state === 'closed') {
+        audioContext = new AudioContext();
+        switchSounds = {};
+      }
+      var context = audioContext;
+      function play() {
+        try {
+          if (context.state !== 'running') return;
+          var key = on ? 'on' : 'off';
+          if (!switchSounds[key]) {
+            var buffer = context.createBuffer(1, Math.ceil(context.sampleRate * .09), context.sampleRate);
+            var samples = buffer.getChannelData(0);
+            var seed = 17;
+            for (var i = 0; i < samples.length; i++) {
+              var time = i / context.sampleRate;
+              seed = (seed * 16807) % 2147483647;
+              var noise = (seed / 2147483647) * 2 - 1;
+              // Two tiny latch impacts, with a brighter click when the light turns on.
+              var second = Math.max(0, time - .014);
+              var impact = Math.exp(-time * 540) + (time >= .014 ? .55 * Math.exp(-second * 660) : 0);
+              var resonance = Math.sin(2 * Math.PI * (on ? 1650 : 1050) * time) * Math.exp(-time * 95);
+              var body = Math.sin(2 * Math.PI * (on ? 380 : 260) * time) * Math.exp(-time * 125);
+              samples[i] = (noise * impact * .48 + resonance * .17 + body * .25) * Math.min(1, time / .0006);
+            }
+            switchSounds[key] = buffer;
+          }
+          var source = context.createBufferSource();
+          var volume = context.createGain();
+          source.buffer = switchSounds[key];
+          volume.gain.value = .4;
+          source.connect(volume);
+          volume.connect(context.destination);
+          source.onended = function() { source.disconnect(); volume.disconnect(); };
+          source.start();
+        } catch (error) { /* Feedback must never interrupt a theme change. */ }
+      }
+      if (context.state === 'suspended') context.resume().then(play).catch(function() {});
+      else play();
+    } catch (error) { /* Audio may be unavailable or blocked by the browser. */ }
+  }
+
   function mount() {
     if (document.querySelector('.theme-switch')) return;
     var control = document.createElement('button');
@@ -34,12 +82,18 @@
     }
 
     control.addEventListener('click', function() {
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var on = current !== 'light';
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reducedMotion) {
         control.classList.remove('is-pulling');
         void control.offsetWidth;
         control.classList.add('is-pulling');
       }
-      apply(current === 'light' ? 'dark' : 'light', true);
+      apply(on ? 'light' : 'dark', true);
+      playSwitchSound(on);
+      if (!reducedMotion && typeof navigator.vibrate === 'function') {
+        try { navigator.vibrate(on ? 12 : 8); } catch (error) {}
+      }
     });
     control.addEventListener('animationend', function(event) { if (event.animationName === 'bulb-pull') control.classList.remove('is-pulling'); });
     document.body.appendChild(control);
