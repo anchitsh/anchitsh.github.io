@@ -176,6 +176,7 @@
     if (!$projects.length) return;
 
     var $list = $toc.find('.project-toc-list');
+    var $more = $toc.find('.project-toc-more');
     var $preview = $('.project-hover-preview');
     var $previewImage = $preview.find('img');
     var active = -1;
@@ -216,6 +217,22 @@
     });
 
     $toc.find('.project-toc-count').text($projects.length);
+    var expanded = false;
+    var updateList = function() {
+      $list.children().slice(10).prop('hidden', !expanded);
+      $more.attr('aria-expanded', String(expanded)).text(expanded ? 'Show less' : 'Show more (' + ($projects.length - 10) + ')');
+      if (!expanded) $list.scrollTop(0);
+      hidePreview();
+    };
+    $more.prop('hidden', $projects.length <= 10).on('click', function() {
+      var pageY = window.scrollY;
+      expanded = !expanded;
+      updateList();
+      // Resolve the resized sidebar before restoring the document position.
+      $more[0].getBoundingClientRect();
+      window.scrollTo({ top: pageY, behavior: 'instant' });
+    });
+    updateList();
     $toc.prop('hidden', false);
     $list.on('scroll', hidePreview);
     $(document).on('keydown', function(event) { if (event.key === 'Escape') hidePreview(); });
@@ -233,7 +250,7 @@
       if (active >= 0) {
         var link = $links.eq(active).attr('aria-current', 'location')[0];
         // Keep the current title in view without moving the main document.
-        if (!document.activeElement || !$toc[0].contains(document.activeElement)) {
+        if ($(link).is(':visible') && (!document.activeElement || !$toc[0].contains(document.activeElement))) {
           var bounds = link.getBoundingClientRect();
           var listBounds = $list[0].getBoundingClientRect();
           if (window.innerWidth > 859) {

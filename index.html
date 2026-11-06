@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css?v=20261106-left-toc" rel="stylesheet">
+  <link href="assets/css/style.css?v=20261106-quieter-sidebar" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPortfolio - v2.1.0
@@ -76,15 +76,13 @@
     <div class="left-column-content">
       <nav class="project-toc" aria-label="Project contents" hidden>
         <div class="project-toc-heading"><span>Projects</span><span class="project-toc-count"></span></div>
-        <ol class="project-toc-list"></ol>
+        <ol class="project-toc-list" id="project-toc-list"></ol>
+        <button class="project-toc-more" type="button" aria-expanded="false" aria-controls="project-toc-list">Show more</button>
       </nav>
     <div class="side-contact side-contact-email">
       <p>If you like writing emails:</p>
       <a href="mailto:anchitsharma11@gmail.com">anchitsharma11@gmail.com</a>
     </div>
-    </div>
-    </aside>
-    <aside class="contact-column contact-column-right" aria-label="Social profiles">
     <div class="side-contact side-contact-social">
       <span>Follow me on</span>
       <a class="social-icon-link" href="https://www.instagram.com/anchit_sharma/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
@@ -94,7 +92,9 @@
         <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.77 7.74L23.2 22h-6.26l-4.9-6.4L6.44 22H3.32l7.24-8.28L2.8 2h6.42l4.43 5.84L18.9 2Zm-1.1 17.9h1.73L8.28 4H6.43L17.8 19.9Z"/></svg>
       </a>
     </div>
+    </div>
     </aside>
+    <div class="contact-column contact-column-right" aria-hidden="true"></div>
   </div>
   
   <main id="main">
@@ -910,7 +910,7 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js?v=20261106-left-toc" defer></script>
+  <script src="assets/js/main.js?v=20261106-quieter-sidebar" defer></script>
 
 </body>
 
