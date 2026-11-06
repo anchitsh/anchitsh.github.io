@@ -7,6 +7,10 @@
 (function($) {
   "use strict";
 
+  if (new URLSearchParams(window.location.search).get('version') === 'no-mascot') {
+    document.body.classList.add('portfolio-home--no-mascot');
+  }
+
   var siteIstotope = function() {
     var $container = $('#portfolio-grid');
     if (!$container.length) return;
@@ -343,6 +347,88 @@
     updatePosition();
   };
   projectNavigator();
+
+  var detailPageLayout = function() {
+    var $shell = $('.project-page .project-shell').first();
+    if (!$shell.length) return;
+
+    var $header = $shell.children('.project-header').first();
+    var $copy = $shell.children('.project-copy').first();
+    if (!$header.length || !$copy.length) return;
+
+    $('.custom-navbar').attr('aria-hidden', 'true').hide();
+    $('body').addClass('detail-layout');
+    $('<link rel="stylesheet" href="assets/css/page-background.css">').appendTo('head');
+    $('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap">').appendTo('head');
+    var $sidebar = $('<aside class="detail-sidebar" aria-label="Page contents and project details"><div class="detail-sidebar-inner"></div></aside>').appendTo('body');
+    var $sidebarInner = $sidebar.children();
+    var $sidebarContent = $('<div class="detail-sidebar-content"></div>').appendTo($sidebarInner);
+    $shell.children('.project-back').detach().addClass('detail-home-card').appendTo($sidebarInner);
+
+    var $overview = $('<section class="project-overview" aria-label="Project overview"></section>');
+    var $heading = $header.find('.project-heading').first();
+    var $facts = $header.find('.project-facts').first();
+    var $description = $('<div class="project-overview-description"></div>');
+    var inBody = false;
+
+    $copy.children().each(function() {
+      var $child = $(this);
+      if ($child.is('h3, h4, .project-section-title')) {
+        inBody = true;
+      }
+      if (!inBody) $description.append($child.detach());
+    });
+
+    if (!$description.children().length) {
+      var $firstParagraph = $copy.find('p').first();
+      if ($firstParagraph.length) $description.append($firstParagraph.detach());
+    }
+
+    $heading.find('.project-actions-label').remove();
+    $heading.find('.project-actions a').prepend('<svg class="project-link-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></svg>');
+    $overview.append($heading.detach());
+    $overview.append('<div class="project-overview-rule" aria-hidden="true"></div>');
+    var $overviewGrid = $('<div class="project-overview-grid"></div>');
+    $overviewGrid.append($description);
+    $('<div class="detail-metadata"></div>').append($facts.detach()).appendTo($sidebarContent);
+    $overview.append($overviewGrid);
+    $header.replaceWith($overview);
+
+    // Moving the intro into the overview can leave an empty section heading.
+    // Only retain sections that still have their own text or media.
+    var sectionSelector = 'h3, h4, .project-section-title';
+    $copy.children(sectionSelector).each(function() {
+      var $sectionHeading = $(this);
+      var $content = $sectionHeading.nextUntil(sectionSelector);
+      if (!$content.text().trim() && !$content.find('img, video, iframe, audio').addBack('img, video, iframe, audio').length) {
+        $content.remove();
+        $sectionHeading.remove();
+      }
+    });
+    $shell.children('.project-media-section').each(function() {
+      var $section = $(this);
+      if (!$section.find('img, video, iframe, audio').length && !$section.children().not('h2, h3, h4').text().trim()) $section.remove();
+    });
+
+    var $headings = $copy.find(sectionSelector);
+    $shell.children('.project-media-section').each(function() {
+      $headings = $headings.add($(this).find('.project-media-label').first());
+    });
+
+    if ($headings.length) {
+      var $toc = $('<nav class="project-page-toc" aria-label="Table of contents"><span class="project-page-toc-label">Table of contents:</span><ol></ol></nav>');
+      var $list = $toc.find('ol');
+      $headings.each(function(index) {
+        var $heading = $(this);
+        var id = $heading.attr('id') || 'page-section-' + (index + 1);
+        $heading.attr('id', id);
+        $('<li><a></a></li>').find('a').attr('href', '#' + id).text($heading.text()).end().appendTo($list);
+      });
+      $('<div class="detail-contents"></div>').append($toc).prependTo($sidebarContent);
+    }
+  };
+  detailPageLayout();
+
 
 
   // Start the reveal animations on DOM ready rather than window.load, so content
