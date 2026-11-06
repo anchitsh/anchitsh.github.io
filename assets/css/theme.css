@@ -19,6 +19,8 @@ html[data-theme="dark"]:root {
   --minimal-accent: #8ac7a5;
   --minimal-accent-pale: #263d30;
   --theme-border: #354038;
+  --grid-caption-surface: rgba(29, 36, 31, .9);
+  --grid-caption-border: rgba(172, 194, 180, .24);
   --bulb-glass: rgba(33, 117, 78, .24);
   --bulb-outline: #7fb292;
   --bulb-wire: #628b71;
