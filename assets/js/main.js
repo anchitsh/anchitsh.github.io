@@ -195,13 +195,14 @@
   var projectNavigator = function() {
     var $toc = $('.project-toc');
     if (!$toc.length) return;
-    var $projects = $('#portfolio-grid > .item, #tech-art .item').filter(function() {
+    var $projects = $('#portfolio-grid > .item').filter(function() {
       return $(this).find('h3, img').length >= 2;
     });
     if (!$projects.length) return;
 
     var $list = $toc.find('.project-toc-list');
     var $more = $toc.find('.project-toc-more');
+    var $sectionLinks = $toc.find('.toc-section-link');
     var $preview = $('.project-hover-preview');
     var $previewImage = $preview.find('img');
     var active = -1;
@@ -243,14 +244,20 @@
     });
 
     $toc.find('.project-toc-count').text($projects.length);
+    $sectionLinks.each(function() {
+      var $section = $($(this).attr('href'));
+      var count = $section.find('.item, .writing-list > li').length;
+      $(this).find('.toc-section-count').text(count);
+    });
+    var previewLimit = 5;
     var expanded = false;
     var updateList = function() {
-      $list.children().slice(10).prop('hidden', !expanded);
-      $more.attr('aria-expanded', String(expanded)).text(expanded ? 'Show less' : 'Show more (' + ($projects.length - 10) + ')');
+      $list.children().slice(previewLimit).prop('hidden', !expanded);
+      $more.attr('aria-expanded', String(expanded)).text(expanded ? 'Show less' : 'Show more (' + ($projects.length - previewLimit) + ')');
       if (!expanded) $list.scrollTop(0);
       hidePreview();
     };
-    $more.prop('hidden', $projects.length <= 10).on('click', function() {
+    $more.prop('hidden', $projects.length <= previewLimit).on('click', function() {
       var pageY = window.scrollY;
       expanded = !expanded;
       updateList();
@@ -270,6 +277,16 @@
       $projects.each(function(index) {
         if ($(this).is(':visible') && $(this).offset().top <= position) next = index;
       });
+      var currentSection = null;
+      var sectionPosition = window.scrollY + window.innerHeight * .5;
+      $sectionLinks.each(function() {
+        var $section = $($(this).attr('href'));
+        if ($section.length && $section.offset().top <= sectionPosition) currentSection = this;
+      }).removeAttr('aria-current');
+      if (currentSection) {
+        $(currentSection).attr('aria-current', 'location');
+        next = -1;
+      }
       if (next === active) return;
       active = next;
       var $links = $list.find('a').removeAttr('aria-current');

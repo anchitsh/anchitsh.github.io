@@ -1488,6 +1488,32 @@ a:hover {
 
 .project-toc-more:hover { text-decoration: underline; }
 
+.toc-section-links {
+  border-top: 1px solid #eee;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 20px;
+}
+
+.toc-section-link {
+  align-items: center;
+  color: #666;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.toc-section-count { color: #999; font-size: 10px; font-variant-numeric: tabular-nums; }
+.toc-section-link:hover,
+.toc-section-link[aria-current="location"] { color: var(--minimal-accent); }
+.portfolio-home #tech-art,
+.portfolio-home #writing { scroll-margin-top: 32px; }
+
 .project-toc-heading {
   align-items: baseline;
   color: var(--minimal-ink);
@@ -1584,15 +1610,17 @@ a:hover {
 .portfolio-home .item { scroll-margin-top: 32px; }
 
 @media (max-width: 859px) {
-  .portfolio-home { padding-top: 56px; }
+  .portfolio-home { padding-top: 112px; }
   .left-column-content { display: contents; }
   .project-toc {
     align-items: center;
     background: rgba(255, 255, 255, .98);
     border-bottom: 1px solid #e5e5e5;
-    flex-direction: row;
-    gap: 16px;
-    height: 56px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-content: center;
+    gap: 8px 12px;
+    height: 96px;
     max-height: none;
     left: 16px;
     padding: 0 12px;
@@ -1601,12 +1629,17 @@ a:hover {
     top: 0;
     z-index: 25;
   }
-  .project-toc-heading { flex: 0 0 70px; margin: 0; }
-  .project-toc-list { display: flex; gap: 20px; overflow-x: auto; padding: 0; }
+  .project-toc-heading { gap: 6px; margin: 0; grid-column: 1; grid-row: 1; }
+  .project-toc-list { display: flex; gap: 20px; grid-column: 1 / -1; grid-row: 2; overflow-x: auto; padding: 0; width: 100%; }
   .project-toc-list li { flex: 0 0 auto; max-width: 220px; }
   .project-toc-link { padding: 8px 0; }
-  .project-toc-more { align-self: center; margin: 0; padding: 0; }
-  .portfolio-home .item { scroll-margin-top: 72px; }
+  .project-toc-more { align-self: center; grid-column: 3; grid-row: 1; margin: 0; padding: 0; }
+  .toc-section-links { border: 0; flex-direction: row; gap: 12px; grid-column: 2; grid-row: 1; justify-content: center; margin: 0; padding: 0; }
+  .toc-section-link { font-size: 11px; white-space: nowrap; }
+  .toc-section-count { display: none; }
+  .portfolio-home .item,
+  .portfolio-home #tech-art,
+  .portfolio-home #writing { scroll-margin-top: 112px; }
 }
 
 @media (max-width: 480px) {
