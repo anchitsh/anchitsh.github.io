@@ -1962,6 +1962,7 @@ a:hover {
 
 /* Two columns: contents and contact / portfolio. */
 .portfolio-home {
+  border-right: 1px solid rgba(38, 38, 38, .1);
   display: grid;
   grid-template-columns: minmax(230px, 1.05fr) minmax(0, 3fr);
   margin: 0 auto;
