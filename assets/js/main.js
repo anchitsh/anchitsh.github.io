@@ -175,7 +175,7 @@
     var $panel = $kit.find('.typeface-dial-panel');
     var $root = $(':root');
     var defaults = {
-      typeface: 'Space Grotesk',
+      typeface: 'Caveat',
       weight: '600',
       size: '28',
       tracking: '-0.035',

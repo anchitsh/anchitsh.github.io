@@ -1035,8 +1035,7 @@ body.gallery-lightbox-open {
 }
 
 @media (max-width: 1099px) {
-  .reference-rails,
-  .side-contact {
+  .reference-rails {
     display: none;
   }
 }
@@ -1139,7 +1138,7 @@ body::before {
   --minimal-surface: #f5f5f5;
   --minimal-blue: #002fa7;
   --minimal-blue-pale: #e5eaf6;
-  --name-typeface: "Space Grotesk";
+  --name-typeface: "Caveat";
   --name-weight: 600;
   --name-size: 28px;
   --name-tracking: -.035em;
@@ -1393,13 +1392,24 @@ a:hover {
 }
 
 .intro-copy {
-  max-width: 480px;
+  max-width: none;
 }
 
 .intro-summary {
   font-size: 16px;
   line-height: 1.55;
   margin: 0;
+}
+
+.intro-summary a {
+  color: var(--minimal-blue);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 47, 167, .28);
+}
+
+.intro-summary a:hover {
+  background: var(--minimal-blue-pale);
+  text-decoration-color: var(--minimal-blue);
 }
 
 .career-timeline {
@@ -1503,7 +1513,7 @@ a:hover {
 #portfolio-grid {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 40px;
 }
 
 #portfolio-grid[data-aos] {
@@ -1540,6 +1550,9 @@ a:hover {
   object-fit: contain;
   order: 1;
   padding: 16px;
+  margin-left: 40px;
+  margin-right: 40px;
+  width: calc(100% - 80px);
   transform: none;
 }
 
@@ -1632,8 +1645,8 @@ a:hover {
 }
 
 .footer-contact {
+  display: none;
   align-items: flex-end;
-  display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;
   justify-content: space-between;
@@ -1672,6 +1685,49 @@ a:hover {
   font-size: 13px;
 }
 
+.contact-rail {
+  align-items: center;
+  border-bottom: 1px solid rgba(38, 38, 38, .1);
+  border-top: 1px solid rgba(38, 38, 38, .1);
+  display: flex;
+  justify-content: space-between;
+  margin: 32px auto 0;
+  max-width: 760px;
+  min-height: 56px;
+  padding: 10px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-rail .side-contact {
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+  position: static;
+}
+
+.contact-rail .side-contact-email p {
+  color: var(--minimal-muted);
+}
+
+.contact-rail .side-contact-social {
+  justify-content: flex-end;
+}
+
+.social-icon-link {
+  align-items: center;
+  border: 0 !important;
+  display: inline-flex;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.social-icon {
+  height: 16px;
+  width: 16px;
+}
+
 .site-footer-links a {
   color: var(--minimal-blue);
   font-size: 14px;
@@ -1699,7 +1755,7 @@ a:hover {
   }
 
   #portfolio-grid {
-    gap: 48px;
+    gap: 40px;
   }
 
   .intro-section {
@@ -1736,8 +1792,13 @@ a:hover {
     right: 12px;
   }
 
-  .reference-rails,
-  .side-contact {
+  .reference-rails {
     display: none;
+  }
+
+  .contact-rail {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 }
