@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css?v=20261106-experience-details" rel="stylesheet">
+  <link href="assets/css/style.css?v=20261106-counted-filters" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPortfolio - v2.1.0
@@ -138,11 +138,11 @@
 	      <div class="container">
         <div class="row portfolio-filter-row mb-3">
           <div class="col-12" data-aos="fade-up" data-aos-delay="100">
-            <div id="filters" class="filters">
-              <a href="#" data-filter="*" class="active">All</a>
-              <a href="#" data-filter=".Commercial">Commercial</a>
-              <a href="#" data-filter=".Independent">Independent</a>
-              <a href="#" data-filter=".Tools">Tools</a>
+            <div id="filters" class="filters" role="group" aria-label="Filter projects">
+              <a href="#" data-filter="*" class="active" role="button" aria-pressed="true"><span>All</span><span class="filter-count">23</span></a>
+              <a href="#" data-filter=".Commercial" role="button" aria-pressed="false"><span>Commercial</span><span class="filter-count">7</span></a>
+              <a href="#" data-filter=".Independent" role="button" aria-pressed="false"><span>Independent</span><span class="filter-count">16</span></a>
+              <a href="#" data-filter=".Tools" role="button" aria-pressed="false"><span>Tools</span><span class="filter-count">2</span></a>
             </div>
           </div>
         </div>
@@ -913,7 +913,7 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js?v=20261106-quieter-sidebar" defer></script>
+  <script src="assets/js/main.js?v=20261106-counted-filters" defer></script>
 
 </body>
 

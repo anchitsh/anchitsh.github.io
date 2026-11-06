@@ -1694,23 +1694,38 @@ a:hover {
   margin-left: 0;
 }
 
+.portfolio-filter-row [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 .filters {
-  gap: 4px;
+  gap: 8px;
 }
 
 .filters a {
+  align-items: center;
+  background: #f0f0f0;
+  border: 1px solid transparent;
   border-radius: 999px;
-  color: #737373;
-  padding: 6px 14px;
+  color: #6b6b6b;
+  display: inline-flex;
+  font-size: 12px;
+  gap: 5px;
+  line-height: 18px;
+  padding: 8px 14px;
   text-decoration: none;
 }
 
 .filters a:hover,
 .filters a:focus,
 .filters a:active {
-  background: var(--minimal-surface);
+  background: #e7e7e7;
   color: var(--minimal-ink);
 }
+
+.filters a:focus-visible { outline: 2px solid #aaa; outline-offset: 3px; }
+.filter-count { color: #999; font-variant-numeric: tabular-nums; }
 
 .filters a:before,
 .filters a.active:before,
@@ -1719,7 +1734,9 @@ a:hover {
 }
 
 .filters a.active {
-  background: var(--minimal-surface);
+  background: #fff;
+  border-color: #ededed;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
   color: var(--minimal-ink);
 }
 

@@ -16,6 +16,16 @@
       if (window.AOS) AOS.refresh();
     });
 
+    $('#filters a').each(function() {
+      var filter = $(this).attr('data-filter');
+      var count = filter === '*' ? $container.children('.item').length : $container.children('.item').filter(filter).length;
+      $(this).find('.filter-count').text(count);
+    });
+
+    $('#filters').on('keydown', 'a', function(e) {
+      if (e.key === ' ') { e.preventDefault(); $(this).trigger('click'); }
+    });
+
     $('#filters').on('click', 'a', function(e) {
       e.preventDefault();
       var filterValue = $(this).attr('data-filter');
@@ -23,8 +33,8 @@
         var matches = filterValue === '*' || $(this).is(filterValue);
         $(this).toggle(matches);
       });
-      $('#filters a').removeClass('active');
-      $(this).addClass('active');
+      $('#filters a').removeClass('active').attr('aria-pressed', 'false');
+      $(this).addClass('active').attr('aria-pressed', 'true');
     });
   }
   // Thumbnails carry width/height attributes, so the grid can be laid out as soon as
