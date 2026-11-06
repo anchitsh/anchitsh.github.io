@@ -1140,6 +1140,7 @@ body::before {
   --minimal-tag-border: #dedede;
   --minimal-accent: #21754e;
   --minimal-accent-pale: #e8f2ec;
+  --portfolio-end-space: 48px;
   --name-weight: 600;
   --name-size: 24px;
   --name-tracking: -.035em;
@@ -1992,7 +1993,8 @@ a:hover {
 
 .portfolio-home > .custom-navbar { grid-row: 1; }
 .portfolio-home > main { grid-row: 2; }
-.portfolio-home > .footer { grid-row: 3; }
+.portfolio-home > .footer { grid-row: 3; padding-bottom: var(--portfolio-end-space); }
+.portfolio-home .site-footer-copy { line-height: 24px; }
 
 .portfolio-home .custom-navbar > .container,
 .portfolio-home .section > .container,
@@ -2013,7 +2015,7 @@ a:hover {
   border-right: 1px solid rgba(38, 38, 38, .1);
   grid-row: 1 / 4;
   min-width: 0;
-  padding: 0 24px;
+  padding: 0 24px var(--portfolio-end-space);
 }
 
 .portfolio-home::before { display: none; }
