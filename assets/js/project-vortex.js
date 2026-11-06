@@ -15,7 +15,8 @@
   }
   if (!sources.length) { section.hidden = true; return; }
   var wallColumns = 8;
-  var rings = Math.ceil(sources.length / wallColumns);
+  // Fill the wall with roughly two passes through the previews, then stop.
+  var rings = Math.max(1, Math.floor(sources.length * 2 / wallColumns));
   section.dataset.vortexSources = sources.length;
   section.dataset.vortexTiles = rings * wallColumns;
   section.dataset.vortexProjects = projects.length;
