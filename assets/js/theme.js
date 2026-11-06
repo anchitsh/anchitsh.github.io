@@ -8,36 +8,40 @@
 
   function mount() {
     if (document.querySelector('.theme-switch')) return;
-    var control = document.createElement('div');
+    var control = document.createElement('button');
+    control.type = 'button';
     control.className = 'theme-switch';
-    control.setAttribute('role', 'group');
-    control.setAttribute('aria-label', 'Color theme');
-    var icons = {
-      light: '<circle cx="8" cy="8" r="3"/><path d="M8 1v1M8 14v1M1 8h1M14 8h1M3 3l1 1m8 8 1 1M3 13l1-1m8-8 1-1"/>',
-      dark: '<path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7Z"/>'
-    };
+    control.innerHTML = '<svg viewBox="0 0 48 116" width="48" height="116" fill="none" aria-hidden="true" focusable="false">' +
+      '<defs><radialGradient id="theme-bulb-halo"><stop stop-color="#f6d371" stop-opacity=".45"/><stop offset="1" stop-color="#f6d371" stop-opacity="0"/></radialGradient></defs>' +
+      '<g class="bulb-cord"><path d="M24 0v60" stroke-width="1.4"/><path d="m22.8 5 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2m-2.4 4 2.4 2" stroke-width=".6" opacity=".45"/></g>' +
+      '<g class="bulb-fixture"><circle class="bulb-halo" cx="24" cy="91" r="28" fill="url(#theme-bulb-halo)"/>' +
+      '<path class="bulb-glass" d="M18 70v5c0 6-8 8-8 17a14 14 0 0 0 28 0c0-9-8-11-8-17v-5Z" stroke-width="1.2"/>' +
+      '<path class="bulb-filament" d="m20 74 1 10-2 3 5 7 5-7-2-3 1-10M21 84h6" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M14 91c0 5 2 8 5 10" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>' +
+      '<rect class="bulb-socket" x="16" y="60" width="16" height="13" rx="3" stroke-width=".8"/>' +
+      '<path class="bulb-socket-ridges" d="M18 64h12m-12 4h12" stroke-width=".8" stroke-linecap="round"/></g></svg>';
 
     function apply(theme, persist) {
       current = theme;
       root.dataset.theme = theme;
-      control.querySelectorAll('button').forEach(function(button) {
-        button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme));
-      });
+      var on = theme === 'light';
+      control.setAttribute('aria-pressed', String(on));
+      control.setAttribute('aria-label', on ? 'Turn off the light' : 'Turn on the light');
+      control.title = on ? 'Turn off the light · Dark theme' : 'Turn on the light · Light theme';
       if (persist) {
         try { localStorage.setItem('anchit-theme', theme); } catch (error) {}
       }
     }
 
-    ['light', 'dark'].forEach(function(theme) {
-      var button = document.createElement('button');
-      button.type = 'button';
-      button.dataset.themeChoice = theme;
-      button.setAttribute('aria-label', theme === 'light' ? 'Light theme' : 'Dark theme');
-      button.title = theme === 'light' ? 'Light theme' : 'Dark theme';
-      button.innerHTML = '<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icons[theme] + '</svg>';
-      button.addEventListener('click', function() { apply(theme, true); });
-      control.appendChild(button);
+    control.addEventListener('click', function() {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        control.classList.remove('is-pulling');
+        void control.offsetWidth;
+        control.classList.add('is-pulling');
+      }
+      apply(current === 'light' ? 'dark' : 'light', true);
     });
+    control.addEventListener('animationend', function(event) { if (event.animationName === 'bulb-pull') control.classList.remove('is-pulling'); });
     document.body.appendChild(control);
     apply(current, false);
     window.addEventListener('storage', function(event) {
