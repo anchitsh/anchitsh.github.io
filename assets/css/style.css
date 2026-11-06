@@ -1999,6 +1999,7 @@ a:hover {
   grid-row: 1 / 4;
   min-width: 0;
   pointer-events: none;
+  z-index: 3;
 }
 
 .portfolio-home > .custom-navbar,

@@ -1,7 +1,7 @@
 html:has(.portfolio-home) {
   --canvas-paper: #fff;
   --canvas-strength: .04;
-  --canvas-spacing: 32px;
+  --canvas-spacing: 24px;
   background: var(--canvas-paper);
 }
 

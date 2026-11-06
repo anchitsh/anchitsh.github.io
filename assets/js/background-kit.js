@@ -13,7 +13,7 @@
     oat: '#f2eee5', sand: '#f3ecde', mist: '#eef2f4',
     sage: '#eef3ed', rose: '#f7eeee', lilac: '#f2eff7'
   };
-  var defaults = { pattern: 'plain', strength: 4, spacing: 32, tone: 'white' };
+  var defaults = { pattern: 'grid', strength: 4, spacing: 24, tone: 'white' };
   var settings = Object.assign({}, defaults);
   try {
     var saved = JSON.parse(localStorage.getItem('anchit-background-kit'));
@@ -29,7 +29,7 @@
     if (patterns.indexOf(settings.pattern) < 0) settings.pattern = defaults.pattern;
     if (!Object.prototype.hasOwnProperty.call(tones, settings.tone)) settings.tone = defaults.tone;
     settings.strength = clamp(settings.strength, 0, 12, defaults.strength);
-    settings.spacing = clamp(settings.spacing, 16, 80, defaults.spacing);
+    settings.spacing = clamp(settings.spacing, 8, 80, defaults.spacing);
     document.body.dataset.canvasPattern = settings.pattern;
     root.style.setProperty('--canvas-paper', tones[settings.tone]);
     root.style.setProperty('--canvas-strength', settings.strength / 100);
