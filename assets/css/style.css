@@ -2382,11 +2382,12 @@ body.detail-layout .project-overview .project-actions {
   gap: 18px;
   justify-content: flex-end;
   margin: 0;
+  padding-top: clamp(4px, .5vw, 6px);
 }
 
 body.detail-layout .project-overview .project-actions a.readmore,
 body.detail-layout .project-overview .project-actions a.readmore:hover {
-  align-items: center;
+  align-items: flex-start;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -2399,6 +2400,18 @@ body.detail-layout .project-overview .project-actions a.readmore:hover {
   text-decoration: underline;
   text-decoration-color: rgba(33, 117, 78, .28);
   text-underline-offset: 3px;
+}
+
+body.detail-layout .project-overview .project-link-label { display: block; }
+body.detail-layout .project-overview .project-link-icon { flex: 0 0 14px; }
+
+@supports (text-box-trim: trim-start) and (text-box-edge: cap alphabetic) {
+  body.detail-layout .project-overview .project-heading h1,
+  body.detail-layout .project-overview .project-link-label {
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-start;
+  }
+  body.detail-layout .project-overview .project-actions { padding-top: 0; }
 }
 
 body:not(.portfolio-home) .project-overview-rule {

@@ -434,7 +434,10 @@
     }
 
     $heading.find('.project-actions-label').remove();
-    $heading.find('.project-actions a').prepend('<svg class="project-link-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></svg>');
+    $heading.find('.project-actions a').each(function() {
+      $(this).contents().wrapAll('<span class="project-link-label"></span>');
+      $(this).prepend('<svg class="project-link-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></svg>');
+    });
     $overview.append($heading.detach());
     $overview.append('<div class="project-overview-rule" aria-hidden="true"></div>');
     var $overviewGrid = $('<div class="project-overview-grid"></div>');
