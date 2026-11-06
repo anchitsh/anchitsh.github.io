@@ -1516,7 +1516,17 @@ a:hover {
   padding: 3px 6px;
 }
 
-.toc-detail-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.toc-section-group { min-width: 0; }
+.toc-detail-list {
+  list-style: none;
+  margin: 8px 0 0;
+  max-height: 160px;
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-color: #ddd transparent;
+  scrollbar-width: thin;
+}
+.toc-section-more { margin-top: 8px; }
 .toc-section-link:hover,
 .toc-section-link[aria-current="location"] { color: var(--minimal-accent); }
 .portfolio-home #tech-art,
@@ -1546,9 +1556,12 @@ a:hover {
   display: block;
   font-size: 11px;
   line-height: 1.5;
+  overflow: hidden;
   padding: 5px 0;
   text-decoration: none;
+  text-overflow: ellipsis;
   transition: color .15s ease;
+  white-space: nowrap;
 }
 
 .project-toc-link:hover,
@@ -1638,7 +1651,8 @@ a:hover {
   .project-toc-more { align-self: center; grid-column: 3; grid-row: 1; margin: 0; padding: 0; }
   .toc-section-links { border: 0; flex-direction: row; gap: 12px; grid-column: 2; grid-row: 1; justify-content: center; margin: 0; padding: 0; }
   .toc-section-link { font-size: 11px; white-space: nowrap; }
-  .toc-detail-list { display: none; }
+  .toc-detail-list,
+  .toc-section-more { display: none; }
   .toc-section-count { display: none; }
   .portfolio-home .item,
   .portfolio-home #tech-art,

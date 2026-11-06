@@ -299,10 +299,29 @@
       var id = 'project-' + String(index + 1).padStart(2, '0') + '-' + slug;
       var projectHref = $project.find('a.item-wrap').first().attr('href');
       $project.attr('id', id);
-      var $link = $('<a class="project-toc-link"></a>').attr('href', projectHref).text(title);
+      var $link = $('<a class="project-toc-link"></a>').attr({ href: projectHref, title: title }).text(title);
       attachPreview($link, $project, index);
       $('<li></li>').append($link).appendTo($list);
     });
+
+    var expandableList = function($items, $button, limit) {
+      var expanded = false;
+      var update = function() {
+        $items.children().slice(limit).prop('hidden', !expanded);
+        $button.attr('aria-expanded', String(expanded)).text(expanded ? 'Show less' : 'Show more (' + ($items.children().length - limit) + ')');
+        if (!expanded) $items.scrollTop(0);
+        hidePreview();
+      };
+      $button.prop('hidden', $items.children().length <= limit).on('click', function() {
+        var pageY = window.scrollY;
+        expanded = !expanded;
+        update();
+        $button[0].getBoundingClientRect();
+        window.scrollTo({ top: pageY, behavior: 'instant' });
+      });
+      $items.on('scroll', hidePreview);
+      update();
+    };
 
     $toc.find('.project-toc-count').text($projects.length);
     $sectionLinks.each(function() {
@@ -310,7 +329,9 @@
       var $entries = $section.find('.item, .writing-list > li');
       $(this).find('.toc-section-count').text($entries.length);
       var $details = $(this).siblings('.toc-detail-list');
-      $entries.slice(0, 2).each(function(index) {
+      var listId = $section.attr('id') + '-toc-list';
+      $details.attr('id', listId);
+      $entries.each(function(index) {
         var $entry = $(this);
         var isProject = $entry.hasClass('item');
         var $sourceLink = $entry.find(isProject ? 'a.item-wrap' : 'a.writing-link').first();
@@ -321,31 +342,16 @@
           $entry.attr('id', id);
           href = '#' + id;
         }
-        var $link = $('<a class="project-toc-link toc-detail-link"></a>').attr('href', href).text(title);
+        var $link = $('<a class="project-toc-link toc-detail-link"></a>').attr({ href: href, title: title }).text(title);
         if ($sourceLink.attr('target') === '_blank') $link.attr({ target: '_blank', rel: 'noopener noreferrer' });
         if (isProject) attachPreview($link, $entry, index);
         $('<li></li>').append($link).appendTo($details);
       });
+      var $sectionMore = $('<button class="project-toc-more toc-section-more" type="button"></button>').attr({ 'aria-expanded': 'false', 'aria-controls': listId }).insertAfter($details);
+      expandableList($details, $sectionMore, 2);
     });
-    var previewLimit = 5;
-    var expanded = false;
-    var updateList = function() {
-      $list.children().slice(previewLimit).prop('hidden', !expanded);
-      $more.attr('aria-expanded', String(expanded)).text(expanded ? 'Show less' : 'Show more (' + ($projects.length - previewLimit) + ')');
-      if (!expanded) $list.scrollTop(0);
-      hidePreview();
-    };
-    $more.prop('hidden', $projects.length <= previewLimit).on('click', function() {
-      var pageY = window.scrollY;
-      expanded = !expanded;
-      updateList();
-      // Resolve the resized sidebar before restoring the document position.
-      $more[0].getBoundingClientRect();
-      window.scrollTo({ top: pageY, behavior: 'instant' });
-    });
-    updateList();
+    expandableList($list, $more, 5);
     $toc.prop('hidden', false);
-    $list.on('scroll', hidePreview);
     $(document).on('keydown', function(event) { if (event.key === 'Escape') hidePreview(); });
 
     var updatePosition = function() {
