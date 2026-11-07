@@ -150,6 +150,10 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   position: relative;
   overflow: hidden;
   background: #e9edf0;
+  /* Hug images narrower than the column instead of leaving a gray strip. */
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .item .item-wrap:after {

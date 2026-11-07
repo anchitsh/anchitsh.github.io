@@ -52,6 +52,14 @@
   // the DOM is ready; image loads re-run the layout above.
   $(siteIstotope);
 
+  // Tech-art tiles have mixed aspect ratios; masonry packs them without row gaps.
+  $(function() {
+    var $techArt = $('#tech-art-grid').isotope({ itemSelector: '.item', layoutMode: 'masonry' });
+    $techArt.find('img').each(function() {
+      if (!this.complete) $(this).one('load error', function() { $techArt.isotope('layout'); });
+    });
+  });
+
   var siteProjectGalleries = function() {
     $('.project-gallery').each(function() {
       var $gallery = $(this);
