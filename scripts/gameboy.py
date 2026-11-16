@@ -1,3 +1,5 @@
+# Step images for Farsight_GameBoy.html.
+# Usage: python3 scripts/gameboy.py <source.png> <out_dir> <zoom_x> <zoom_y> [exposure]
 # Python port of Assets/Shaders/GameBoyCameraDither.shader, values from
 # Resources/Gameboy/Game Boy Camera Filter.mat. Renders the page's step images at 288.
 import sys, numpy as np
@@ -10,7 +12,7 @@ PAL = np.array([[242]*3, [188]*3, [132]*3, [81]*3, [28]*3], np.uint8)  # light -
 B = np.array([0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,
               3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21]).reshape(8,8)
 
-im = Image.open(src_path).convert('RGB').crop((0, 0, 384, 384)).resize((N, N), Image.BOX if False else Image.LANCZOS)
+im = Image.open(src_path).convert('RGB').crop((0, 0, 384, 384)).resize((N, N), Image.LANCZOS)
 im.save(f'{out}/gb-source.png')
 s = np.asarray(im, np.float64) / 255
 lin = np.where(s <= 0.04045, s / 12.92, ((s + 0.055) / 1.055) ** 2.4)

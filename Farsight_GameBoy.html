@@ -85,7 +85,7 @@
 
 <p>The camera's anti-aliasing and post-processing are off, so the image is first softened with a small 5-sample blur. Otherwise jagged edges turn into speckle once it's dithered. Colour is then reduced to brightness with the standard luminance weights.</p>
 
-<p>Anything brighter than white, such as lamps and windows, is compressed so it can't flood the frame. Exposure is automatic: a 16 by 16 copy of the frame is averaged, with bright samples capped so one window can't darken the whole room, and exposure rises in dark scenes and falls in bright ones, between 0.5 and 3 times. That is what keeps dark rooms from going black. Finally a soft shoulder eases the top end towards white instead of clipping.</p>
+<p>Exposure is automatic: a 16 by 16 copy of the frame is averaged, with bright samples capped so one window can't darken the whole room, and exposure rises in dark scenes and falls in bright ones, between 0.5 and 6 times. That is what keeps dark rooms from going black. Finally a soft shoulder eases the top end towards white instead of clipping.</p>
 
 <figure class="project-figure"><div class="figure-row"><img src="assets/img/farsight/gameboy/gb-source.png" alt="Source view" width="288" height="288" loading="lazy" decoding="async"><img src="assets/img/farsight/gameboy/gb-tone.png" alt="Tone-mapped brightness" width="288" height="288" loading="lazy" decoding="async"></div><figcaption>The source view, then the tone-mapped brightness.</figcaption></figure>
 
@@ -122,7 +122,7 @@ float q = saturate(floor(lum * 4.0 + bayer) / 4.0);</code></pre>
 
 <p>The five shades map to five colours on the material, so the look can be tuned without touching code. The palette can also be swapped at runtime, on a copy, so the original material stays as is.</p>
 
-<figure class="project-figure"><div class="pixel-stack"><img src="assets/img/farsight/gameboy/gb-dithered.png" alt="The final dithered frame" width="288" height="288" loading="lazy" decoding="async"><img src="assets/img/farsight/gameboy/gb-palette.png" alt="The five-shade grey palette" width="288" height="24" loading="lazy" decoding="async"></div><figcaption>The final frame and its five shades.</figcaption></figure>
+<figure class="project-figure"><div class="pixel-stack"><img src="assets/img/farsight/gameboy/gb-palette.png" alt="The five-shade grey palette" width="288" height="24" loading="lazy" decoding="async"></div><figcaption>The five shades.</figcaption></figure>
 
 <p>The step images were rendered at 288 by 288 with a Python port of the shader. The clip at the top is straight from the game.</p>
 

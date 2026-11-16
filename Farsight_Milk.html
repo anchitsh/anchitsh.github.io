@@ -81,7 +81,7 @@
 <h3 class="project-section-title">1. The arc</h3>
 <p>The tube follows the path a thrown object would take, from the carton's spout down to the milk, worked out from the pour speed and gravity. Each segment is a ring of vertices placed along that curve.</p>
 <p>The width follows the milk's speed. Falling liquid speeds up, and the same amount of milk moving faster has to get thinner, so the radius shrinks with the square root of the speed, down to 45% of the spout. Every glug from the carton sends a slight bulge down the stream with the milk.</p>
-<pre><code>// speed0: the milk's speed as it leaves the spout
+<pre><code>// speed0: the reference speed at the spout
 // ArcVelocity(t): its velocity t seconds after leaving
 // minRadiusScale: 0.45, the thinnest the stream is allowed to get
 float radius = spoutRadius * Mathf.Max(Mathf.Sqrt(speed0 / ArcVelocity(t).magnitude), minRadiusScale);
@@ -91,7 +91,7 @@ radius *= 1f + glugAmount * Glug(time - t);</code></pre>
 <figure class="project-figure"><img src="assets/img/farsight/milk/milk-1-arc.png" alt="Side view of the stream with its mesh rings" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The stream at real scale, with its rings.</figcaption></figure>
 <figure class="project-figure"><img src="assets/img/farsight/milk/milk-1b-glugs.png" alt="The stream straightened out at five moments, with a bulge travelling from the spout to the surface" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The stream straightened out at five moments, 50 ms apart. A glug starts at the spout and rides down. The bulge is exaggerated 3x here so you can see it.</figcaption></figure>
 <div class="project-figure figure-row"><img src="assets/img/farsight/milk/milk-lit.jpg" alt="The milk stream as it appears in game" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/milk/milk-wire.jpg" alt="The milk stream with its wireframe visible" loading="lazy" decoding="async" style="image-rendering:auto"></div>
-<figure class="project-figure" style="margin-top:-24px"><figcaption>The same stream in game, and its mesh.</figcaption></figure>
+<figure class="project-figure" style="margin-top:-24px"><figcaption>The stream in game, and its mesh.</figcaption></figure>
 
 <h3 class="project-section-title">2. Stopping</h3>
 <p>Milk that's already in the air has left the carton, so when you stop pouring the arc locks in place and the end of the stream doesn't swing around with the carton. The tail then falls, and the last 5 cm of it pinches into beads about 8 mm apart. A real stream of liquid breaks up the same way; it's called the Plateau&ndash;Rayleigh instability. Here it's faked with a sine along the stream's length, and the rings are packed towards the tail so the beads have enough geometry.</p>
