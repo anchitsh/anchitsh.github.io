@@ -67,7 +67,7 @@
 <dd>Unity URP, HLSL, C#</dd>
 </dl></header><article class="project-copy project-writeup">
 
-<figure class="project-figure"><img src="assets/img/farsight/floaters/floaters-lag.webp" alt="Eye floaters lagging behind quick head turns against the sky" class="project-figure-image" decoding="async"><figcaption>Quick head turns. The floaters swing behind and drift back.</figcaption></figure>
+<figure class="project-figure"><img src="assets/img/farsight/floaters/floaters-lag.webp" alt="Eye floaters lagging behind quick head turns against the sky" class="project-figure-image" decoding="async"><figcaption>Quick head turns. The floaters swing behind and drift back. Floaters turned up so they're visible at this size.</figcaption></figure>
 
 <h3 class="project-section-title">The goal</h3>
 <p>Farsight is about bad eyesight, so we gave your eyes floaters, those little see-through squiggles you notice when you look at a bright sky.</p>
@@ -77,24 +77,32 @@
 <p>They're drawn in the same screen pass as the <a href="Farsight_Glasses.html">rain on your glasses</a>. The shader draws them, and a small C# spring moves them around as you look about.</p>
 
 <h3 class="project-section-title">1. Drawing a strand</h3>
-<p>Each floater starts as a sine wave. We add a second, faster wave and some noise so it looks less perfect, then draw it as a see-through tube with darker edges and a few little clumps along it.</p>
+<p>Each floater starts as a sine wave. We add a second, faster wave and some noise so it looks less perfect, then draw it as a see-through tube with darker edges and the odd clump along it.</p>
 <figure class="project-figure"><img src="assets/img/farsight/floaters/build-steps.png" alt="One floater strand built in three steps" class="project-figure-image" loading="lazy" decoding="async"><figcaption>A plain sine, then with noise, then drawn as a tube.</figcaption></figure>
-<pre><code>float wave = sin(q.x * (1.9 + k * 0.7) + k * 1.7 + t * 0.03) * 0.2
+<pre><code>// q.x: position along the strand, k: which floater, t: time
+float wave = sin(q.x * (1.9 + k * 0.7) + k * 1.7 + t * 0.03) * 0.2
            + sin(q.x * 4.1 + k * 3.3) * 0.08
            + (vnoise(float2(q.x * 3.0, k * 7.0)) - 0.5) * 0.25;</code></pre>
 
 <h3 class="project-section-title">2. Only against bright areas</h3>
 <p>How visible they are depends on how bright the scene is behind them. Against the sky you can see them clearly, and in darker spots they pretty much disappear, same as real ones.</p>
-<figure class="project-figure"><img src="assets/img/farsight/floaters/floaters-still.jpg" alt="Floaters against an overcast sky, in game" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<figure class="project-figure"><img src="assets/img/farsight/floaters/floaters-still.jpg" alt="Floaters against an overcast sky, fading out at the edge of a dark building, in game" class="project-figure-image" loading="lazy" decoding="async"><figcaption>In game. The lower strand fades out where it reaches the dark building.</figcaption></figure>
+<pre><code>// bright: 0 in dark areas, 1 against the sky
+col *= 1 - shade * strength * bright;</code></pre>
 
 <h3 class="project-section-title">3. Following your eye</h3>
-<p>They shouldn't be stuck to the camera. When you turn your head they swing the other way on a spring, then settle back and slowly sink. That lag is what makes them feel like they're actually floating in there.</p>
-<pre><code>floaterVel += new Vector2(-yaw, -pitch) * floaterLag * 6f;
+<p>They shouldn't be stuck to the screen. When you turn your head they swing the other way on a spring, then ease back (the clip at the top shows this). Each strand swings a different amount, so they separate as they move. That lag is what makes them feel like they're floating in there.</p>
+<pre><code>// kick opposite to this frame's head turn
+floaterVel += new Vector2(-yaw, -pitch) * floaterLag * 6f;
+// pull back to centre, slightly low
 floaterVel += (-floaterPos * 1.2f + Vector2.down * 0.01f) * dt;
+// damping, same at any frame rate
 floaterVel *= Mathf.Exp(-dt * 2.2f);
+// offset in screen heights
 floaterPos += floaterVel * dt;</code></pre>
+<p>The damping sits right where the spring stops bouncing, so they glide back without wobbling.</p>
 
-<p>The footage is from the game, with the floaters turned up from 0.12 to 0.35 so you can see them at this size. The strand images were rendered with a Python port of the shader.</p>
+<p>The footage is from the game, with the floater strength turned up from 0.12 to 0.35 so you can see them at this size. The strand image was rendered with a Python port of the shader.</p>
 
 </article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Glasses.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Rain on Glasses Shader</strong></a><a href="Farsight_WatchingPhoto.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Watching Eyes Shader</strong></a></nav>
 </div></section></main><!-- End #main -->
