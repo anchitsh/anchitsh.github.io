@@ -67,35 +67,42 @@
 <dd>Unity URP, HLSL</dd>
 </dl></header><article class="project-copy project-writeup">
 
-<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-fire-volume.webp" alt="Fireplace flames in the living room" class="project-figure-image" decoding="async"></figure>
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-fire-volume.webp" alt="Fireplace flames in the living room" class="project-figure-image" decoding="async"><figcaption>In game, with bloom.</figcaption></figure>
 
 <h3 class="project-section-title">The goal</h3>
 
-<p>You see the living room fireplace up close in a dark, quiet moment, so flat particle sprites would've looked fake. We wanted flames with actual volume that look right from any angle and sit properly behind the logs.</p>
+<p>You see the living room fireplace up close in a dark, quiet moment, so flat particle sprites would've looked fake. I wanted flames with actual volume that look right from any angle and sit properly behind the logs.</p>
 
 <h3 class="project-section-title">How it works</h3>
 <p>The flames are a shader that ray-marches through a box sitting over the logs. For every pixel it takes 22 steps through the box, and at each step it works out two things: how thick the fire is there, and how hot.</p>
 
 <h3 class="project-section-title">1. Shape</h3>
-<p>It starts with the footprint, an oval over the logs that narrows towards the top. On its own that's just a glowing cone. To break it up, we sample a 3D noise texture stretched tall and scrolling upwards, warped a bit so it swirls, and turned into ridges so you get separate strands.</p>
+<p>It starts with the footprint, an oval over the logs that narrows towards the top and fades out towards its edges. On its own that's just a glowing cone. To break it up, I sample a 3D noise texture (64 by 64 by 64, the same one my steam uses), stretched tall and scrolling upwards. The lookup position is first pushed around by another sample of the same noise, which is called domain warping and makes it swirl. The result is then folded into ridges (ridged noise), so you get separate strands.</p>
 <div class="project-figure"><img src="assets/img/farsight/fire/fire-1-foot-noise.png" alt="The tapered footprint and the stretched 3D noise, as slices through the box" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The footprint, and the noise, as a slice through the middle of the box.</figcaption></div>
 <p>The trick that makes tongues is a cut-off that rises with height. Near the bottom almost any noise keeps the fire alight, but higher up it takes more and more, so only the strongest strands make it to the top.</p>
-<pre><code>float cut = h / _HeightFade;
+<pre><code>// the bar to clear: 0 at the base, rising with height
+float cut = h / _HeightFade;
+// 1.7 lifts the noise so the base clears the bar easily
+// _Sharpness sets how crisp the tongue edges are
 float d = saturate((noise * foot * 1.7 - cut) * _Sharpness);</code></pre>
+<p>Because the footprint fades towards its edges, the edges fail the cut-off sooner than the middle. That's why the overall shape is a cone, with the noise deciding where the tongues are.</p>
 
 <h3 class="project-section-title">2. Colour from temperature</h3>
-<p>Each point also gets a temperature, hottest at the roots and cooling as it rises. That picks a colour from a three-stop ramp: white-yellow, orange, then dark red at the tips. No textures are involved in the colour at all.</p>
+<p>Each point also gets a temperature. It's highest where the fire is thick and low down, and it drops as the flame rises or thins out, so the tips and the edges both run cooler. That picks a colour from a three-stop ramp: yellow, orange, then dark red. The hot end is stored brighter than the screen can show, so where many steps stack up the core burns out towards white. No textures are involved in the colour at all.</p>
 <div class="project-figure"><img src="assets/img/farsight/fire/fire-2-tongues-temp.png" alt="Density after the height cut-off, and the same slice coloured by temperature" class="project-figure-image" loading="lazy" decoding="async"><figcaption>After the cut-off, and coloured by temperature.</figcaption></div>
-<figure class="project-figure"><img src="assets/img/farsight/fire/fire-ramp.png" alt="The temperature colour ramp from dark red to white-yellow" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The ramp, from cool tips to hot roots.</figcaption></figure>
+<figure class="project-figure"><img src="assets/img/farsight/fire/fire-ramp.png" alt="The temperature colour ramp from dark red to yellow" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The ramp, from cool tips (left) to hot roots (right), scaled down to fit on screen.</figcaption></figure>
 
 <h3 class="project-section-title">3. Marching through the box</h3>
-<p>Stacking all 22 steps along each ray gives the final volume. The flames are mostly see-through, so each step only blocks a little of what's behind it, and the colours add up. The noise keeps scrolling upwards, so the whole thing licks and flickers.</p>
+<p>Stacking all 22 steps along each ray gives the final volume. The flames are mostly see-through, so each step only dims the fire behind it a little, and the colours add up. With so few steps you'd normally see bands, so each pixel starts its ray at a slightly different offset, which turns the bands into fine grain. The noise keeps scrolling upwards, so the tongues lick, and the overall brightness wobbles by up to about 12% on top of that.</p>
 <figure class="project-figure"><img src="assets/img/farsight/fire/fire-3-march.webp" alt="The full ray-marched flame volume, animated" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The full volume, without the scene, bloom or the logs.</figcaption></figure>
+<p>Each step is at most three noise lookups. Steps outside the footprint skip them, and only the pixels the box covers on screen pay for any of it.</p>
+<p>Since it's a real volume and not a flat card, it holds up as you move around it.</p>
+<figure class="project-figure"><img src="assets/img/farsight/fire/fire-angles.png" alt="The flame volume seen from the front, from 45 degrees and from the side" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The same moment from the front, at 45 degrees and from the side. The footprint is wider than it is deep.</figcaption></figure>
 
 <h3 class="project-section-title">4. Sitting in the scene</h3>
-<p>The shader only adds light, and bloom takes care of the glow. It also checks the scene's depth, so the logs and grate sit in front of the flames without any extra setup. It's driven by the same script as our steam and smoke, which can fade it in and out.</p>
+<p>The shader only adds light on top of the scene, so it never darkens what's behind it, and bloom takes care of the glow. Each ray also reads the camera's depth texture and stops where it hits the scene, so the logs and grate sit in front of the flames without any extra setup. The fire fades out over the last 3 cm before a surface, so there's no hard line where the two meet. It's driven by the same script as my steam and smoke, which can fade it in and out.</p>
 
-<p>The images on this page were rendered with a Python port of the shader, using the game's own 3D noise texture.</p>
+<p>The diagrams on this page were rendered with a Python port of the shader, using the game's own 3D noise texture and the fireplace's saved settings.</p>
 
 </article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Drawing.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Texture Painting System</strong></a><a href="Farsight_Footprints.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Wet Footprint Decals</strong></a></nav>
 </div></section></main><!-- End #main -->
