@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Farsight - Rain on Glasses Shader</title>
-  <meta content="How the rain-on-glasses lens pass in Farsight works: a single URP screen pass with procedural drops that refract out-of-focus copies of the frame." name="description">
+  <meta content="How the rain-on-glasses lens pass in Farsight works: a URP screen effect with procedural drops that refract out-of-focus copies of the frame." name="description">
   <meta property="og:title" content="Rain on Glasses Shader | Anchit Sharma">
   <meta property="og:description" content="How the rain-on-glasses lens pass in Farsight works.">
   <meta property="og:type" content="website">
@@ -67,39 +67,43 @@
 <dd>Unity URP, HLSL, C#</dd>
 </dl></header><article class="project-copy project-writeup">
 
-<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-glasses-lens-split.webp" alt="The same shot with the lens pass off on the left and on on the right" class="project-figure-image" decoding="async"><figcaption>Lens pass off on the left, on on the right.</figcaption></figure>
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-glasses-lens-split.webp" alt="The same shot with the lens pass off on the left and on on the right" class="project-figure-image" decoding="async"><figcaption>Left: lens effect off. Right: on.</figcaption></figure>
 
 <h3 class="project-section-title">The goal</h3>
-<p>In Farsight you're wearing glasses, and it rains a lot. We wanted the rain to actually collect on your glasses when you're outside, as a small touch that makes you feel like you're there.</p>
+<p>In Farsight you're wearing glasses, and it rains a lot. I wanted the rain to actually collect on your glasses when you're outside, so it gets harder to see and the umbrella has a job to do.</p>
 <p>Since the drops are right in front of your eyes, they should be blurry and warp what's behind them. And they should react to you: building up when you're out in the open, drying once you head inside, and staying off while your umbrella's up.</p>
 
 <h3 class="project-section-title">How it works</h3>
-<p>It's a single full-screen pass on the player camera. No textures, no particles. It runs before post-processing, so bloom and grading hit the drops the same way they hit everything else. There are three parts to it: where the drops go, what each drop looks like, and how wet your glasses are.</p>
+<p>It's a full-screen effect on the player camera: two small blurred copies of the frame, then one pass that draws the drops. No drop textures, no particles. The drops are fixed to the screen, because your glasses move with your head. It runs before post-processing, so bloom and grading hit the drops the same way they hit everything else. There are three parts to it: where the drops go, what each drop looks like, and how wet your glasses are.</p>
 
 <h3 class="project-section-title">1. Placing the drops</h3>
-<p>The screen gets split into a grid, and each cell turns its position into a random number. That number picks whether there's a drop in the cell, how big it is and where it sits. Drops always stay inside their cell, so none of them get cut off at the edges.</p>
-<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/gen-1-cells.png" alt="Screen divided into cells, each shaded by its random value" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/glasses/gen-2-drop-per-cell.png" alt="One soft circle per grid cell" loading="lazy" decoding="async" style="image-rendering:auto"></div>
-<figure class="project-figure" style="margin-top:-24px"><figcaption>A random value per cell, then one drop per cell. These show the layout only.</figcaption></figure>
-<p>Three grids are stacked on top of each other for big, medium and small drops. The edge blur is the same width no matter how big the drop is, so the small ones are basically all blur. They end up as faint smudges, which is pretty much what tiny droplets look like on real glasses.</p>
+<p>The screen gets split into a grid, and each cell turns its position into a few random numbers. Those pick how big the cell's drop is, where it sits, and how early it shows up as the glasses get wet. To keep it cheap, each pixel only checks its own cell. That means a drop has to stay inside its cell, or it would get cut off at the edge.</p>
+<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/gen-1-cells.png" alt="Screen divided into cells, each shaded by its random value" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/glasses/gen-2-drop-per-cell.png" alt="Soft circles in a grid, at most one per cell, with some cells empty" loading="lazy" decoding="async" style="image-rendering:auto"></div>
+<figure class="project-figure" style="margin-top:-24px"><figcaption>A random value per cell, then at most one drop per cell. The lightest cells are still empty. Their drop shows up last. These show the layout only.</figcaption></figure>
+<p>A drop can't be bigger than its cell, and a single grid looks regular. So three grids are stacked on top of each other for big, medium and small drops, each with its own cell size and offset. The edge blur is the same width no matter how big the drop is, so the small ones are basically all blur. They end up as faint smudges, which is pretty much what tiny droplets look like on real glasses.</p>
 <figure class="project-figure"><img src="assets/img/farsight/glasses/gen-3-layers.png" alt="Large, medium and small drop layers on a game frame, then combined" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Large, medium and small layers on a frame from the game, then all three together.</figcaption></figure>
 
 <h3 class="project-section-title">2. Drawing a drop</h3>
-<p>Each drop works like a tiny lens. Inside it, we sample the image from a point pushed away from the drop's centre, which flips and bends whatever's behind it.</p>
-<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-5-refraction.png" alt="Checker pattern before and after one drop's refraction" class="project-figure-image" loading="lazy" decoding="async"></figure>
-<p>Blurring every drop separately would be expensive, so instead we make two blurry copies of the whole frame first, at a quarter and a sixteenth of the resolution. The drops sample from those, so they're always soft and it's basically free.</p>
-<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/step-quarter.png" alt="Quarter-resolution copy of the frame" loading="lazy" decoding="async"><img src="assets/img/farsight/glasses/step-sixteenth.png" alt="Sixteenth-resolution copy of the frame" loading="lazy" decoding="async"></div>
+<p>Each drop works like a tiny lens. Inside it, I sample the image from the other side of the drop's centre, so each drop shows a small flipped view of what's behind it. The edge is darkened a little, like the rim of a real drop.</p>
+<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-5-refraction.png" alt="A close crop of a game frame before and after one drop's refraction" class="project-figure-image" loading="lazy" decoding="async"><figcaption>One drop on a game frame, enlarged and shown without the blur. The roof corner comes out flipped.</figcaption></figure>
+<p>Blurring every drop separately would be expensive, so instead I make two blurry copies of the whole frame first, at a quarter and a sixteenth of the width and height. The drops sample from those, so they're always soft, and the blur costs the same however many drops there are.</p>
+<div class="project-figure figure-row"><img src="assets/img/farsight/glasses/step-quarter.png" alt="Quarter-resolution copy of the frame" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/glasses/step-sixteenth.png" alt="Sixteenth-resolution copy of the frame" loading="lazy" decoding="async" style="image-rendering:auto"></div>
 <div class="project-figure figure-row"><img src="assets/img/farsight/glasses/step-frame.jpg" alt="Game frame before the lens pass" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/glasses/step-result.jpg" alt="Same frame after the lens pass" loading="lazy" decoding="async" style="image-rendering:auto"></div>
 <figure class="project-figure" style="margin-top:-24px"><figcaption>The two blurred copies, then a game frame before and after the pass.</figcaption></figure>
 
 <h3 class="project-section-title">3. How wet the glasses are</h3>
-<p>Everything runs off one wetness value between 0 and 1. Each drop has its own threshold, so as it goes up, drops pop in and grow one at a time, and as it goes down they shrink away again.</p>
-<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-4-wetness.webp" alt="Drops appearing on a game frame as wetness rises, then drying away" class="project-figure-image" loading="lazy" decoding="async"></figure>
-<pre><code>float size = lerp(0.14, 0.4, r2.x * r2.y)
+<p>Everything runs off one wetness value between 0 and 1. Each drop has its own threshold, so as it goes up, drops appear and grow one at a time, and as it goes down they shrink away again.</p>
+<figure class="project-figure"><img src="assets/img/farsight/glasses/gen-4-wetness.webp" alt="Drops appearing on a game frame as wetness rises, then drying away" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Wetness rising from 0 to 1, then drying off again.</figcaption></figure>
+<pre><code>// cover: the wetness value. h: this drop's random threshold.
+// r2: two random numbers. Multiplying them makes small drops more common.
+// * 0.95: every drop has appeared by the time wetness reaches 1.
+// * 5.0: each drop grows in over 0.2 of wetness instead of snapping on.
+float size = lerp(0.14, 0.4, r2.x * r2.y)
            * saturate((cover - h * 0.95) * 5.0);</code></pre>
-<p>A small C# script sets that value based on what you're doing. Outside, your glasses get fully wet in about 25 seconds, and they dry in about 8 once you're indoors. Looking up at the sky gets them wet twice as fast, and looking down slows it right down. The umbrella keeps them dry, until you look up past 35 degrees. Past 60 it doesn't help at all.</p>
+<p>A small C# script sets that value based on what you're doing. It treats you as outside when a ray cast straight up from the camera hits nothing. Out there, your glasses get fully wet in about 25 seconds, and they dry in about 8 once you're indoors. Looking straight up gets them wet twice as fast, and looking straight down a quarter as fast. An open umbrella keeps them dry until you look up past 35 degrees. The umbrella tilts with your view, so from there its cover fades out, and past 60 it doesn't help at all.</p>
 <figure class="project-figure"><img src="assets/img/farsight/techart/farsight-glasses-umbrella.webp" alt="Rain beads on the lenses, the umbrella opens and the lenses dry" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Drops build up, the umbrella opens, and the glasses clear.</figcaption></figure>
 
-<p>The images on this page were rendered with a Python port of the shader, run on frames from the game.</p>
+<p>The diagrams and step-by-step frames were rendered with a Python port of the shader, run on frames from the game. The split image at the top and the umbrella clip were captured in Unity.</p>
 
 </article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Grass.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Grass Field Rendering</strong></a><a href="Farsight_Floaters.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Eye Floaters</strong></a></nav>
 </div></section></main><!-- End #main -->
