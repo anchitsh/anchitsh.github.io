@@ -67,29 +67,31 @@
 <dd>Unity URP, C#</dd>
 </dl></header><article class="project-copy project-writeup">
 
-<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-wet-footprints.webp" alt="Wet footprints appearing across a wooden floor" class="project-figure-image" decoding="async"></figure>
+<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-wet-footprints.webp" alt="Wet footprints appearing across a tiled kitchen floor" class="project-figure-image" decoding="async"><figcaption>Staged for the capture. The prints are spaced closer and darker than in play, with a soft extra light and a small brightness lift so you can see them at this size.</figcaption></figure>
 
 <h3 class="project-section-title">The goal</h3>
 
 <p>A lot of Farsight happens in the rain. When you come back inside, you track water in with you, so the floor quietly shows where you've been.</p>
 
-<p>We also use the same footprints for scares, like wet prints showing up where nobody's standing.</p>
-
 <h3 class="project-section-title">How it works</h3>
-<p>A script keeps track of how wet your shoes are. Each print is a URP decal using a shoe sole texture, so it sits on whatever floor is underneath.</p>
+<p>A script keeps track of how wet your shoes are. Each print is a URP decal with a shoe sole texture, 8.5 by 22 cm, projected down onto whatever floor is underneath.</p>
+<p>A print only darkens the floor's colour where the sole touched. It doesn't change how shiny the floor is. The game uses deferred rendering, so URP draws the prints as G-buffer decals: they're written into the floor's colour before lighting, and the room's lights then treat them as part of the floor.</p>
 
 <h3 class="project-section-title">1. Soaking and drying</h3>
-<p>Walking around outside gets your shoes wet, using the same "is there a roof above me" check as the rain on the glasses. They're soaked through in about two and a half seconds of rain. Once you're inside, the wetness drops with distance walked, and after about 14 metres your shoes are dry and stop leaving prints.</p>
+<p>Being outside gets your shoes wet, and they're soaked through in about two and a half seconds. The house already keeps track of whether you're inside or out, and the script reads that. Once you're inside, the wetness drops with distance walked, and after about 14 metres your shoes are dry and stop leaving prints.</p>
+<figure class="project-figure"><img src="assets/img/farsight/footprints/fp-2-drying.png" alt="A full trail of 32 footprints fading out over about 13 metres" class="project-figure-image" loading="lazy" decoding="async"><figcaption>A whole trail at the game's numbers: 32 prints, each a little fainter than the last.</figcaption></figure>
 
 <h3 class="project-section-title">2. Placing a print</h3>
-<p>Every 42 cm you walk indoors, the next foot puts down a print. Feet sit 6.5 cm either side of where you're walking, and the left foot is just the right sole flipped. Each print gets a few degrees of random turn, plus a little toe-out, so the trail doesn't look too perfect, and its strength follows how wet your shoes still are.</p>
-<figure class="project-figure"><img src="assets/img/farsight/footprints/fp-1-trail.png" alt="A trail of footprints that gets fainter with each step" class="project-figure-image" loading="lazy" decoding="async"><figcaption>A trail using the game's sole texture and placement numbers. The drying is sped up here so it fits in one image.</figcaption></figure>
-<p>Each print goes on the nearest floor below you, ignoring your own collider. There's a fixed pool of 120 prints, and when they run out the oldest one gets reused.</p>
+<p>Every 42 cm you walk indoors, the next foot puts down a print. Feet sit 6.5 cm either side of where you're walking, and the left foot is just the right sole flipped.</p>
+<figure class="project-figure"><img src="assets/img/farsight/footprints/fp-sole.png" alt="The sole texture and its mirrored copy" class="project-figure-image" loading="lazy" decoding="async"><figcaption>One texture, mirrored for the left foot.</figcaption></figure>
+<p>Each print gets a few degrees of random turn, plus a little toe-out, so the trail doesn't look too perfect. Its strength follows how wet your shoes still are, with a small random variation from print to print.</p>
+<figure class="project-figure"><img src="assets/img/farsight/footprints/fp-1-trail.png" alt="Three footprints seen from above, with the stride and foot spacing marked" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Three steps from above, using the game's sole texture and placement numbers.</figcaption></figure>
+<p>Each print goes on the nearest floor below you, ignoring your own collider, and tilts to match the floor's slope.</p>
 
-<h3 class="project-section-title">3. Prints with nobody there</h3>
-<p>The same code that places your footprints can be called on its own, so scripted moments use it to lay a trail along a path, like someone you can't see just walked past.</p>
+<h3 class="project-section-title">3. The pool</h3>
+<p>Prints don't dry on their own. There's a fixed pool of 120, which is nearly four full trails, and when they run out the oldest print is moved to the new spot.</p>
 
-<p>The trail was drawn with Python from the script's numbers and the game's sole texture. The clip at the top is a scripted trail in the game, with the prints spaced closer and darker than in play, a soft extra light and a small brightness lift so you can see them at this size.</p>
+<p>The diagrams were drawn with Python from the script's numbers and the game's sole texture.</p>
 
 </article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Fire.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Ray-Marched Fire</strong></a><a href="Farsight_Icons.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>SDF Morphing Icons</strong></a></nav>
 </div></section></main><!-- End #main -->
