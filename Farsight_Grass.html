@@ -41,6 +41,9 @@
     .photo-row img { display: block; height: auto; width: 100%; }
     .pixel-art { image-rendering: pixelated; }
     @media (max-width: 575px) { .photo-row { grid-template-columns: 1fr; } }
+    .layer-table { border-collapse: collapse; font-size: 15px; margin: 0 0 28px; width: 100%; }
+    .layer-table th, .layer-table td { border-bottom: 1px solid #d7dcdf; padding: 8px 10px; text-align: left; vertical-align: top; }
+    .layer-table th { color: #5b6b76; font-weight: 600; }
 
   </style>
 </head>
@@ -71,43 +74,47 @@
 
 <h3 class="project-section-title">The goal</h3>
 
-<p>Part of Farsight takes place out in a huge field, walking towards a house in the middle of it. The grass needed to look good right at your feet, keep going all the way to the horizon, and still run well on low-end machines.</p>
+<p>Part of Farsight takes place out in a huge field, walking towards a house in the middle of it. The grass needed to look good right at your feet, keep going all the way to the horizon, and stay cheap enough for low-end machines.</p>
 
 <h3 class="project-section-title">How it works</h3>
-<p>No single grass system did all of that, so the field is three layers, each covering a different distance. Up close it's meadow grass from The Vegetation Engine, drawn with GPU Instancer Pro. Further out it's GrassFlow, which draws blades on the GPU. Past that, a ground shader paints grass all the way to the horizon. All three read the same settings for colour, wind and clouds, so you can't see where one stops and the next one starts.</p>
+<p>No single grass system did all of that, so the field is three layers, each covering a different distance. All three read the same colour, wind and cloud values, so you can't see where one stops and the next one starts.</p>
+<table class="layer-table">
+<thead><tr><th>Layer</th><th>Distance</th><th>Drawn by</th></tr></thead>
+<tbody>
+<tr><td>Meadow grass</td><td>0 to 30 m</td><td>The Vegetation Engine, drawn with GPU Instancer Pro</td></tr>
+<tr><td>Grass blades</td><td>30 to 125 m</td><td>GrassFlow, which builds blades on the GPU</td></tr>
+<tr><td>Ground shader</td><td>Everywhere, on its own past 125 m</td><td>A custom shader that paints grass onto the terrain</td></tr>
+</tbody>
+</table>
 
 <h3 class="project-section-title">1. Three layers</h3>
-<p>Each layer only has to be good at its own distance. The meadow grass is detailed but expensive, so it only covers the 30 metres around you. GrassFlow's blades are cheap, so they cover the middle distance and thin out as they go. The ground shader is the cheapest of all and fills in everything beyond that.</p>
-<div class="project-figure"><div class="photo-row"><img src="assets/img/farsight/grass/grass-layers-meadow.jpg" alt="Only the meadow grass, near the camera" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-layers-grassflow.jpg" alt="Only the GrassFlow blades" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-layers-ground.jpg" alt="Only the ground shader" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-layers-all.jpg" alt="All three layers together" loading="lazy" decoding="async"></div><figcaption>The meadow grass, the GrassFlow blades, the ground shader, then all three together.</figcaption></div>
-
-<h3 class="project-section-title">2. Grass that follows you</h3>
-<p>The meadow grass comes in patches about 6 metres wide. They sit on a grid that moves with you, and each grid cell picks its patch's position, rotation and size from a hash of its coordinates. That way the same spot always gets the same patch, nothing pops as you walk, and the cost stays the same however big the field gets.</p>
-<p>The first version had bare holes in it. The patch's grass sits about a metre off its pivot, so when patches were placed by their pivot, the thin sides of a few neighbours would line up and leave gaps. Placing each patch by the middle of its grass instead got rid of them.</p>
-<div class="project-figure"><img src="assets/img/farsight/grass/grass-1-patch-grid.png" alt="Top-down view of the patch grid, with bare ground in red" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Top-down, 18 m around the camera. Each dot is a patch and red is bare ground. Placed by the pivot on the left (3.35% bare), by the grass on the right (0.32%).</figcaption></div>
-<p>Slopes were the other problem. A flat 6 metre patch on a bank sinks into the ground on one side and hangs over the edge on the other. Each patch now samples the ground at nine points, fits a plane through them and tilts to match. If the ground still bends too far away from that plane, like on the edge of a bank, the patch isn't placed at all.</p>
-<div class="project-figure"><div class="photo-row"><img src="assets/img/farsight/grass/grass-bank-before.jpg" alt="Grass patches hanging over a bank as flat shelves" loading="lazy" decoding="async"><img src="assets/img/farsight/grass/grass-bank-after.jpg" alt="The same bank covered in grass that follows the slope" loading="lazy" decoding="async"></div><figcaption>A bank before and after.</figcaption></div>
-
-<h3 class="project-section-title">3. Handing over</h3>
-<p>Where the meadow grass is, the GrassFlow blades need to stay out of the way, or you get two layers of grass on top of each other. Every time the patches move, the meadow writes a small map of where it actually covers the ground, and the blades hide only there. The spots it skipped, like steep banks, keep their blades.</p>
-<div class="project-figure"><img src="assets/img/farsight/grass/grass-2-coverage.png" alt="The coverage map in green over a map of how steep the ground is" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The coverage map in green, over the ground's steepness in grey. The gaps follow the steep parts.</figcaption></div>
-
-<h3 class="project-section-title">4. Drawing less</h3>
-<p>GrassFlow splits the field into chunks and decides how many blades to draw per chunk, based on its nearest edge. With 31 metre chunks, any chunk touching you was drawn at full density all the way across, even its far side. Halving the chunk size, and adjusting how quickly density drops off, made it draw about 36% fewer blades for the same look.</p>
-<div class="project-figure"><img src="assets/img/farsight/grass/grass-3-blades-by-distance.png" alt="Bar chart of blades drawn at each distance, before and after" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Roughly how many blades are drawn every 6 m from the opening camera. Grey is the old chunk size, green is the new one.</figcaption></div>
-<p>Far away, GrassFlow faded blades out by hiding them pixel by pixel. Once a blade is only a pixel or two wide, that leaves stray dark specks. Now each blade gets its own random cut-off and shrinks into the ground as a whole when the fade passes it.</p>
-<div class="project-figure"><img src="assets/img/farsight/grass/grass-4-fade.png" alt="Distant blades fading out with a dither pattern, and by shrinking" class="project-figure-image pixel-art" loading="lazy" decoding="async"><figcaption>Fading by pixel at the top, by blade at the bottom.</figcaption></div>
-<p>Along the way we found that when GrassFlow counts its blades, it writes them into a tiny placeholder buffer, past its end. On Windows the extra writes get thrown away, but on a Mac they corrupted GPU memory. Skipping those writes while counting fixed it.</p>
-
-<h3 class="project-section-title">5. One sky for everything</h3>
-<p>All three layers take their colour, wind gusts and haze from the same set of global values, so a gust or a change in colour moves across the whole field at once. Cloud shadows are a texture the sun shines through, which drifts with the wind, so anything the sun lights darkens under the same clouds.</p>
-<div class="project-figure"><img src="assets/img/farsight/grass/grass-5-cloud-cookie.png" alt="The tiling cloud texture, repeated two by two" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The cloud texture. It tiles, so it can drift forever.</figcaption></div>
-<p>GrassFlow works out its colour per vertex and doesn't read that texture itself, so its shader samples the same cloud texture through the same projection as the sun. That lines its shadows up exactly with the ones on the meadow and the ground.</p>
+<p>The meadow grass is detailed but expensive, so it only covers the 30 metres around you. GrassFlow's blades are cheap enough to cover the middle distance, and between 70 and 125 metres they blend into the ground shader, which carries on to the horizon.</p>
+<figure class="project-figure"><img src="assets/img/farsight/grass/grass-layers-tinted.jpg" alt="The field from above with each grass layer tinted a different colour" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Each layer tinted, seen from 14 m up. The white lines are 30, 60 and 100 m from the camera. The blue inside the orange is GrassFlow filling spots the meadow skipped.</figcaption></figure>
+<p>Cloud shadows are a light cookie: a tiling texture the sun shines through, drifting with the wind. GrassFlow colours its blades per vertex and never reads the cookie, so I added a sample of it to GrassFlow's shader, through the same projection as the sun. One shadow now crosses all three layers.</p>
 <pre><code>float2 uv = ComputeLightCookieUVDirectional(_MainLightWorldToLight, positionWS,
                                             float4(1, 1, 0, 0), URP_TEXTURE_WRAP_MODE_NONE);
 float cookie = SAMPLE_TEXTURE2D_LOD(_MainLightCookieTexture, sampler_MainLightCookieTexture, uv, 0).r;</code></pre>
 <figure class="project-figure"><img src="assets/img/farsight/grass/grass-5-clouds.webp" alt="Cloud shadows drifting across all three layers of grass" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Cloud shadows crossing the meadow, the blades and the ground. Sped up.</figcaption></figure>
 
-<p>The diagrams on this page were drawn with Python from data exported from the game. Everything else was captured in Unity.</p>
+<h3 class="project-section-title">2. Grass that follows you</h3>
+<p>The meadow grass comes in patches about 6 metres wide. They sit on a grid that moves with you, and each grid cell picks its patch's position, rotation and size from a hash of its world position. The same spot always gets the same patch, so nothing pops as you walk, and the cost doesn't grow with the size of the field.</p>
+<p>The first version had bare holes in it. Each patch's grass sits 0.93 m off its pivot, and patches were placed by their pivot. With a random turn, the grass could land anywhere on a circle around its grid point, so two neighbours turned away from each other left a gap. Placing each patch by the centre of its grass instead took the bare ground within 18 m of the camera from 3.35% to 0.32%. That sounds small, but a two metre bald spot is obvious at eye level.</p>
+<figure class="project-figure"><img src="assets/img/farsight/grass/grass-1-pivot.svg" alt="One patch with its pivot and grass centre, then three patches placed by pivot and by grass centre" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Dots are the centre of the grass, crosses are pivots.</figcaption></figure>
+<p>Slopes were the other problem. A flat 6 metre patch on a bank sinks into the ground on one side and hangs over the edge on the other. Each patch now samples the ground at nine points, fits a plane through them (least squares) and tilts to match, up to 20 degrees. If the ground still strays more than 15 cm from that plane, like on the edge of a bank, the patch is skipped and the GrassFlow blades fill in.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-bank-before.jpg" alt="Grass patches hanging over a bank as flat shelves" class="project-figure-image" loading="lazy" decoding="async" style="margin-bottom:8px"><img src="assets/img/farsight/grass/grass-bank-after.jpg" alt="The same bank covered in grass that follows the slope" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Top, before: flat patches step down the bank like shelves. Bottom, after: each patch tilts to the slope.</figcaption></div>
+
+<h3 class="project-section-title">3. Handing over</h3>
+<p>Where the meadow grass is, the GrassFlow blades need to stay out of the way, or you get two layers of grass on top of each other. Every time the patches move, the meadow writes a 96 by 96 map of where it actually covers the ground, about 68 m across. GrassFlow skips any chunk the map covers completely, and in the rest it shrinks blades to nothing wherever the map says the meadow is. The spots the meadow skipped keep their blades, which is the blue inside the orange in the tinted picture above.</p>
+
+<h3 class="project-section-title">4. Drawing less</h3>
+<p>GrassFlow splits the field into chunks and picks one density for each whole chunk, based on its edge nearest the camera. With the default 31 metre chunks, a chunk starting 23 m away was drawn at 86% density all the way across, out to 54 m. Halving the chunk size, and adjusting how quickly density drops off, made it generate about 36% fewer blades for the same look. The new settings actually keep full density a little further out, and save past 38 m. The trade-off is more chunks to cull each frame.</p>
+<figure class="project-figure"><img src="assets/img/farsight/grass/grass-3-density.svg" alt="Step chart of blade density against distance for the old and new chunk sizes" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Worked out from GrassFlow's density formula with both sets of settings, with the camera 8 m into a chunk. The totals were counted in the game and include blades outside the view.</figcaption></figure>
+<p>Later, making the falloff steeper took the frame in the editor from 40 to 31 ms with no visible change.</p>
+<p>Far away, GrassFlow faded blades out by hiding them pixel by pixel. Once a blade is only a pixel or two wide, that leaves stray dark specks. Now each blade gets its own random cut-off and shrinks into the ground as a whole when the fade passes it.</p>
+<div class="project-figure"><img src="assets/img/farsight/grass/grass-4-fade.png" alt="Distant blades fading out with a dither pattern, and by shrinking" class="project-figure-image pixel-art" loading="lazy" decoding="async"><figcaption>Fading by pixel at the top, by blade at the bottom.</figcaption></div>
+<p>Along the way I found that when GrassFlow counts its blades, it writes them into a tiny placeholder buffer, past its end. On Windows, D3D11 quietly throws away writes past the end of a buffer, so nothing went wrong. Metal doesn't promise that, and on a Mac those writes corrupted GPU memory. Skipping them while counting fixed it.</p>
+
+<p>The diagrams were drawn with Python from data exported from the game. The tinted view was made by rendering each layer on its own and tinting the pixels in Python. Everything else was captured in Unity.</p>
 
 </article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_Glasses.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Rain on Glasses Shader</strong></a></nav>
 </div></section></main><!-- End #main -->
