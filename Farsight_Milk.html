@@ -67,35 +67,44 @@
 <dd>Unity, C#, HLSL</dd>
 </dl></header><article class="project-copy project-writeup">
 
-<figure class="project-figure"><img src="assets/img/farsight/techart/farsight-milk-pour.webp" alt="Milk pouring into a cereal bowl, with the wireframe switching on" class="project-figure-image" decoding="async"><figcaption>The wireframe switches on mid-pour to show the stream mesh.</figcaption></figure>
+<figure class="project-figure"><img src="assets/img/farsight/milk/milk-pour-crop.webp" alt="Milk pouring into a cereal bowl, with the wireframe switching on" class="project-figure-image" width="576" height="448" decoding="async"><figcaption>The wireframe switches on mid-pour to show the stream mesh.</figcaption></figure>
 
 <h3 class="project-section-title">The goal</h3>
 
-<p>There's a breakfast scene where you pour your own milk and cereal. Our first version of the pour was a particle effect, and it looked like one: a spray of dots, not a stream of milk.</p>
+<p>There's a breakfast scene where you pour your own milk and cereal. My first version of the pour was a particle effect, and it looked like one: a spray of dots, not a stream of milk.</p>
 
-<p>We wanted it to feel like actual liquid. One stream that falls in a nice arc, glugs as you tip the carton, breaks up into drops when you stop, and makes ripples where it lands.</p>
+<p>I wanted it to feel like actual liquid. One stream that falls in a nice arc, glugs as you tip the carton, breaks up into drops when you stop, and makes ripples where it lands.</p>
 
 <h3 class="project-section-title">How it works</h3>
-<p>The stream is one tube mesh that gets rebuilt in code every frame, 10 sides around and 48 segments long. A separate script on the bowl and a shader on the milk handle everything happening on the surface.</p>
+<p>The stream is one tube mesh that gets rebuilt in code every frame, 10 sides around and 48 segments long. That's about 570 vertices, so rebuilding it every frame costs almost nothing. A separate script on the bowl and a shader on the milk handle everything happening on the surface.</p>
 
 <h3 class="project-section-title">1. The arc</h3>
 <p>The tube follows the path a thrown object would take, from the carton's spout down to the milk, worked out from the pour speed and gravity. Each segment is a ring of vertices placed along that curve.</p>
 <p>The width follows the milk's speed. Falling liquid speeds up, and the same amount of milk moving faster has to get thinner, so the radius shrinks with the square root of the speed, down to 45% of the spout. Every glug from the carton sends a slight bulge down the stream with the milk.</p>
-<pre><code>float radius = spoutRadius * Mathf.Max(Mathf.Sqrt(speed0 / ArcVelocity(t).magnitude), minRadiusScale);
+<pre><code>// speed0: the milk's speed as it leaves the spout
+// ArcVelocity(t): its velocity t seconds after leaving
+// minRadiusScale: 0.45, the thinnest the stream is allowed to get
+float radius = spoutRadius * Mathf.Max(Mathf.Sqrt(speed0 / ArcVelocity(t).magnitude), minRadiusScale);
+// time - t: the moment this ring's milk left the spout
 radius *= 1f + glugAmount * Glug(time - t);</code></pre>
+<p>Here <code>t</code> is how long ago a ring's milk left the spout, so <code>time - t</code> is the moment it left. Each ring carries whatever the glug was doing at that moment, which is why the bulge travels down at the milk's speed with no extra work.</p>
 <figure class="project-figure"><img src="assets/img/farsight/milk/milk-1-arc.png" alt="Side view of the stream with its mesh rings" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The stream at real scale, with its rings.</figcaption></figure>
 <figure class="project-figure"><img src="assets/img/farsight/milk/milk-1b-glugs.png" alt="The stream straightened out at five moments, with a bulge travelling from the spout to the surface" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The stream straightened out at five moments, 50 ms apart. A glug starts at the spout and rides down. The bulge is exaggerated 3x here so you can see it.</figcaption></figure>
 <div class="project-figure figure-row"><img src="assets/img/farsight/milk/milk-lit.jpg" alt="The milk stream as it appears in game" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/milk/milk-wire.jpg" alt="The milk stream with its wireframe visible" loading="lazy" decoding="async" style="image-rendering:auto"></div>
 <figure class="project-figure" style="margin-top:-24px"><figcaption>The same stream in game, and its mesh.</figcaption></figure>
 
 <h3 class="project-section-title">2. Stopping</h3>
-<p>When you stop pouring, the arc locks in place so the end of the stream doesn't swing around with the carton. The tail then falls, and the last 5 cm of it pinches into beads about 8 mm apart, using a sine along the stream's length. That's how a real stream of liquid breaks up.</p>
+<p>Milk that's already in the air has left the carton, so when you stop pouring the arc locks in place and the end of the stream doesn't swing around with the carton. The tail then falls, and the last 5 cm of it pinches into beads about 8 mm apart. A real stream of liquid breaks up the same way; it's called the Plateau&ndash;Rayleigh instability. Here it's faked with a sine along the stream's length, and the rings are packed towards the tail so the beads have enough geometry.</p>
 <figure class="project-figure"><img src="assets/img/farsight/milk/milk-2-beads.png" alt="The end of the stream breaking into beads over four moments" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The tail of the stream after you stop pouring, zoomed in.</figcaption></figure>
 
 <h3 class="project-section-title">3. The surface</h3>
-<p>Where the stream lands it starts ripple rings and a patch of foam. Each ring is worked out in the milk shader: a wave that travels outwards at 9 cm a second, with a 1.6 cm wavelength, fading as it grows. Up to eight can run at once, and they're sent per bowl, so other bowls using the same material don't ripple too.</p>
+<p>Where the stream lands it starts ripple rings and foam. Each ring is worked out in the milk shader: a wave that travels outwards at 9 cm a second, with a 1.6 cm wavelength. The rings only change the lighting; the surface itself stays flat. Each one fades out in about a second. Up to eight can run at once, and a ninth replaces the oldest. They're sent per bowl (a MaterialPropertyBlock), so other bowls using the same material don't ripple too.</p>
+<p>The foam is bright specks that drift outwards within about 6 cm of where the stream lands, and fade once the pour stops.</p>
 <figure class="project-figure"><img src="assets/img/farsight/milk/milk-3-ripples.png" alt="Top view of the milk surface with several overlapping ripple rings" class="project-figure-image" loading="lazy" decoding="async"><figcaption>Four rings of different ages, from the shader's ripple function.</figcaption></figure>
-<p>Cereal makes its own ripples when it drops in, and some of it floats up and bobs as the milk rises.</p>
+<p>The milk itself is a disc that scales up as the bowl fills. The bowl isn't a cylinder, so the script measures the bowl's inner wall at the milk's height and the shader cuts the disc to fit.</p>
+<p>Cereal makes its own ripples when it drops in. About a third of the pieces float: they rise with the milk by at most 8 mm and bob by about a millimetre.</p>
+<div class="project-figure figure-row"><img src="assets/img/farsight/milk/milk-surface.jpg" alt="Ripples and foam where the stream lands" width="600" height="320" loading="lazy" decoding="async" style="image-rendering:auto"><img src="assets/img/farsight/milk/milk-cereal.jpg" alt="Cereal floating in the milk" width="600" height="320" loading="lazy" decoding="async" style="image-rendering:auto"></div>
+<figure class="project-figure" style="margin-top:-24px"><figcaption>Ripples and foam where the stream lands, and cereal floating in the milk.</figcaption></figure>
 
 <p>The diagrams on this page were rendered with a Python port of the stream and ripple code. The clip at the top is from the game.</p>
 
