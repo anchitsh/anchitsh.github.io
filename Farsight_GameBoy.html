@@ -37,10 +37,12 @@
     .project-copy pre { background: #f1f3f4; border: 1px solid #d7dcdf; border-radius: 4px; color: #172b39; font-size: 13px; line-height: 1.55; margin: 0 0 28px; overflow-x: auto; padding: 16px 18px; }
     .project-copy code { font-family: SFMono-Regular, Menlo, Consolas, monospace; }
     .project-copy p code { background: #f1f3f4; border-radius: 3px; font-size: 14px; padding: 1px 5px; }
-    .figure-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
-    .figure-row img { display: block; height: auto; width: 100%; image-rendering: pixelated; }
+    .figure-row { display: grid; gap: 12px; grid-template-columns: repeat(2, 288px); justify-content: center; }
+    .figure-row img, .pixel-stack img { display: block; height: auto; width: 288px; image-rendering: pixelated; }
+    .pixel-stack { margin: 0 auto; width: 288px; }
+    .pixel-stack img + img { margin-top: 6px; }
     .diagram { display: block; height: auto; margin: 0 auto; max-width: 100%; }
-    @media (max-width: 575px) { .figure-row { grid-template-columns: 1fr; } }
+    @media (max-width: 639px) { .figure-row { grid-template-columns: 288px; } }
 
   </style>
 </head>
@@ -71,38 +73,58 @@
 
 <h3 class="project-section-title">The goal</h3>
 
-<p>You carry a Game Boy with a camera and take photos with it throughout the game. We wanted the viewfinder and photos to look like they actually came out of one: tiny, low-res, a few shades of grey, with that dithered look.</p>
+<p>You carry a Game Boy with a camera and take photos with it throughout the game. I wanted the viewfinder and photos to look like they actually came out of one: tiny, low-res, a few shades of grey, with that dithered look.</p>
 
-<p>It also had to work with our lighting. Dark rooms shouldn't go fully black, and bright windows shouldn't blow everything out to white.</p>
+<p>It also had to work with the game's lighting. Dark rooms shouldn't go fully black, and bright windows shouldn't blow everything out to white.</p>
 
 <h3 class="project-section-title">How it works</h3>
 
-<p>The Game Boy has its own camera that renders into a small 384 by 384 texture. Right after it renders, a shader rewrites that texture. The viewfinder and the saved photos both use the same texture, so they both get the look for free.</p>
+<p>The Game Boy has its own camera that renders into a small 288 by 288 texture. Right after it renders, a shader rewrites that texture: it draws into a temporary texture and copies the result back. The viewfinder and the saved photos both use the same texture, so they both get the look for free.</p>
 
 <h3 class="project-section-title">1. Tone</h3>
 
-<p>First the image gets softened a little, so jaggy edges don't turn into noise once it's dithered. Then it's turned into brightness only. Lights and windows get toned down, exposure is applied, and bright areas ease off towards white instead of clipping.</p>
+<p>The camera's anti-aliasing and post-processing are off, so the image is first softened with a small 5-sample blur. Otherwise jagged edges turn into speckle once it's dithered. Colour is then reduced to brightness with the standard luminance weights.</p>
 
-<div class="project-figure"><img src="assets/img/farsight/gameboy/gb-steps-1.png" alt="Source view and its greyscale tone" class="project-figure-image" loading="lazy" decoding="async" style="image-rendering:pixelated"><figcaption>The source view, then the tone-mapped brightness.</figcaption></div>
+<p>Anything brighter than white, such as lamps and windows, is compressed so it can't flood the frame. Exposure is automatic: a 16 by 16 copy of the frame is averaged, with bright samples capped so one window can't darken the whole room, and exposure rises in dark scenes and falls in bright ones, between 0.5 and 3 times. That is what keeps dark rooms from going black. Finally a soft shoulder eases the top end towards white instead of clipping.</p>
+
+<figure class="project-figure"><div class="figure-row"><img src="assets/img/farsight/gameboy/gb-source.png" alt="Source view" width="288" height="288" loading="lazy" decoding="async"><img src="assets/img/farsight/gameboy/gb-tone.png" alt="Tone-mapped brightness" width="288" height="288" loading="lazy" decoding="async"></div><figcaption>The source view, then the tone-mapped brightness.</figcaption></figure>
+
+<figure class="project-figure"><svg class="diagram" viewBox="0 0 420 240" width="420" role="img" aria-label="Tone curve: a hard clip compared with the soft shoulder">
+<g fill="none" stroke="#d7dcdf" stroke-width="1"><path d="M50,30 V200 H390"/></g>
+<path fill="none" stroke="#9aa5ad" stroke-width="1.5" stroke-dasharray="5 4" d="M174.7,76.1 L220,30 L390,30"/>
+<path fill="none" stroke="#172b39" stroke-width="2" d="M50.0,200.0 L67.0,200.0 L72.7,191.2 L78.3,183.7 L84.0,176.5 L95.3,162.7 L106.7,149.6 L118.0,136.8 L129.3,124.2 L140.7,111.9 L152.0,99.8 L163.3,87.9 L174.7,76.1 L180.3,71.0 L186.0,66.9 L191.7,63.6 L197.3,60.8 L203.0,58.4 L208.7,56.4 L220.0,53.1 L231.3,50.6 L242.7,48.5 L254.0,46.8 L265.3,45.4 L276.7,44.3 L288.0,43.2 L299.3,42.4 L310.7,41.6 L322.0,40.9 L333.3,40.3 L344.7,39.8 L356.0,39.3 L367.3,38.8 L378.7,38.4 L390.0,38.1"/>
+<circle cx="67" cy="200" r="3" fill="#172b39"/><circle cx="174.7" cy="76.1" r="3" fill="#172b39"/>
+<g fill="#5b6b76" font-family="Roboto, sans-serif" font-size="12">
+<text x="67" y="216" text-anchor="middle">black point</text>
+<text x="166" y="72" text-anchor="end">shoulder starts</text>
+<text x="300" y="22" text-anchor="middle">hard clip</text>
+<text x="300" y="62" text-anchor="middle">soft shoulder</text>
+<text x="390" y="232" text-anchor="end">brightness in</text>
+<text x="50" y="20" text-anchor="start">brightness out</text>
+</g></svg><figcaption>The shoulder approaches white gradually, so bright areas keep some dither instead of going flat.</figcaption></figure>
 
 <h3 class="project-section-title">2. Dither</h3>
 
-<p>If you just round to five shades you get ugly bands. So before rounding, each pixel gets compared against an 8 by 8 Bayer pattern. Pixels next to each other get different thresholds, so in-between shades turn into a checker of two shades, which your eye reads as a smooth gradient.</p>
+<p>If you just round to five shades you get ugly bands. So before rounding, each pixel gets compared against an 8 by 8 Bayer pattern. Pixels next to each other get different thresholds, so in-between shades turn into a pattern of two shades, which your eye reads as a smooth gradient. The pattern is fixed to the pixel grid, so the live viewfinder doesn't shimmer from frame to frame.</p>
 
 <figure class="project-figure"><img src="assets/img/farsight/gameboy/gb-bayer.png" alt="The 8 by 8 Bayer threshold matrix" class="project-figure-image" loading="lazy" decoding="async"><figcaption>The 8x8 Bayer matrix: 64 threshold levels.</figcaption></figure>
 
 <pre><code>float bayer = (BAYER[(px.y &amp; 7u) * 8u + (px.x &amp; 7u)] + 0.5) / 64.0;
 float q = saturate(floor(lum * 4.0 + bayer) / 4.0);</code></pre>
 
-<div class="project-figure"><img src="assets/img/farsight/gameboy/gb-steps-2.png" alt="Five shades without dithering, then with Bayer dithering" class="project-figure-image" loading="lazy" decoding="async" style="image-rendering:pixelated"><figcaption>Five shades without dithering, then with it.</figcaption></div>
+<p>Adding a threshold between 0 and 1 before rounding down means that, in each 8 by 8 block, the share of pixels that round up equals how far the brightness sits between two shades.</p>
+
+<figure class="project-figure"><div class="figure-row"><img src="assets/img/farsight/gameboy/gb-banded.png" alt="Five shades without dithering" width="288" height="288" loading="lazy" decoding="async"><img src="assets/img/farsight/gameboy/gb-dithered.png" alt="Five shades with Bayer dithering" width="288" height="288" loading="lazy" decoding="async"></div><figcaption>Five shades without dithering, then with it.</figcaption></figure>
+
+<figure class="project-figure"><div class="figure-row"><img src="assets/img/farsight/gameboy/gb-zoom-banded.png" alt="Close-up of the window without dithering" width="288" height="288" loading="lazy" decoding="async"><img src="assets/img/farsight/gameboy/gb-zoom-dithered.png" alt="Close-up of the window with dithering" width="288" height="288" loading="lazy" decoding="async"></div><figcaption>The window at 4 times size, without and with dithering.</figcaption></figure>
 
 <h3 class="project-section-title">3. Palette</h3>
 
-<p>The five shades map to five colours on the material, so we can tweak the look without touching code. Some story moments swap the palette, and they do it on a copy so the original material stays as is.</p>
+<p>The five shades map to five colours on the material, so the look can be tuned without touching code. The palette can also be swapped at runtime, on a copy, so the original material stays as is.</p>
 
-<figure class="project-figure"><img src="assets/img/farsight/gameboy/gb-palette.png" alt="The five-shade grey palette" class="project-figure-image" loading="lazy" decoding="async"></figure>
+<figure class="project-figure"><div class="pixel-stack"><img src="assets/img/farsight/gameboy/gb-dithered.png" alt="The final dithered frame" width="288" height="288" loading="lazy" decoding="async"><img src="assets/img/farsight/gameboy/gb-palette.png" alt="The five-shade grey palette" width="288" height="24" loading="lazy" decoding="async"></div><figcaption>The final frame and its five shades.</figcaption></figure>
 
-<p>The step images were rendered with a Python port of the shader. The clip at the top is straight from the game.</p>
+<p>The step images were rendered at 288 by 288 with a Python port of the shader. The clip at the top is straight from the game.</p>
 
 </article><nav class="project-pagination" aria-label="Project navigation"><a href="Farsight_WatchingPhoto.html" class="project-pagination-link project-pagination-link--previous"><span class="project-pagination-label">Previous write-up</span><strong>Watching Eyes Shader</strong></a><a href="Farsight_Milk.html" class="project-pagination-link project-pagination-link--next"><span class="project-pagination-label">Next write-up</span><strong>Procedural Milk Stream</strong></a></nav>
 </div></section></main><!-- End #main -->
